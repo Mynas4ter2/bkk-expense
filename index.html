@@ -1,27 +1,43 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BKK Transit & Expense Tracker - จดจ่าย & รถไฟฟ้าคนกรุง</title>
-    <!-- Tailwind CSS -->
+    <title>BKK Transit & Expense Tracker</title>
+    <!-- Tailwind CSS with Dark Mode Class Strategy -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Prompt -->
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"IBM Plex Sans Thai"', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#0B0F17',
+                        darkCard: '#151C28',
+                        darkElevated: '#1C2536',
+                        darkBorder: '#263248'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Plus Jakarta Sans + IBM Plex Sans Thai (Clean, Spacious, Highly Legible) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         body {
-            font-family: 'Prompt', sans-serif;
-            background-color: #f1f5f9;
+            font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            line-height: 1.6;
         }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
         }
         @keyframes slideUp {
             from { transform: translateY(100%); opacity: 0; }
@@ -31,434 +47,560 @@
             animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in {
-            animation: fadeIn 0.2s ease-out forwards;
+            animation: fadeIn 0.22s ease-out forwards;
+        }
+        /* Custom subtle scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.25);
+            border-radius: 9999px;
         }
     </style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-blue-200">
+<body class="bg-slate-100 dark:bg-darkBg text-slate-800 dark:text-slate-100 antialiased transition-colors duration-200 selection:bg-sky-500/30">
 
-    <!-- Mobile App Container -->
-    <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl relative pb-24 flex flex-col">
+    <!-- App Wrapper -->
+    <div class="max-w-md mx-auto min-h-screen bg-slate-50 dark:bg-darkBg shadow-2xl relative pb-28 flex flex-col border-x border-slate-200/70 dark:border-darkBorder/60">
 
-        <!-- Top Summary Header (Clickable for Analytics Modal) -->
-        <header class="pt-7 pb-6 px-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-b-[2rem] shadow-lg relative overflow-hidden">
-            <!-- Subtle decorative circle -->
-            <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-blue-500/10 blur-2xl pointer-events-none"></div>
+        <!-- Brave / Storage Persistence Status Banner (Hidden unless needed) -->
+        <div id="storage-warning-banner" class="hidden bg-amber-500/15 border-b border-amber-500/30 px-4 py-2.5 text-xs text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <i class="ph ph-shield-warning text-base shrink-0"></i>
+                <span>ตรวจพบโหมดจำกัดความจำ แนะนำให้กดปุ่ม Backup เก็บไฟล์ไว้เสมอ</span>
+            </div>
+            <button onclick="openBackupModal()" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-semibold shrink-0">สำรองข้อมูล</button>
+        </div>
 
-            <div class="flex items-center justify-between mb-4">
+        <!-- ==================== HEADER & SUMMARY DASHBOARD ==================== -->
+        <header class="pt-6 pb-6 px-5 bg-white dark:bg-darkCard border-b border-slate-200/80 dark:border-darkBorder rounded-b-[2rem] shadow-sm relative overflow-hidden transition-colors">
+            <!-- Ambient Glow -->
+            <div class="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-sky-500/10 dark:bg-sky-500/15 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 bottom-0 w-36 h-36 rounded-full bg-emerald-500/10 dark:bg-emerald-500/10 blur-2xl pointer-events-none"></div>
+
+            <!-- Top Action Bar -->
+            <div class="flex items-center justify-between mb-5 relative z-10">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-400/30">BKK Local</span>
-                        <h1 class="text-xl font-bold tracking-tight">BKK Expense 🚇</h1>
+                        <span class="px-2.5 py-0.5 text-[11px] font-semibold tracking-wide bg-sky-500/15 text-sky-600 dark:text-sky-400 rounded-full border border-sky-500/25 flex items-center gap-1">
+                            <span id="storage-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            BKK Transit
+                        </span>
+                        <h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">จดจ่าย & รถไฟฟ้า</h1>
                     </div>
-                    <p class="text-slate-400 text-xs mt-0.5">บันทึกรายจ่าย & ค่าเดินทางรถไฟฟ้ากรุงเทพฯ</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน</p>
                 </div>
-                <button onclick="openAnalyticsModal()" class="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center transition-all border border-white/10" title="ดูสถิติละเอียด">
-                    <i class="ph ph-chart-pie-slice text-xl text-emerald-300"></i>
-                </button>
+
+                <!-- Header Utility Buttons: Backup, Analytics, Theme Toggle -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openBackupModal()" class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 flex items-center justify-center transition-all border border-slate-200/80 dark:border-darkBorder text-slate-700 dark:text-slate-200" title="สำรอง / กู้คืนข้อมูล (Backup)">
+                        <i class="ph ph-cloud-arrow-down text-lg"></i>
+                    </button>
+                    <button onclick="openAnalyticsModal()" class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 flex items-center justify-center transition-all border border-slate-200/80 dark:border-darkBorder text-sky-600 dark:text-sky-400" title="สรุปสถิติละเอียด">
+                        <i class="ph ph-chart-donut text-lg"></i>
+                    </button>
+                    <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 flex items-center justify-center transition-all border border-slate-200/80 dark:border-darkBorder text-amber-500 dark:text-amber-300" title="สลับโหมด มืด/สว่าง">
+                        <i id="theme-icon" class="ph ph-moon-stars text-lg"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Interactive Summary Box (Click anywhere to open modal) -->
-            <div onclick="openAnalyticsModal()" class="cursor-pointer group bg-white/[0.07] hover:bg-white/[0.12] active:scale-[0.99] transition-all backdrop-blur-md rounded-2xl p-4 border border-white/15">
-                <div class="flex items-baseline justify-between mb-3">
+            <!-- Interactive Main Summary Card -->
+            <div onclick="openAnalyticsModal()" class="cursor-pointer group bg-slate-900 dark:bg-darkElevated hover:bg-slate-800 dark:hover:bg-[#222d42] active:scale-[0.99] transition-all rounded-2xl p-5 text-white border border-slate-800 dark:border-darkBorder shadow-lg relative z-10">
+                <div class="flex items-start justify-between mb-4">
                     <div>
-                        <p class="text-[11px] text-slate-300 font-medium flex items-center gap-1">
+                        <p class="text-xs text-slate-300 font-medium flex items-center gap-1.5">
                             <span>รายจ่ายรวมทั้งหมด</span>
-                            <i class="ph ph-info text-xs text-slate-400"></i>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-slate-300" id="header-tx-count">0 รายการ</span>
                         </p>
-                        <p class="text-3xl font-bold tracking-tight text-white mt-0.5">
+                        <p class="text-3xl font-bold tracking-tight text-white mt-1.5 tabular-nums">
                             ฿<span id="header-total-expense">0</span>
                         </p>
                     </div>
-                    <div class="text-right">
+                    <div class="text-right bg-emerald-500/10 border border-emerald-500/25 px-3 py-2 rounded-xl">
                         <p class="text-[11px] text-emerald-300 font-medium">รายรับรวม</p>
-                        <p class="text-base font-semibold text-emerald-400">+฿<span id="header-total-income">0</span></p>
+                        <p class="text-sm font-bold text-emerald-400 mt-0.5 tabular-nums">+฿<span id="header-total-income">0</span></p>
                     </div>
                 </div>
 
-                <!-- Mini Sub-cards: Transit vs General -->
-                <div class="grid grid-cols-2 gap-2.5 pt-3 border-t border-white/10">
-                    <div class="bg-slate-900/50 rounded-xl p-2.5 border border-white/5 flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-300 flex items-center justify-center shrink-0">
+                <!-- Sub Breakdown: Transit vs General -->
+                <div class="grid grid-cols-2 gap-3 pt-3.5 border-t border-white/10">
+                    <div class="bg-white/[0.05] rounded-xl p-3 border border-white/5 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center shrink-0">
                             <i class="ph ph-train text-lg"></i>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-[10px] text-slate-400 truncate">ค่ารถไฟฟ้า</p>
-                            <p class="text-sm font-semibold text-sky-200 truncate">฿<span id="header-transit-sum">0</span></p>
+                            <p class="text-[11px] text-slate-300 truncate">ค่ารถไฟฟ้า</p>
+                            <p class="text-sm font-bold text-sky-300 truncate tabular-nums mt-0.5">฿<span id="header-transit-sum">0</span></p>
                         </div>
                     </div>
-                    <div class="bg-slate-900/50 rounded-xl p-2.5 border border-white/5 flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
+                    <div class="bg-white/[0.05] rounded-xl p-3 border border-white/5 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
                             <i class="ph ph-ForkKnife text-lg"></i>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-[10px] text-slate-400 truncate">ใช้จ่ายทั่วไป</p>
-                            <p class="text-sm font-semibold text-amber-200 truncate">฿<span id="header-general-sum">0</span></p>
+                            <p class="text-[11px] text-slate-300 truncate">ใช้จ่ายทั่วไป</p>
+                            <p class="text-sm font-bold text-amber-300 truncate tabular-nums mt-0.5">฿<span id="header-general-sum">0</span></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Trigger CTA Bar -->
-                <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs text-sky-300 group-hover:text-sky-200">
+                <!-- Bottom Trigger Bar -->
+                <div class="mt-3.5 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-sky-300 group-hover:text-sky-200">
                     <span class="flex items-center gap-1.5 font-medium">
                         <i class="ph ph-sliders-horizontal text-sm"></i>
-                        ดูสรุปแยกหมวดหมู่ & เลือกช่วงเวลา
+                        ดูสรุปแยกหมวดหมู่ & เลือกช่วงเวลาวันที่
                     </span>
-                    <span class="flex items-center gap-0.5 text-[11px] bg-sky-500/20 px-2 py-0.5 rounded-full border border-sky-400/30">
-                        คลิกดูรายละเอียด <i class="ph ph-caret-right"></i>
+                    <span class="flex items-center gap-1 text-[11px] bg-sky-500/20 px-2.5 py-1 rounded-full border border-sky-400/30 font-medium">
+                        เปิดดู <i class="ph ph-caret-right"></i>
                     </span>
                 </div>
             </div>
         </header>
 
-        <!-- Main Body -->
-        <main class="px-5 pt-5 flex-1">
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <main class="px-5 pt-6 flex-1 space-y-6">
 
             <!-- Mode Switcher Tabs -->
-            <div class="flex bg-slate-100 p-1 rounded-2xl mb-4 border border-slate-200/70">
-                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" class="flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 bg-white shadow-sm text-slate-900">
-                    <i class="ph ph-train text-base text-blue-600"></i>
+            <div class="grid grid-cols-2 bg-slate-200/80 dark:bg-darkCard p-1.5 rounded-2xl border border-slate-200 dark:border-darkBorder">
+                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" class="py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white">
+                    <i class="ph ph-train text-base text-sky-500"></i>
                     <span>เดินทางรถไฟฟ้า</span>
                 </button>
-                <button type="button" onclick="switchMode('general')" id="tab-btn-general" class="flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800">
+                <button type="button" onclick="switchMode('general')" id="tab-btn-general" class="py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
                     <i class="ph ph-receipt text-base"></i>
                     <span>รายรับ / รายจ่ายทั่วไป</span>
                 </button>
             </div>
 
-            <!-- Shared Date Picker Bar -->
-            <div class="flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/80 mb-4">
-                <label for="entry-date" class="text-xs font-medium text-slate-600 flex items-center gap-1.5">
-                    <i class="ph ph-calendar-blank text-slate-500 text-base"></i>
+            <!-- Date Picker Card -->
+            <div class="flex items-center justify-between bg-white dark:bg-darkCard px-4 py-3 rounded-2xl border border-slate-200/80 dark:border-darkBorder shadow-2xs">
+                <label for="entry-date" class="text-xs font-medium text-slate-600 dark:text-slate-300 flex items-center gap-2">
+                    <i class="ph ph-calendar-blank text-sky-500 text-base"></i>
                     <span>วันที่ทำรายการ</span>
                 </label>
-                <input type="date" id="entry-date" class="text-xs font-semibold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-800">
+                <input type="date" id="entry-date" class="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-darkElevated px-3 py-1.5 rounded-xl border border-slate-200 dark:border-darkBorder focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
 
-            <!-- ==================== TRANSIT FORM ==================== -->
-            <form id="form-transit" onsubmit="handleTransitSubmit(event)" class="space-y-4 animate-fade-in">
-                <!-- Transit Line Pill Selector -->
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <label class="text-xs font-semibold text-slate-700">1. เลือกสายรถไฟฟ้า (ครบทุกสีใน กทม.)</label>
-                        <span id="selected-line-badge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-lime-100 text-lime-800">BTS สายสุขุมวิท</span>
+            <!-- ==================== TRANSIT FORM (SUPPORTS CROSS-LINE) ==================== -->
+            <form id="form-transit" onsubmit="handleTransitSubmit(event)" class="space-y-5 animate-fade-in">
+
+                <!-- All-Visible 3x3 Grid Line Selector (Solves Hidden Scroll Issue!) -->
+                <div class="bg-white dark:bg-darkCard p-4 rounded-2xl border border-slate-200/80 dark:border-darkBorder shadow-2xs space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-xs font-bold text-slate-800 dark:text-slate-100 block">
+                                1. เลือกสายรถไฟฟ้า
+                            </label>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5" id="line-grid-helper">
+                                กดเลือกสายเพื่อกรองสถานี หรือพิมพ์ค้นหาจากทุกสายได้ทันที
+                            </p>
+                        </div>
+                        <!-- Target Indicator when Cross-Line is active -->
+                        <span id="active-line-target-pill" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25">
+                            สายหลัก
+                        </span>
                     </div>
-                    <div id="line-pills-container" class="flex gap-2 overflow-x-auto no-scrollbar pb-1.5 pt-0.5">
-                        <!-- Dynamically populated by JS -->
+
+                    <!-- 3-Column Grid: All 9 Lines Visible Immediately without scrolling -->
+                    <div id="line-grid-container" class="grid grid-cols-3 gap-2 pt-1">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Cross-Line Toggle Bar -->
+                    <div class="pt-2 border-t border-slate-100 dark:border-darkBorder/70 flex items-center justify-between">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="cross-line-toggle" onchange="toggleCrossLineMode()" class="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 bg-slate-100 dark:bg-darkElevated border-slate-300 dark:border-darkBorder">
+                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">ขึ้น-ลงคนละสาย (เปลี่ยนสายระหว่างทาง)</span>
+                        </label>
+                        <span class="text-[10px] text-slate-400 dark:text-slate-500">เช่น เขียว ➔ ชมพู</span>
                     </div>
                 </div>
 
-                <!-- Origin & Destination with Custom Autocomplete -->
-                <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/90 relative space-y-3">
-                    <!-- Origin Input -->
+                <!-- Station Selection Card (Origin & Destination with Line Badges) -->
+                <div class="bg-white dark:bg-darkCard p-4 rounded-2xl border border-slate-200/80 dark:border-darkBorder shadow-2xs space-y-4 relative">
+
+                    <!-- ORIGIN STATION -->
                     <div class="relative">
-                        <label class="block text-[11px] font-medium text-slate-500 mb-1">
-                            สถานีต้นทาง <span class="text-slate-400">(พิมพ์ชื่อ หรือ รหัสสถานีเพื่อค้นหา)</span>
-                        </label>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                สถานีต้นทาง (ขึ้นที่ไหน)
+                            </label>
+                            <button type="button" onclick="setGridFocusTarget('origin')" id="origin-line-pill" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all">
+                                <!-- Filled by JS -->
+                            </button>
+                        </div>
                         <div class="relative">
-                            <i class="ph ph-map-pin-line absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <i class="ph ph-map-pin-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
                             <input type="text" id="transit-origin" autocomplete="off" required
-                                placeholder="เช่น พหลโยธิน 59 หรือ N18"
-                                onfocus="openStationDropdown('origin')"
+                                placeholder="พิมพ์ชื่อสถานี เช่น พหลโยธิน 59 หรือ N18..."
+                                onfocus="handleStationFocus('origin')"
                                 oninput="filterStationDropdown('origin')"
-                                class="w-full pl-9 pr-8 py-2.5 text-sm bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
-                            <button type="button" onclick="clearStationInput('origin')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500">
-                                <i class="ph ph-x-circle"></i>
+                                class="w-full pl-10 pr-9 py-3 text-sm bg-slate-50 dark:bg-darkElevated text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-darkBorder focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
+                            <button type="button" onclick="clearStationInput('origin')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                                <i class="ph ph-x-circle text-base"></i>
                             </button>
                         </div>
                         <!-- Origin Autocomplete Dropdown -->
-                        <div id="dropdown-origin" class="hidden absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-slate-200 max-h-48 overflow-y-auto z-30 divide-y divide-slate-100"></div>
+                        <div id="dropdown-origin" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white dark:bg-darkElevated rounded-2xl shadow-2xl border border-slate-200 dark:border-darkBorder max-h-56 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-darkBorder/60"></div>
                     </div>
 
-                    <!-- Swap Button -->
-                    <div class="flex items-center justify-center -my-1 relative z-10">
-                        <button type="button" onclick="swapStations()" class="flex items-center gap-1 text-[11px] font-medium bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm hover:bg-slate-100 active:scale-95 transition-all text-slate-600">
-                            <i class="ph ph-arrows-down-up text-blue-600 text-sm"></i>
-                            <span>สลับต้นทาง-ปลายทาง</span>
+                    <!-- SWAP ORIGIN & DESTINATION BUTTON -->
+                    <div class="flex items-center justify-center -my-1.5 relative z-10">
+                        <button type="button" onclick="swapStationsAndLines()" class="flex items-center gap-1.5 text-xs font-semibold bg-slate-100 dark:bg-darkElevated px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-darkBorder shadow-2xs hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all text-slate-700 dark:text-slate-200">
+                            <i class="ph ph-arrows-down-up text-sky-500 text-sm"></i>
+                            <span>สลับต้นทาง - ปลายทาง</span>
                         </button>
                     </div>
 
-                    <!-- Destination Input -->
+                    <!-- DESTINATION STATION -->
                     <div class="relative">
-                        <label class="block text-[11px] font-medium text-slate-500 mb-1">
-                            สถานีปลายทาง <span class="text-slate-400">(เลือกจากในลิสต์ หรือพิมพ์เองได้)</span>
-                        </label>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                                สถานีปลายทาง (ลงที่ไหน)
+                            </label>
+                            <button type="button" onclick="setGridFocusTarget('dest')" id="dest-line-pill" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all">
+                                <!-- Filled by JS -->
+                            </button>
+                        </div>
                         <div class="relative">
-                            <i class="ph ph-flag-banner absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <i class="ph ph-flag-banner absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
                             <input type="text" id="transit-dest" autocomplete="off" required
-                                placeholder="เช่น อโศก หรือ E4"
-                                onfocus="openStationDropdown('dest')"
+                                placeholder="พิมพ์ชื่อสถานี เช่น รามอินทรา กม.4 หรืออโศก..."
+                                onfocus="handleStationFocus('dest')"
                                 oninput="filterStationDropdown('dest')"
-                                class="w-full pl-9 pr-8 py-2.5 text-sm bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
-                            <button type="button" onclick="clearStationInput('dest')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500">
-                                <i class="ph ph-x-circle"></i>
+                                class="w-full pl-10 pr-9 py-3 text-sm bg-slate-50 dark:bg-darkElevated text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-darkBorder focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
+                            <button type="button" onclick="clearStationInput('dest')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                                <i class="ph ph-x-circle text-base"></i>
                             </button>
                         </div>
                         <!-- Destination Autocomplete Dropdown -->
-                        <div id="dropdown-dest" class="hidden absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-slate-200 max-h-48 overflow-y-auto z-30 divide-y divide-slate-100"></div>
+                        <div id="dropdown-dest" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white dark:bg-darkElevated rounded-2xl shadow-2xl border border-slate-200 dark:border-darkBorder max-h-56 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-darkBorder/60"></div>
                     </div>
-                </div>
 
-                <!-- Fare Amount + Quick Fare Chips -->
-                <div>
-                    <div class="flex items-center justify-between mb-1">
-                        <label class="text-xs font-semibold text-slate-700">ค่าโดยสาร (บาท)</label>
-                        <div class="flex gap-1">
-                            <button type="button" onclick="setQuickFare(15)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">15฿</button>
-                            <button type="button" onclick="setQuickFare(25)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">25฿</button>
-                            <button type="button" onclick="setQuickFare(33)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">33฿</button>
-                            <button type="button" onclick="setQuickFare(45)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">45฿</button>
-                            <button type="button" onclick="setQuickFare(62)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">62฿</button>
+                    <!-- Live Route Preview Pill -->
+                    <div id="live-route-preview" class="pt-2 border-t border-slate-100 dark:border-darkBorder/60 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                        <span>เส้นทางที่จะบันทึก:</span>
+                        <div id="live-route-badges" class="flex items-center gap-1.5 flex-wrap justify-end">
+                            <!-- Updated dynamically -->
                         </div>
                     </div>
-                    <div class="relative">
-                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">฿</span>
-                        <input type="number" id="transit-amount" required min="1" step="0.5"
-                            oninput="updateSplitPreview()"
-                            placeholder="0"
-                            class="w-full pl-8 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none text-base font-semibold">
-                    </div>
                 </div>
 
-                <!-- Split 50% Checkbox -->
-                <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/80 cursor-pointer hover:bg-slate-100/70 transition-colors">
-                    <div class="flex items-center gap-2.5">
-                        <input type="checkbox" id="transit-split" onchange="updateSplitPreview()" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500">
-                        <span class="text-xs font-medium text-slate-700">หาร 2 กับเพื่อน (คำนวณครึ่งราคาอัตโนมัติ)</span>
+                <!-- Fare Amount & Split Option Card -->
+                <div class="bg-white dark:bg-darkCard p-4 rounded-2xl border border-slate-200/80 dark:border-darkBorder shadow-2xs space-y-3.5">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-xs font-bold text-slate-800 dark:text-slate-100">2. ค่าโดยสาร (บาท)</label>
+                            <div class="flex gap-1.5 flex-wrap">
+                                <button type="button" onclick="setQuickFare(15)" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-colors">15฿</button>
+                                <button type="button" onclick="setQuickFare(25)" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-colors">25฿</button>
+                                <button type="button" onclick="setQuickFare(33)" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-colors">33฿</button>
+                                <button type="button" onclick="setQuickFare(45)" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-colors">45฿</button>
+                                <button type="button" onclick="setQuickFare(62)" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-colors">62฿</button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base">฿</span>
+                            <input type="number" id="transit-amount" required min="1" step="0.5"
+                                oninput="updateSplitPreview()"
+                                placeholder="0"
+                                class="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-darkElevated border border-slate-200 dark:border-darkBorder focus:ring-2 focus:ring-sky-500 outline-none text-lg font-bold text-slate-900 dark:text-white tabular-nums">
+                        </div>
                     </div>
-                    <span id="split-preview-badge" class="hidden text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">จ่ายจริง 0฿</span>
-                </label>
 
-                <button type="submit" id="transit-submit-btn" class="w-full py-3 rounded-xl font-semibold text-sm text-white shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 bg-lime-600 hover:bg-lime-700">
+                    <!-- Split 50% Checkbox -->
+                    <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-darkElevated border border-slate-200/70 dark:border-darkBorder cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">
+                        <div class="flex items-center gap-2.5">
+                            <input type="checkbox" id="transit-split" onchange="updateSplitPreview()" class="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 bg-white dark:bg-darkCard border-slate-300 dark:border-darkBorder">
+                            <span class="text-xs font-medium text-slate-700 dark:text-slate-200">หาร 2 กับเพื่อน (คำนวณครึ่งราคาอัตโนมัติ)</span>
+                        </div>
+                        <span id="split-preview-badge" class="hidden text-xs font-bold text-sky-600 dark:text-sky-300 bg-sky-500/15 px-2.5 py-0.5 rounded-lg border border-sky-500/30 tabular-nums">จ่ายจริง 0฿</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="transit-submit-btn" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 bg-lime-600 hover:bg-lime-500">
                     <i class="ph ph-plus-circle text-lg"></i>
                     <span>บันทึกการเดินทางรถไฟฟ้า</span>
                 </button>
             </form>
 
-            <!-- ==================== GENERAL FORM ==================== -->
-            <form id="form-general" onsubmit="handleGeneralSubmit(event)" class="space-y-4 hidden animate-fade-in">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">เลือกหมวดหมู่</label>
-                    <div class="grid grid-cols-3 gap-2" id="general-category-grid">
-                        <button type="button" onclick="selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense')" data-cat="อาหาร/เครื่องดื่ม" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-900 text-white border-slate-900">
-                            <span class="text-lg">🍜</span>
-                            <span>อาหาร/น้ำ</span>
-                        </button>
-                        <button type="button" onclick="selectGeneralCategory('เดินทางอื่นๆ', 'expense')" data-cat="เดินทางอื่นๆ" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
-                            <span class="text-lg">🛵</span>
-                            <span>วิน/แท็กซี่/เมล์</span>
-                        </button>
-                        <button type="button" onclick="selectGeneralCategory('ของใช้/ช้อปปิ้ง', 'expense')" data-cat="ของใช้/ช้อปปิ้ง" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
-                            <span class="text-lg">🛍️</span>
-                            <span>ของใช้/ช้อป</span>
-                        </button>
-                        <button type="button" onclick="selectGeneralCategory('ที่พัก/บิล', 'expense')" data-cat="ที่พัก/บิล" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
-                            <span class="text-lg">🏠</span>
-                            <span>ที่พัก/ค่าน้ำไฟ</span>
-                        </button>
-                        <button type="button" onclick="selectGeneralCategory('บันเทิง/เกม', 'expense')" data-cat="บันเทิง/เกม" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
-                            <span class="text-lg">🎮</span>
-                            <span>บันเทิง/เกม</span>
-                        </button>
-                        <button type="button" onclick="selectGeneralCategory('รายรับ', 'income')" data-cat="รายรับ" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100">
-                            <span class="text-lg">💰</span>
-                            <span>รายรับเข้า</span>
-                        </button>
+            <!-- ==================== GENERAL EXPENSE / INCOME FORM ==================== -->
+            <form id="form-general" onsubmit="handleGeneralSubmit(event)" class="space-y-5 hidden animate-fade-in">
+                <div class="bg-white dark:bg-darkCard p-4 rounded-2xl border border-slate-200/80 dark:border-darkBorder shadow-2xs space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-800 dark:text-slate-100 mb-2.5">เลือกหมวดหมู่รายการ</label>
+                        <div class="grid grid-cols-3 gap-2.5" id="general-category-grid">
+                            <button type="button" onclick="selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense')" data-cat="อาหาร/เครื่องดื่ม" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
+                                <span class="text-xl">🍜</span>
+                                <span>อาหาร/น้ำ</span>
+                            </button>
+                            <button type="button" onclick="selectGeneralCategory('เดินทางอื่นๆ', 'expense')" data-cat="เดินทางอื่นๆ" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
+                                <span class="text-xl">🛵</span>
+                                <span>วิน/แท็กซี่/เมล์</span>
+                            </button>
+                            <button type="button" onclick="selectGeneralCategory('ของใช้/ช้อปปิ้ง', 'expense')" data-cat="ของใช้/ช้อปปิ้ง" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
+                                <span class="text-xl">🛍️</span>
+                                <span>ของใช้/ช้อป</span>
+                            </button>
+                            <button type="button" onclick="selectGeneralCategory('ที่พัก/บิล', 'expense')" data-cat="ที่พัก/บิล" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
+                                <span class="text-xl">🏠</span>
+                                <span>ที่พัก/บิล</span>
+                            </button>
+                            <button type="button" onclick="selectGeneralCategory('บันเทิง/เกม', 'expense')" data-cat="บันเทิง/เกม" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
+                                <span class="text-xl">🎮</span>
+                                <span>บันเทิง/เกม</span>
+                            </button>
+                            <button type="button" onclick="selectGeneralCategory('รายรับ', 'income')" data-cat="รายรับ" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
+                                <span class="text-xl">💰</span>
+                                <span>รายรับเข้า</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-800 dark:text-slate-100 mb-1.5">จำนวนเงิน (บาท)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base">฿</span>
+                            <input type="number" id="gen-amount" required min="1" step="0.5" placeholder="0"
+                                class="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-darkElevated border border-slate-200 dark:border-darkBorder focus:ring-2 focus:ring-sky-500 outline-none text-lg font-bold text-slate-900 dark:text-white tabular-nums">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-800 dark:text-slate-100 mb-1.5">รายละเอียดเพิ่มเติม</label>
+                        <input type="text" id="gen-note" placeholder="เช่น ข้าวกระเพรา, วินมอเตอร์ไซค์, เงินเดือน"
+                            class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-darkElevated border border-slate-200 dark:border-darkBorder focus:ring-2 focus:ring-sky-500 outline-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500">
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">จำนวนเงิน (บาท)</label>
-                    <div class="relative">
-                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">฿</span>
-                        <input type="number" id="gen-amount" required min="1" step="0.5" placeholder="0"
-                            class="w-full pl-8 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-slate-800 outline-none text-base font-semibold">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">รายละเอียดเพิ่มเติม</label>
-                    <input type="text" id="gen-note" placeholder="เช่น ข้าวมันไก่, วินปากซอย, เงินเดือนเข้า"
-                        class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-slate-800 outline-none text-sm">
-                </div>
-
-                <button type="submit" id="gen-submit-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl active:scale-[0.99] transition-all shadow-md text-sm flex items-center justify-center gap-1.5">
+                <button type="submit" id="gen-submit-btn" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3.5 rounded-2xl active:scale-[0.99] transition-all shadow-lg text-sm flex items-center justify-center gap-2">
                     <i class="ph ph-check-circle text-lg"></i>
                     <span>บันทึกรายการ</span>
                 </button>
             </form>
 
-            <!-- ==================== HISTORY LIST ==================== -->
-            <section class="mt-8">
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
-                        <i class="ph ph-clock-counter-clockwise text-base text-slate-500"></i>
-                        <span>ประวัติรายการ</span>
+            <!-- ==================== TRANSACTION HISTORY ==================== -->
+            <section class="pt-2">
+                <div class="flex items-center justify-between mb-3.5">
+                    <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="ph ph-clock-counter-clockwise text-lg text-sky-500"></i>
+                        <span>ประวัติการทำรายการ</span>
                     </h2>
-                    <div class="flex items-center gap-2">
-                        <button type="button" onclick="resetSampleData()" class="text-[11px] text-blue-600 hover:underline font-medium">โหลดตัวอย่าง</button>
-                        <span class="text-slate-300">|</span>
-                        <button type="button" onclick="openClearConfirmModal()" class="text-[11px] text-rose-500 hover:underline font-medium">ล้างทั้งหมด</button>
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="openBackupModal()" class="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium flex items-center gap-1">
+                            <i class="ph ph-download-simple"></i> สำรองข้อมูล
+                        </button>
+                        <button type="button" onclick="openClearConfirmModal()" id="clear-all-btn" class="text-xs text-rose-500 dark:text-rose-400 hover:underline font-medium hidden">
+                            ล้างทั้งหมด
+                        </button>
                     </div>
                 </div>
 
                 <!-- Filter Pills -->
-                <div class="flex gap-1.5 mb-3 overflow-x-auto no-scrollbar">
-                    <button onclick="setHistoryFilter('all')" id="hist-filter-all" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-800 text-white transition-all">ทั้งหมด</button>
-                    <button onclick="setHistoryFilter('transit')" id="hist-filter-transit" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🚇 รถไฟฟ้า</button>
-                    <button onclick="setHistoryFilter('general')" id="hist-filter-general" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🧾 ทั่วไป</button>
-                    <button onclick="setHistoryFilter('income')" id="hist-filter-income" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">💰 รายรับ</button>
+                <div class="flex gap-2 mb-4 overflow-x-auto pb-1">
+                    <button onclick="setHistoryFilter('all')" id="hist-filter-all" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                    <button onclick="setHistoryFilter('transit')" id="hist-filter-transit" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                    <button onclick="setHistoryFilter('general')" id="hist-filter-general" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                    <button onclick="setHistoryFilter('income')" id="hist-filter-income" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
                 </div>
 
-                <div id="history-container" class="space-y-2.5 pb-6">
-                    <!-- Injected via JS -->
+                <!-- Spacious History Cards Container -->
+                <div id="history-container" class="space-y-3.5 pb-8">
+                    <!-- Populated by JS -->
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- ==================== DETAILED ANALYTICS MODAL ==================== -->
-    <div id="analytics-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-xs">
-        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl animate-slide-up overflow-hidden">
+    <!-- ==================== ANALYTICS MODAL ==================== -->
+    <div id="analytics-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up overflow-hidden">
             
             <!-- Modal Header -->
-            <div class="px-5 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+            <div class="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-darkBorder flex items-center justify-between bg-slate-50/70 dark:bg-darkElevated/50">
                 <div>
-                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                        <i class="ph ph-chart-bar text-blue-600 text-lg"></i>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="ph ph-chart-donut text-sky-500 text-xl"></i>
                         <span>สรุปรายรับ-รายจ่าย & รถไฟฟ้า</span>
                     </h3>
-                    <p class="text-[11px] text-slate-500" id="modal-period-label">ข้อมูลทั้งหมด</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" id="modal-period-label">ข้อมูลทั้งหมด</p>
                 </div>
-                <button onclick="closeAnalyticsModal()" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300/70 flex items-center justify-center text-slate-600">
+                <button onclick="closeAnalyticsModal()" class="w-9 h-9 rounded-full bg-slate-200/70 dark:bg-darkElevated hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
                     <i class="ph ph-x text-base"></i>
                 </button>
             </div>
 
-            <!-- Modal Scrollable Content -->
+            <!-- Scrollable Content -->
             <div class="p-5 overflow-y-auto space-y-5 flex-1">
                 
                 <!-- Date Period Filter Buttons -->
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">เลือกช่วงเวลาที่ต้องการดู</label>
+                    <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">เลือกช่วงเวลาที่ต้องการดู</label>
                     <div class="grid grid-cols-5 gap-1.5">
-                        <button onclick="setAnalyticsRange('today')" id="range-btn-today" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">วันนี้</button>
-                        <button onclick="setAnalyticsRange('7days')" id="range-btn-7days" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">7 วัน</button>
-                        <button onclick="setAnalyticsRange('month')" id="range-btn-month" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">เดือนนี้</button>
-                        <button onclick="setAnalyticsRange('all')" id="range-btn-all" class="range-btn py-1.5 px-2 rounded-xl text-xs font-semibold border border-slate-900 bg-slate-900 text-white">ทั้งหมด</button>
-                        <button onclick="setAnalyticsRange('custom')" id="range-btn-custom" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">เลือกเอง</button>
+                        <button onclick="setAnalyticsRange('today')" id="range-btn-today" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">วันนี้</button>
+                        <button onclick="setAnalyticsRange('7days')" id="range-btn-7days" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">7 วัน</button>
+                        <button onclick="setAnalyticsRange('month')" id="range-btn-month" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">เดือนนี้</button>
+                        <button onclick="setAnalyticsRange('all')" id="range-btn-all" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">ทั้งหมด</button>
+                        <button onclick="setAnalyticsRange('custom')" id="range-btn-custom" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">เลือกเอง</button>
                     </div>
 
                     <!-- Custom Date Range Picker -->
-                    <div id="custom-date-box" class="hidden mt-2.5 p-3 bg-slate-50 rounded-xl border border-slate-200 grid grid-cols-2 gap-2.5">
+                    <div id="custom-date-box" class="hidden mt-3 p-3.5 bg-slate-50 dark:bg-darkElevated rounded-2xl border border-slate-200 dark:border-darkBorder grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-[10px] text-slate-500 mb-1">ตั้งแต่วันที่</label>
-                            <input type="date" id="filter-start-date" onchange="renderAnalyticsData()" class="w-full text-xs p-1.5 rounded-lg border border-slate-200 bg-white">
+                            <label class="block text-[11px] text-slate-500 dark:text-slate-400 mb-1">ตั้งแต่วันที่</label>
+                            <input type="date" id="filter-start-date" onchange="renderAnalyticsData()" class="w-full text-xs p-2 rounded-xl border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkCard text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-slate-500 mb-1">ถึงวันที่</label>
-                            <input type="date" id="filter-end-date" onchange="renderAnalyticsData()" class="w-full text-xs p-1.5 rounded-lg border border-slate-200 bg-white">
+                            <label class="block text-[11px] text-slate-500 dark:text-slate-400 mb-1">ถึงวันที่</label>
+                            <input type="date" id="filter-end-date" onchange="renderAnalyticsData()" class="w-full text-xs p-2 rounded-xl border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkCard text-slate-900 dark:text-white">
                         </div>
                     </div>
                 </div>
 
-                <!-- Overview KPI Cards inside Modal -->
+                <!-- Overview KPI Cards -->
                 <div class="grid grid-cols-3 gap-2.5">
-                    <div class="bg-slate-900 text-white p-3 rounded-2xl">
-                        <p class="text-[10px] text-slate-400">รายจ่ายรวม</p>
-                        <p class="text-base font-bold mt-0.5">฿<span id="modal-total-exp">0</span></p>
+                    <div class="bg-slate-900 dark:bg-darkElevated text-white p-3.5 rounded-2xl border border-slate-800 dark:border-darkBorder">
+                        <p class="text-[11px] text-slate-400">รายจ่ายรวม</p>
+                        <p class="text-base font-bold mt-1 tabular-nums">฿<span id="modal-total-exp">0</span></p>
                         <p class="text-[10px] text-slate-400 mt-1"><span id="modal-total-count">0</span> รายการ</p>
                     </div>
-                    <div class="bg-sky-50 border border-sky-100 p-3 rounded-2xl">
-                        <p class="text-[10px] text-sky-700 font-medium">ค่ารถไฟฟ้า</p>
-                        <p class="text-base font-bold text-sky-900 mt-0.5">฿<span id="modal-transit-exp">0</span></p>
-                        <p class="text-[10px] text-sky-600 mt-1"><span id="modal-transit-pct">0</span>% ของรายจ่าย</p>
+                    <div class="bg-sky-500/10 border border-sky-500/25 p-3.5 rounded-2xl">
+                        <p class="text-[11px] text-sky-600 dark:text-sky-400 font-semibold">ค่ารถไฟฟ้า</p>
+                        <p class="text-base font-bold text-sky-700 dark:text-sky-300 mt-1 tabular-nums">฿<span id="modal-transit-exp">0</span></p>
+                        <p class="text-[10px] text-sky-600/80 dark:text-sky-400/80 mt-1"><span id="modal-transit-pct">0</span>% ของรายจ่าย</p>
                     </div>
-                    <div class="bg-amber-50 border border-amber-100 p-3 rounded-2xl">
-                        <p class="text-[10px] text-amber-700 font-medium">รายจ่ายทั่วไป</p>
-                        <p class="text-base font-bold text-amber-900 mt-0.5">฿<span id="modal-general-exp">0</span></p>
-                        <p class="text-[10px] text-amber-600 mt-1"><span id="modal-general-pct">0</span>% ของรายจ่าย</p>
+                    <div class="bg-amber-500/10 border border-amber-500/25 p-3.5 rounded-2xl">
+                        <p class="text-[11px] text-amber-600 dark:text-amber-400 font-semibold">ใช้จ่ายทั่วไป</p>
+                        <p class="text-base font-bold text-amber-700 dark:text-amber-300 mt-1 tabular-nums">฿<span id="modal-general-exp">0</span></p>
+                        <p class="text-[10px] text-amber-600/80 dark:text-amber-400/80 mt-1"><span id="modal-general-pct">0</span>% ของรายจ่าย</p>
                     </div>
                 </div>
 
                 <!-- Net Income Bar -->
-                <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-xs">
-                    <span class="text-emerald-800 font-medium">💰 รายรับในช่วงเวลานี้: <strong>+฿<span id="modal-income-sum">0</span></strong></span>
-                    <span class="text-emerald-900 font-bold" id="modal-net-balance">คงเหลือ ฿0</span>
+                <div class="flex items-center justify-between px-4 py-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-xs">
+                    <span class="text-emerald-700 dark:text-emerald-300 font-medium">💰 รายรับ: <strong class="tabular-nums">+฿<span id="modal-income-sum">0</span></strong></span>
+                    <span class="text-emerald-800 dark:text-emerald-200 font-bold tabular-nums" id="modal-net-balance">คงเหลือ ฿0</span>
                 </div>
 
-                <!-- Section 1: Transit Breakdown by Line -->
+                <!-- Transit Breakdown by Line -->
                 <div>
-                    <div class="flex items-center justify-between mb-2.5">
-                        <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                            <i class="ph ph-train text-blue-600 text-sm"></i>
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                            <i class="ph ph-train text-sky-500 text-base"></i>
                             <span>แยกตามสายรถไฟฟ้าที่ใช้เดินทาง</span>
                         </h4>
-                        <span class="text-[11px] text-slate-400" id="modal-transit-trips">0 เที่ยว</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="modal-transit-trips">0 เที่ยว</span>
                     </div>
-                    <div id="modal-transit-breakdown" class="space-y-2.5">
-                        <!-- Injected via JS -->
-                    </div>
+                    <div id="modal-transit-breakdown" class="space-y-2.5"></div>
                 </div>
 
-                <!-- Section 2: General Expenses Breakdown -->
+                <!-- General Breakdown by Category -->
                 <div>
-                    <div class="flex items-center justify-between mb-2.5 pt-2 border-t border-slate-100">
-                        <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                            <i class="ph ph-SealPercent text-amber-600 text-sm"></i>
+                    <div class="flex items-center justify-between mb-3 pt-3 border-t border-slate-100 dark:border-darkBorder">
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                            <i class="ph ph-tag text-amber-500 text-base"></i>
                             <span>แยกตามหมวดหมู่ใช้จ่ายทั่วไป</span>
                         </h4>
                     </div>
-                    <div id="modal-general-breakdown" class="space-y-2.5">
-                        <!-- Injected via JS -->
-                    </div>
+                    <div id="modal-general-breakdown" class="space-y-2.5"></div>
                 </div>
-
             </div>
 
             <!-- Modal Footer -->
-            <div class="p-4 border-t border-slate-100 bg-white">
-                <button onclick="closeAnalyticsModal()" class="w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">
+            <div class="p-4 border-t border-slate-100 dark:border-darkBorder bg-white dark:bg-darkCard">
+                <button onclick="closeAnalyticsModal()" class="w-full py-3 rounded-xl bg-slate-900 dark:bg-darkElevated text-white text-xs font-bold hover:bg-slate-800 border border-slate-800 dark:border-darkBorder">
                     ปิดหน้าต่างสรุป
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ==================== CUSTOM CONFIRM MODAL (No window.confirm) ==================== -->
-    <div id="confirm-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 px-6">
-        <div class="bg-white rounded-2xl max-w-xs w-full p-5 shadow-xl text-center animate-fade-in">
-            <div class="w-11 h-11 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-3">
-                <i class="ph ph-trash text-xl"></i>
+    <!-- ==================== BACKUP / RESTORE MODAL (FOR BRAVE & DEVICE MIGRATION) ==================== -->
+    <div id="backup-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-darkBorder pb-3.5">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-sky-500/15 text-sky-500 flex items-center justify-center">
+                        <i class="ph ph-database text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">ระบบปกป้องข้อมูล 3 ชั้น & สำรองไฟล์</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400" id="persistence-status-text">IndexedDB + LocalStorage + Cookie Sync</p>
+                    </div>
+                </div>
+                <button onclick="closeBackupModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkElevated flex items-center justify-center text-slate-500">
+                    <i class="ph ph-x"></i>
+                </button>
             </div>
-            <h4 class="text-sm font-bold text-slate-900">ล้างข้อมูลทั้งหมด?</h4>
-            <p class="text-xs text-slate-500 mt-1">ประวัติรายรับ-รายจ่ายและการเดินทางทั้งหมดจะถูกลบออกจากเครื่องนี้</p>
-            <div class="grid grid-cols-2 gap-2 mt-4">
-                <button onclick="closeClearConfirmModal()" class="py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">ยกเลิก</button>
-                <button onclick="confirmClearAll()" class="py-2 rounded-xl text-xs font-semibold bg-rose-600 text-white hover:bg-rose-700">ลบทั้งหมด</button>
+
+            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/70 dark:border-darkBorder text-xs text-slate-600 dark:text-slate-300 space-y-1.5 leading-relaxed">
+                <p class="font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
+                    <i class="ph ph-shield-check text-emerald-500 text-base"></i>
+                    คำแนะนำสำหรับผู้ใช้ Brave มือถือ:
+                </p>
+                <p>หากตั้งค่า Brave ให้ล้างข้อมูลอัตโนมัติเมื่อปิดแอป (Forget me when I close this site) ให้กดไอคอนสิงโต Brave ด้านบน แล้วปิดตัวเลือกการล้างข้อมูลของเว็บนี้ หรือกดดาวน์โหลดไฟล์สำรองเก็บไว้ได้ตลอดเวลาครับ</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+                <button onclick="exportBackupFile()" class="p-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex flex-col items-center gap-1.5 shadow-md active:scale-95 transition-all">
+                    <i class="ph ph-download-simple text-xl"></i>
+                    <span>ดาวน์โหลดไฟล์ Backup</span>
+                    <span class="text-[10px] font-normal opacity-80">(.json เก็บไว้ในเครื่อง)</span>
+                </button>
+
+                <label class="p-3.5 rounded-2xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-darkBorder font-bold text-xs flex flex-col items-center gap-1.5 cursor-pointer active:scale-95 transition-all">
+                    <i class="ph ph-upload-simple text-xl text-emerald-500"></i>
+                    <span>กู้คืนข้อมูลจากไฟล์</span>
+                    <span class="text-[10px] font-normal text-slate-500 dark:text-slate-400">(เลือกไฟล์ .json)</span>
+                    <input type="file" accept=".json,application/json" onchange="importBackupFile(event)" class="hidden">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CONFIRM CLEAR MODAL ==================== -->
+    <div id="confirm-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-950/75 px-6 backdrop-blur-xs">
+        <div class="bg-white dark:bg-darkCard rounded-3xl max-w-xs w-full p-6 shadow-2xl border border-slate-200 dark:border-darkBorder text-center animate-fade-in">
+            <div class="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-500 flex items-center justify-center mx-auto mb-3.5">
+                <i class="ph ph-trash text-2xl"></i>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 dark:text-white">ล้างข้อมูลทั้งหมด?</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">ประวัติรายรับ-รายจ่ายและการเดินทางทั้งหมดจะถูกลบออกจากหน่วยความจำเครื่องนี้</p>
+            <div class="grid grid-cols-2 gap-2.5 mt-5">
+                <button onclick="closeClearConfirmModal()" class="py-2.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-darkElevated text-slate-700 dark:text-slate-300">ยกเลิก</button>
+                <button onclick="confirmClearAll()" class="py-2.5 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-500">ลบทั้งหมด</button>
             </div>
         </div>
     </div>
 
     <script>
         // ============================================================================
-        // 1. COMPLETE BANGKOK TRANSIT STATION DATABASE (ALL 9 LINES)
+        // 1. COMPLETE BANGKOK TRANSIT STATION DATABASE (ALL 9 LINES + COLOR TOKENS)
         // ============================================================================
         const TRANSIT_LINES = {
             'bts-sukhumvit': {
                 id: 'bts-sukhumvit',
                 system: 'BTS',
                 name: 'BTS สายสุขุมวิท',
-                shortName: 'BTS สุขุมวิท (เขียวอ่อน)',
-                dotColor: 'bg-lime-500',
-                btnBg: 'bg-lime-600 hover:bg-lime-700',
-                badgeBg: 'bg-lime-100',
-                badgeText: 'text-lime-800',
-                barColor: 'bg-lime-500',
+                shortLabel: 'สุขุมวิท',
+                colorHex: '#84cc16',
+                dotClass: 'bg-lime-500',
+                btnClass: 'bg-lime-600 hover:bg-lime-500',
+                badgeClass: 'bg-lime-500/15 text-lime-700 dark:text-lime-300 border-lime-500/30',
+                solidBadge: 'bg-lime-500 text-slate-950',
                 stations: [
                     'N24 คูคต', 'N23 แยก คปอ.', 'N22 พิพิธภัณฑ์กองทัพอากาศ', 'N21 โรงพยาบาลภูมิพลอดุลยเดช',
                     'N20 สะพานใหม่', 'N19 สายหยุด', 'N18 พหลโยธิน 59', 'N17 วัดพระศรีมหาธาตุ',
@@ -478,12 +620,12 @@
                 id: 'bts-silom',
                 system: 'BTS',
                 name: 'BTS สายสีลม',
-                shortName: 'BTS สีลม (เขียวเข้ม)',
-                dotColor: 'bg-emerald-700',
-                btnBg: 'bg-emerald-700 hover:bg-emerald-800',
-                badgeBg: 'bg-emerald-100',
-                badgeText: 'text-emerald-900',
-                barColor: 'bg-emerald-700',
+                shortLabel: 'สีลม',
+                colorHex: '#0d9488',
+                dotClass: 'bg-teal-600',
+                btnClass: 'bg-teal-600 hover:bg-teal-500',
+                badgeClass: 'bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30',
+                solidBadge: 'bg-teal-600 text-white',
                 stations: [
                     'W1 สนามกีฬาแห่งชาติ', 'CEN สยาม', 'S1 ราชดำริ', 'S2 ศาลาแดง',
                     'S3 ช่องนนทรี', 'S4 เซนต์หลุยส์', 'S5 สุรศักดิ์', 'S6 สะพานตากสิน',
@@ -495,12 +637,12 @@
                 id: 'mrt-blue',
                 system: 'MRT',
                 name: 'MRT สายสีน้ำเงิน',
-                shortName: 'MRT สีน้ำเงิน',
-                dotColor: 'bg-blue-600',
-                btnBg: 'bg-blue-600 hover:bg-blue-700',
-                badgeBg: 'bg-blue-100',
-                badgeText: 'text-blue-800',
-                barColor: 'bg-blue-600',
+                shortLabel: 'สีน้ำเงิน',
+                colorHex: '#2563eb',
+                dotClass: 'bg-blue-600',
+                btnClass: 'bg-blue-600 hover:bg-blue-500',
+                badgeClass: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30',
+                solidBadge: 'bg-blue-600 text-white',
                 stations: [
                     'BL01 ท่าพระ', 'BL02 จรัญฯ 13', 'BL03 ไฟฉาย', 'BL04 บางขุนนนท์',
                     'BL05 บางยี่ขัน', 'BL06 สิรินธร', 'BL07 บางพลัด', 'BL08 บางอ้อ',
@@ -518,12 +660,12 @@
                 id: 'mrt-purple',
                 system: 'MRT',
                 name: 'MRT สายสีม่วง',
-                shortName: 'MRT สีม่วง',
-                dotColor: 'bg-purple-600',
-                btnBg: 'bg-purple-600 hover:bg-purple-700',
-                badgeBg: 'bg-purple-100',
-                badgeText: 'text-purple-800',
-                barColor: 'bg-purple-600',
+                shortLabel: 'สีม่วง',
+                colorHex: '#9333ea',
+                dotClass: 'bg-purple-600',
+                btnClass: 'bg-purple-600 hover:bg-purple-500',
+                badgeClass: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30',
+                solidBadge: 'bg-purple-600 text-white',
                 stations: [
                     'PP01 คลองบางไผ่', 'PP02 ตลาดบางใหญ่', 'PP03 สามแยกบางใหญ่', 'PP04 บางพลู',
                     'PP05 บางรักใหญ่', 'PP06 บางรักน้อยท่าอิฐ', 'PP07 ไทรม้า', 'PP08 สะพานพระนั่งเกล้า',
@@ -535,12 +677,12 @@
                 id: 'mrt-yellow',
                 system: 'MRT',
                 name: 'MRT สายสีเหลือง',
-                shortName: 'MRT สีเหลือง',
-                dotColor: 'bg-yellow-500',
-                btnBg: 'bg-yellow-500 hover:bg-yellow-600',
-                badgeBg: 'bg-yellow-100',
-                badgeText: 'text-yellow-900',
-                barColor: 'bg-yellow-500',
+                shortLabel: 'สีเหลือง',
+                colorHex: '#eab308',
+                dotClass: 'bg-yellow-500',
+                btnClass: 'bg-yellow-500 hover:bg-yellow-400 text-slate-950',
+                badgeClass: 'bg-yellow-500/15 text-yellow-700 dark:text-yellow-300 border-yellow-500/30',
+                solidBadge: 'bg-yellow-400 text-slate-950',
                 stations: [
                     'YL01 ลาดพร้าว', 'YL02 พาวานา', 'YL03 โชคชัย 4', 'YL04 ลาดพร้าว 71',
                     'YL05 ลาดพร้าว 83', 'YL06 มหาดไทย', 'YL07 ลาดพร้าว 101', 'YL08 บางกะปิ',
@@ -554,12 +696,12 @@
                 id: 'mrt-pink',
                 system: 'MRT',
                 name: 'MRT สายสีชมพู',
-                shortName: 'MRT สีชมพู',
-                dotColor: 'bg-pink-500',
-                btnBg: 'bg-pink-500 hover:bg-pink-600',
-                badgeBg: 'bg-pink-100',
-                badgeText: 'text-pink-800',
-                barColor: 'bg-pink-500',
+                shortLabel: 'สีชมพู',
+                colorHex: '#ec4899',
+                dotClass: 'bg-pink-500',
+                btnClass: 'bg-pink-600 hover:bg-pink-500',
+                badgeClass: 'bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30',
+                solidBadge: 'bg-pink-500 text-white',
                 stations: [
                     'PK01 ศูนย์ราชการนนทบุรี', 'PK02 แคราย', 'PK03 สนามบินน้ำ', 'PK04 สามัคคี',
                     'PK05 กรมชลประทาน', 'PK06 แยกปากเกร็ด', 'PK07 เลี่ยงเมืองปากเกร็ด', 'PK08 แจ้งวัฒนะ-ปากเกร็ด 28',
@@ -575,12 +717,12 @@
                 id: 'arl-red',
                 system: 'ARL',
                 name: 'Airport Rail Link',
-                shortName: 'Airport Link',
-                dotColor: 'bg-orange-600',
-                btnBg: 'bg-orange-600 hover:bg-orange-700',
-                badgeBg: 'bg-orange-100',
-                badgeText: 'text-orange-900',
-                barColor: 'bg-orange-600',
+                shortLabel: 'Airport Link',
+                colorHex: '#ea580c',
+                dotClass: 'bg-orange-600',
+                btnClass: 'bg-orange-600 hover:bg-orange-500',
+                badgeClass: 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30',
+                solidBadge: 'bg-orange-600 text-white',
                 stations: [
                     'A1 สุวรรณภูมิ', 'A2 ลาดกระบัง', 'A3 บ้านทับช้าง', 'A4 หัวหมาก',
                     'A5 รามคำแหง', 'A6 มักกะสัน', 'A7 ราชปรารภ', 'A8 พญาไท'
@@ -590,12 +732,12 @@
                 id: 'srt-red',
                 system: 'SRT',
                 name: 'SRT สายสีแดง',
-                shortName: 'SRT สายสีแดง',
-                dotColor: 'bg-red-700',
-                btnBg: 'bg-red-700 hover:bg-red-800',
-                badgeBg: 'bg-red-100',
-                badgeText: 'text-red-900',
-                barColor: 'bg-red-700',
+                shortLabel: 'สายสีแดง',
+                colorHex: '#dc2626',
+                dotClass: 'bg-red-600',
+                btnClass: 'bg-red-600 hover:bg-red-500',
+                badgeClass: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30',
+                solidBadge: 'bg-red-600 text-white',
                 stations: [
                     'RN01 กรุงเทพอภิวัฒน์ (บางซื่อ)', 'RN02 จตุจักร', 'RN03 วัดเสมียนนารี', 'RN04 บางเขน',
                     'RN05 ทุ่งสองห้อง', 'RN06 หลักสี่', 'RN07 การเคหะ', 'RN08 ดอนเมือง',
@@ -606,12 +748,12 @@
                 id: 'bts-gold',
                 system: 'BTS',
                 name: 'BTS สายสีทอง',
-                shortName: 'BTS สายสีทอง',
-                dotColor: 'bg-amber-600',
-                btnBg: 'bg-amber-600 hover:bg-amber-700',
-                badgeBg: 'bg-amber-100',
-                badgeText: 'text-amber-900',
-                barColor: 'bg-amber-600',
+                shortLabel: 'สายสีทอง',
+                colorHex: '#d97706',
+                dotClass: 'bg-amber-500',
+                btnClass: 'bg-amber-600 hover:bg-amber-500',
+                badgeClass: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
+                solidBadge: 'bg-amber-500 text-slate-950',
                 stations: [
                     'G1 กรุงธนบุรี', 'G2 เจริญนคร (ไอคอนสยาม)', 'G3 คลองสาน'
                 ]
@@ -619,23 +761,179 @@
         };
 
         const GENERAL_CATEGORY_META = {
-            'อาหาร/เครื่องดื่ม': { icon: '🍜', color: 'bg-orange-500', badge: 'bg-orange-50 text-orange-700' },
-            'เดินทางอื่นๆ': { icon: '🛵', color: 'bg-cyan-500', badge: 'bg-cyan-50 text-cyan-700' },
-            'ของใช้/ช้อปปิ้ง': { icon: '🛍️', color: 'bg-pink-500', badge: 'bg-pink-50 text-pink-700' },
-            'ที่พัก/บิล': { icon: '🏠', color: 'bg-indigo-500', badge: 'bg-indigo-50 text-indigo-700' },
-            'บันเทิง/เกม': { icon: '🎮', color: 'bg-violet-500', badge: 'bg-violet-50 text-violet-700' },
-            'รายรับ': { icon: '💰', color: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700' }
+            'อาหาร/เครื่องดื่ม': { icon: '🍜', barColor: '#f97316', badge: 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30' },
+            'เดินทางอื่นๆ': { icon: '🛵', barColor: '#06b6d4', badge: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/30' },
+            'ของใช้/ช้อปปิ้ง': { icon: '🛍️', barColor: '#ec4899', badge: 'bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30' },
+            'ที่พัก/บิล': { icon: '🏠', barColor: '#6366f1', badge: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border-indigo-500/30' },
+            'บันเทิง/เกม': { icon: '🎮', barColor: '#8b5cf6', badge: 'bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30' },
+            'รายรับ': { icon: '💰', barColor: '#10b981', badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' }
         };
 
         // ============================================================================
-        // 2. APPLICATION STATE & SAMPLE DATA
+        // 2. TRIPLE-LAYER STORAGE MANAGER (FIXES BRAVE MOBILE DATA LOSS)
+        //    Syncs across: 1) IndexedDB  2) localStorage  3) Cookie + window.name
         // ============================================================================
-        let selectedLineId = 'bts-sukhumvit';
+        const STORAGE_KEY = 'bkk_expense_clean_v3';
+        const LEGACY_KEYS = ['bkk_transit_expenses_v2', 'bkk_expenses'];
+        const IDB_NAME = 'BKKTransitExpenseDB';
+        const IDB_STORE = 'app_state';
+
+        const StorageManager = {
+            db: null,
+
+            async initPersistence() {
+                // Request persistent storage permission from browser (prevents Brave/Mobile eviction)
+                if (navigator.storage && navigator.storage.persist) {
+                    try {
+                        const granted = await navigator.storage.persist();
+                        const statusText = document.getElementById('persistence-status-text');
+                        if (statusText) {
+                            statusText.textContent = granted
+                                ? 'เปิดโหมดป้องกันการลบข้อมูลอัตโนมัติแล้ว (Persistent Storage)'
+                                : 'ทำงานด้วยระบบสำรอง 3 ชั้น (IndexedDB + LocalStorage + Cookie)';
+                        }
+                    } catch (e) {
+                        // Ignore error on unsupported browsers
+                    }
+                }
+            },
+
+            openIDB() {
+                return new Promise((resolve) => {
+                    if (!window.indexedDB) return resolve(null);
+                    try {
+                        const req = indexedDB.open(IDB_NAME, 1);
+                        req.onupgradeneeded = (e) => {
+                            const db = e.target.result;
+                            if (!db.objectStoreNames.contains(IDB_STORE)) {
+                                db.createObjectStore(IDB_STORE);
+                            }
+                        };
+                        req.onsuccess = (e) => {
+                            this.db = e.target.result;
+                            resolve(this.db);
+                        };
+                        req.onerror = () => resolve(null);
+                    } catch (err) {
+                        resolve(null);
+                    }
+                });
+            },
+
+            async saveIDB(key, data) {
+                const db = this.db || await this.openIDB();
+                if (!db) return;
+                return new Promise((resolve) => {
+                    try {
+                        const tx = db.transaction(IDB_STORE, 'readwrite');
+                        tx.objectStore(IDB_STORE).put(data, key);
+                        tx.oncomplete = () => resolve(true);
+                        tx.onerror = () => resolve(false);
+                    } catch (e) {
+                        resolve(false);
+                    }
+                });
+            },
+
+            async loadIDB(key) {
+                const db = this.db || await this.openIDB();
+                if (!db) return null;
+                return new Promise((resolve) => {
+                    try {
+                        const tx = db.transaction(IDB_STORE, 'readonly');
+                        const req = tx.objectStore(IDB_STORE).get(key);
+                        req.onsuccess = () => resolve(req.result || null);
+                        req.onerror = () => resolve(null);
+                    } catch (e) {
+                        resolve(null);
+                    }
+                });
+            },
+
+            saveCookieBackup(jsonStr) {
+                try {
+                    // Store compact backup in cookie (valid 365 days) & window.name
+                    const encoded = encodeURIComponent(jsonStr);
+                    if (encoded.length < 3800) {
+                        document.cookie = `${STORAGE_KEY}=${encoded}; max-age=31536000; path=/; SameSite=Lax`;
+                    }
+                    window.name = jsonStr;
+                } catch (e) {}
+            },
+
+            loadCookieBackup() {
+                try {
+                    const match = document.cookie.split('; ').find(row => row.startsWith(STORAGE_KEY + '='));
+                    if (match) {
+                        return JSON.parse(decodeURIComponent(match.split('=')[1]));
+                    }
+                    if (window.name && window.name.startsWith('[')) {
+                        return JSON.parse(window.name);
+                    }
+                } catch (e) {}
+                return null;
+            },
+
+            async saveTransactions(list) {
+                const jsonStr = JSON.stringify(list);
+                // Layer 1: localStorage
+                try {
+                    localStorage.setItem(STORAGE_KEY, jsonStr);
+                } catch (e) {
+                    document.getElementById('storage-warning-banner').classList.remove('hidden');
+                }
+                // Layer 2: IndexedDB
+                await this.saveIDB(STORAGE_KEY, list);
+                // Layer 3: Cookie & window.name fallback
+                this.saveCookieBackup(jsonStr);
+            },
+
+            async loadTransactions() {
+                // 1. Check IndexedDB first
+                let fromIDB = await this.loadIDB(STORAGE_KEY);
+                if (Array.isArray(fromIDB) && fromIDB.length > 0) {
+                    // Sync back to localStorage in case Brave cleared localStorage only
+                    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(fromIDB)); } catch (e) {}
+                    return fromIDB;
+                }
+
+                // 2. Check localStorage
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed)) {
+                            await this.saveIDB(STORAGE_KEY, parsed);
+                            return parsed;
+                        }
+                    }
+                } catch (e) {}
+
+                // 3. Check Cookie / window.name backup
+                const fromCookie = this.loadCookieBackup();
+                if (Array.isArray(fromCookie) && fromCookie.length > 0) {
+                    await this.saveTransactions(fromCookie);
+                    return fromCookie;
+                }
+
+                // 4. Clean start: NO sample data! Return empty array []
+                return [];
+            }
+        };
+
+        // ============================================================================
+        // 3. APPLICATION STATE (CLEAN START - ZERO SAMPLE DATA)
+        // ============================================================================
+        let originLineId = 'bts-sukhumvit';
+        let destLineId = 'bts-sukhumvit';
+        let isCrossLineMode = false;
+        let activeGridTarget = 'origin'; // 'origin' or 'dest'
+
         let selectedGeneralCategory = 'อาหาร/เครื่องดื่ม';
         let selectedGeneralType = 'expense';
         let currentHistoryFilter = 'all';
         let currentAnalyticsRange = 'all';
-        let expenses = [];
+        let expenses = []; // Starts strictly empty for new users
 
         function getTodayStr() {
             const d = new Date();
@@ -654,88 +952,60 @@
             return `${year}-${month}-${day}`;
         }
 
-        function createDefaultSampleData() {
-            const today = getTodayStr();
-            const yesterday = getDaysAgoStr(1);
-            const twoDaysAgo = getDaysAgoStr(2);
-            return [
-                {
-                    id: Date.now() - 10000,
-                    type: 'transit',
-                    line: 'bts-sukhumvit',
-                    origin: 'N18 พหลโยธิน 59',
-                    destination: 'N8 หมอชิต',
-                    amount: 15,
-                    isSplit: false,
-                    date: today
-                },
-                {
-                    id: Date.now() - 20000,
-                    type: 'transit',
-                    line: 'mrt-blue',
-                    origin: 'BL22 สุขุมวิท',
-                    destination: 'BL23 ศูนย์การประชุมแห่งชาติสิริกิติ์',
-                    amount: 17,
-                    isSplit: true,
-                    date: today
-                },
-                {
-                    id: Date.now() - 30000,
-                    type: 'general',
-                    category: 'อาหาร/เครื่องดื่ม',
-                    note: 'มื้อเที่ยง & กาแฟเย็น',
-                    amount: 125,
-                    date: today
-                },
-                {
-                    id: Date.now() - 40000,
-                    type: 'transit',
-                    line: 'bts-sukhumvit',
-                    origin: 'E4 อโศก',
-                    destination: 'E9 อ่อนนุช',
-                    amount: 33,
-                    isSplit: false,
-                    date: yesterday
-                },
-                {
-                    id: Date.now() - 50000,
-                    type: 'general',
-                    category: 'เดินทางอื่นๆ',
-                    note: 'วินมอเตอร์ไซค์เข้าซอย',
-                    amount: 25,
-                    date: twoDaysAgo
+        // ============================================================================
+        // 4. THEME MANAGEMENT (DARK MODE AS BASE DEFAULT)
+        // ============================================================================
+        function initTheme() {
+            let savedTheme = 'dark'; // Dark mode is strictly the default base
+            try {
+                const stored = localStorage.getItem('bkk_theme_pref');
+                if (stored === 'light' || stored === 'dark') {
+                    savedTheme = stored;
                 }
-            ];
+            } catch (e) {}
+            applyTheme(savedTheme);
+        }
+
+        function applyTheme(theme) {
+            const htmlEl = document.documentElement;
+            const iconEl = document.getElementById('theme-icon');
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+                if (iconEl) iconEl.className = 'ph ph-sun-dim text-lg text-amber-300';
+            } else {
+                htmlEl.classList.remove('dark');
+                if (iconEl) iconEl.className = 'ph ph-moon-stars text-lg text-slate-700';
+            }
+            try { localStorage.setItem('bkk_theme_pref', theme); } catch (e) {}
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            applyTheme(isDark ? 'light' : 'dark');
         }
 
         // ============================================================================
-        // 3. INITIALIZATION
+        // 5. APP INITIALIZATION
         // ============================================================================
-        function initApp() {
-            const saved = localStorage.getItem('bkk_transit_expenses_v2');
-            if (saved) {
-                try {
-                    expenses = JSON.parse(saved);
-                } catch (e) {
-                    expenses = createDefaultSampleData();
-                }
-            } else {
-                expenses = createDefaultSampleData();
-                saveToStorage();
-            }
+        async function initApp() {
+            initTheme();
+            await StorageManager.initPersistence();
+            expenses = await StorageManager.loadTransactions();
 
-            // Set default dates
             const today = getTodayStr();
             document.getElementById('entry-date').value = today;
             document.getElementById('filter-start-date').value = getDaysAgoStr(7);
             document.getElementById('filter-end-date').value = today;
 
-            renderLinePills();
-            selectTransitLine('bts-sukhumvit');
+            renderLineGrid();
+            updateStationLinePills();
+            updateLiveRoutePreview();
+            selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense');
+            setHistoryFilter('all');
             updateHeaderSummary();
             renderHistoryList();
 
-            // Close station autocomplete dropdowns when clicking outside
+            // Close station dropdowns when clicking outside
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('#transit-origin') && !e.target.closest('#dropdown-origin')) {
                     document.getElementById('dropdown-origin').classList.add('hidden');
@@ -744,93 +1014,223 @@
                     document.getElementById('dropdown-dest').classList.add('hidden');
                 }
             });
-        }
 
-        function saveToStorage() {
-            localStorage.setItem('bkk_transit_expenses_v2', JSON.stringify(expenses));
+            // Watch visibilitychange to flush storage before Brave mobile closes tab
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    StorageManager.saveTransactions(expenses);
+                }
+            });
         }
 
         // ============================================================================
-        // 4. LINE SELECTOR & SMART STATION AUTOCOMPLETE
+        // 6. ALL-VISIBLE 3-COLUMN TRANSIT LINE GRID & CROSS-LINE LOGIC
         // ============================================================================
-        function renderLinePills() {
-            const container = document.getElementById('line-pills-container');
+        function toggleCrossLineMode() {
+            isCrossLineMode = document.getElementById('cross-line-toggle').checked;
+            const targetPill = document.getElementById('active-line-target-pill');
+            const helperText = document.getElementById('line-grid-helper');
+
+            if (isCrossLineMode) {
+                activeGridTarget = 'dest';
+                targetPill.textContent = 'กำลังเลือกสาย: ปลายทาง';
+                targetPill.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-rose-500/15 text-rose-500 dark:text-rose-300 border border-rose-500/30';
+                helperText.textContent = 'แตะที่ป้ายชื่อสายของ "ต้นทาง" หรือ "ปลายทาง" ด้านล่างเพื่อเปลี่ยนสีสายแยกกัน';
+            } else {
+                activeGridTarget = 'origin';
+                destLineId = originLineId;
+                targetPill.textContent = 'เดินทางสายเดียวกัน';
+                targetPill.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25';
+                helperText.textContent = 'กดเลือกสายเพื่อกรองสถานี หรือพิมพ์ค้นหาจากทุกสายได้ทันที';
+            }
+
+            renderLineGrid();
+            updateStationLinePills();
+            updateLiveRoutePreview();
+        }
+
+        function setGridFocusTarget(target) {
+            if (!isCrossLineMode && target === 'dest') {
+                document.getElementById('cross-line-toggle').checked = true;
+                isCrossLineMode = true;
+            }
+            activeGridTarget = target;
+            const targetPill = document.getElementById('active-line-target-pill');
+            if (isCrossLineMode) {
+                if (target === 'origin') {
+                    targetPill.textContent = 'กำลังเลือกสาย: ต้นทาง';
+                    targetPill.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30';
+                } else {
+                    targetPill.textContent = 'กำลังเลือกสาย: ปลายทาง';
+                    targetPill.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-rose-500/15 text-rose-500 dark:text-rose-300 border border-rose-500/30';
+                }
+            }
+            renderLineGrid();
+            updateStationLinePills();
+        }
+
+        function renderLineGrid() {
+            const container = document.getElementById('line-grid-container');
             container.innerHTML = '';
 
+            const currentActiveLineId = (isCrossLineMode && activeGridTarget === 'dest') ? destLineId : originLineId;
+
             Object.values(TRANSIT_LINES).forEach(line => {
-                const isSelected = line.id === selectedLineId;
+                const isSelected = line.id === currentActiveLineId;
+                const isOriginMatch = line.id === originLineId;
+                const isDestMatch = isCrossLineMode && line.id === destLineId;
+
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.onclick = () => selectTransitLine(line.id);
-                btn.className = `shrink-0 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 border transition-all ${
-                    isSelected
-                        ? 'bg-slate-900 text-white border-slate-900 shadow-sm scale-[1.02]'
-                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                }`;
+                btn.onclick = () => selectLineFromGrid(line.id);
+
+                let borderStyle = 'border-slate-200 dark:border-darkBorder bg-slate-50 dark:bg-darkElevated/70 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600';
+                if (isSelected) {
+                    borderStyle = 'border-sky-500 dark:border-sky-400 bg-sky-500/10 dark:bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/50 shadow-xs';
+                }
+
+                // Small indicator tag if Cross-Line mode is active
+                let roleTag = '';
+                if (isCrossLineMode) {
+                    if (isOriginMatch && isDestMatch) {
+                        roleTag = '<span class="text-[9px] px-1 rounded bg-slate-500/20">ขึ้น+ลง</span>';
+                    } else if (isOriginMatch) {
+                        roleTag = '<span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-500 font-bold">ขึ้น</span>';
+                    } else if (isDestMatch) {
+                        roleTag = '<span class="text-[9px] px-1 rounded bg-rose-500/20 text-rose-400 font-bold">ลง</span>';
+                    }
+                }
+
+                btn.className = `p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-1.5 active:scale-95 ${borderStyle}`;
                 btn.innerHTML = `
-                    <span class="w-2.5 h-2.5 rounded-full ${line.dotColor}"></span>
-                    <span>${line.shortName}</span>
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full shrink-0 ${line.dotClass}"></span>
+                        <div class="min-w-0">
+                            <p class="text-[10px] font-bold opacity-65 leading-none">${line.system}</p>
+                            <p class="text-xs font-bold truncate mt-0.5 leading-tight">${line.shortLabel}</p>
+                        </div>
+                    </div>
+                    ${roleTag}
                 `;
                 container.appendChild(btn);
             });
         }
 
-        function selectTransitLine(lineId) {
-            selectedLineId = lineId;
-            const line = TRANSIT_LINES[lineId];
-            renderLinePills();
+        function selectLineFromGrid(lineId) {
+            if (!isCrossLineMode) {
+                originLineId = lineId;
+                destLineId = lineId;
+            } else {
+                if (activeGridTarget === 'origin') {
+                    originLineId = lineId;
+                } else {
+                    destLineId = lineId;
+                }
+            }
 
-            // Update badge and submit button color
-            const badge = document.getElementById('selected-line-badge');
-            badge.className = `text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${line.badgeBg} ${line.badgeText}`;
-            badge.textContent = `${line.name} (${line.stations.length} สถานี)`;
-
-            const submitBtn = document.getElementById('transit-submit-btn');
-            submitBtn.className = `w-full py-3 rounded-xl font-semibold text-sm text-white shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 ${line.btnBg}`;
-
-            // Clear current station inputs if switching line
-            document.getElementById('dropdown-origin').classList.add('hidden');
-            document.getElementById('dropdown-dest').classList.add('hidden');
+            renderLineGrid();
+            updateStationLinePills();
+            updateLiveRoutePreview();
         }
 
-        function openStationDropdown(fieldType) {
+        function updateStationLinePills() {
+            const originLine = TRANSIT_LINES[originLineId];
+            const destLine = TRANSIT_LINES[destLineId];
+
+            const originPill = document.getElementById('origin-line-pill');
+            const destPill = document.getElementById('dest-line-pill');
+
+            originPill.className = `text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all ${originLine.badgeClass} ${isCrossLineMode && activeGridTarget === 'origin' ? 'ring-2 ring-emerald-400' : ''}`;
+            originPill.innerHTML = `<span class="w-2 h-2 rounded-full ${originLine.dotClass}"></span><span>${originLine.name}</span>`;
+
+            destPill.className = `text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all ${destLine.badgeClass} ${isCrossLineMode && activeGridTarget === 'dest' ? 'ring-2 ring-rose-400' : ''}`;
+            destPill.innerHTML = `<span class="w-2 h-2 rounded-full ${destLine.dotClass}"></span><span>${destLine.name}</span>`;
+
+            // Update submit button style
+            const submitBtn = document.getElementById('transit-submit-btn');
+            submitBtn.className = `w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 ${originLine.btnClass}`;
+        }
+
+        function handleStationFocus(fieldType) {
+            if (isCrossLineMode) {
+                setGridFocusTarget(fieldType);
+            }
             filterStationDropdown(fieldType);
         }
 
+        // Smart Station Search: Filters current selected line first, AND searches across all other lines if typing!
         function filterStationDropdown(fieldType) {
             const inputEl = document.getElementById(fieldType === 'origin' ? 'transit-origin' : 'transit-dest');
             const dropdownEl = document.getElementById(fieldType === 'origin' ? 'dropdown-origin' : 'dropdown-dest');
             const query = inputEl.value.trim().toLowerCase();
-            const stations = TRANSIT_LINES[selectedLineId].stations;
-            const line = TRANSIT_LINES[selectedLineId];
 
-            const matched = stations.filter(st => st.toLowerCase().includes(query));
+            const targetLineId = fieldType === 'origin' ? originLineId : destLineId;
+            const primaryLine = TRANSIT_LINES[targetLineId];
 
             dropdownEl.innerHTML = '';
-            if (matched.length === 0) {
+
+            let results = [];
+
+            // 1. Stations from the currently active line for this field
+            primaryLine.stations.forEach(st => {
+                if (!query || st.toLowerCase().includes(query)) {
+                    results.push({ stationStr: st, line: primaryLine, isPrimary: true });
+                }
+            });
+
+            // 2. If user is typing a search query, also search ALL other lines in Bangkok automatically!
+            if (query.length > 0) {
+                Object.values(TRANSIT_LINES).forEach(otherLine => {
+                    if (otherLine.id === primaryLine.id) return;
+                    otherLine.stations.forEach(st => {
+                        if (st.toLowerCase().includes(query)) {
+                            results.push({ stationStr: st, line: otherLine, isPrimary: false });
+                        }
+                    });
+                });
+            }
+
+            if (results.length === 0) {
                 dropdownEl.innerHTML = `
-                    <div class="px-3.5 py-2.5 text-xs text-slate-400">
-                        ไม่พบสถานีที่ตรงกันใน ${line.name} (สามารถพิมพ์ชื่อเองได้)
+                    <div class="px-4 py-3 text-xs text-slate-400">
+                        ไม่พบสถานีที่ตรงกัน (สามารถพิมพ์ชื่อสถานีเองได้เลย)
                     </div>
                 `;
             } else {
-                matched.forEach(stationStr => {
+                results.forEach(({ stationStr, line }) => {
                     const parts = stationStr.split(' ');
                     const code = parts[0];
                     const name = parts.slice(1).join(' ');
 
                     const item = document.createElement('button');
                     item.type = 'button';
-                    item.className = 'w-full text-left px-3.5 py-2.5 text-xs hover:bg-slate-50 flex items-center justify-between transition-colors';
+                    item.className = 'w-full text-left px-4 py-2.5 text-xs hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center justify-between transition-colors';
                     item.innerHTML = `
-                        <div class="flex items-center gap-2">
-                            <span class="px-1.5 py-0.5 rounded font-bold text-[10px] ${line.badgeBg} ${line.badgeText}">${code}</span>
-                            <span class="font-medium text-slate-800">${name}</span>
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="px-2 py-0.5 rounded-md font-bold text-[10px] border shrink-0 ${line.badgeClass}">${code}</span>
+                            <span class="font-semibold text-slate-800 dark:text-slate-100 truncate">${name}</span>
                         </div>
-                        <i class="ph ph-plus text-slate-400"></i>
+                        <span class="text-[10px] font-medium text-slate-400 shrink-0 ml-2 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full ${line.dotClass}"></span>
+                            ${line.system} ${line.shortLabel}
+                        </span>
                     `;
                     item.onclick = () => {
                         inputEl.value = stationStr;
+                        // Automatically update the line if user picked a station from another line!
+                        if (fieldType === 'origin') {
+                            originLineId = line.id;
+                            if (!isCrossLineMode) destLineId = line.id;
+                        } else {
+                            if (line.id !== originLineId && !isCrossLineMode) {
+                                document.getElementById('cross-line-toggle').checked = true;
+                                isCrossLineMode = true;
+                            }
+                            destLineId = line.id;
+                        }
+                        renderLineGrid();
+                        updateStationLinePills();
+                        updateLiveRoutePreview();
                         dropdownEl.classList.add('hidden');
                     };
                     dropdownEl.appendChild(item);
@@ -838,6 +1238,7 @@
             }
 
             dropdownEl.classList.remove('hidden');
+            updateLiveRoutePreview();
         }
 
         function clearStationInput(fieldType) {
@@ -845,14 +1246,50 @@
             inputEl.value = '';
             inputEl.focus();
             filterStationDropdown(fieldType);
+            updateLiveRoutePreview();
         }
 
-        function swapStations() {
+        function swapStationsAndLines() {
             const originEl = document.getElementById('transit-origin');
             const destEl = document.getElementById('transit-dest');
-            const temp = originEl.value;
+            const tempStation = originEl.value;
             originEl.value = destEl.value;
-            destEl.value = temp;
+            destEl.value = tempStation;
+
+            const tempLine = originLineId;
+            originLineId = destLineId;
+            destLineId = tempLine;
+
+            renderLineGrid();
+            updateStationLinePills();
+            updateLiveRoutePreview();
+        }
+
+        function stripStationCode(stationStr) {
+            if (!stationStr) return '';
+            const parts = stationStr.trim().split(' ');
+            if (parts.length > 1 && /^[A-Z0-9]+$/i.test(parts[0])) {
+                return parts.slice(1).join(' ');
+            }
+            return stationStr;
+        }
+
+        function updateLiveRoutePreview() {
+            const originVal = document.getElementById('transit-origin').value.trim() || 'สถานีต้นทาง';
+            const destVal = document.getElementById('transit-dest').value.trim() || 'สถานีปลายทาง';
+            const oLine = TRANSIT_LINES[originLineId] || TRANSIT_LINES['bts-sukhumvit'];
+            const dLine = TRANSIT_LINES[destLineId] || oLine;
+
+            const container = document.getElementById('live-route-badges');
+            container.innerHTML = `
+                <span class="px-2 py-0.5 rounded-md font-bold text-[11px] border ${oLine.badgeClass}">
+                    ${oLine.system} ${stripStationCode(originVal)}
+                </span>
+                <i class="ph ph-arrow-right text-slate-400 text-xs"></i>
+                <span class="px-2 py-0.5 rounded-md font-bold text-[11px] border ${dLine.badgeClass}">
+                    ${dLine.system} ${stripStationCode(destVal)}
+                </span>
+            `;
         }
 
         function setQuickFare(val) {
@@ -874,7 +1311,7 @@
         }
 
         // ============================================================================
-        // 5. FORM SWITCHING & SUBMISSION
+        // 7. FORM SWITCHING & SUBMISSION
         // ============================================================================
         function switchMode(mode) {
             const transitTab = document.getElementById('tab-btn-transit');
@@ -883,13 +1320,13 @@
             const generalForm = document.getElementById('form-general');
 
             if (mode === 'transit') {
-                transitTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 bg-white shadow-sm text-slate-900';
-                generalTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800';
+                transitTab.className = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
+                generalTab.className = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
                 transitForm.classList.remove('hidden');
                 generalForm.classList.add('hidden');
             } else {
-                generalTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 bg-white shadow-sm text-slate-900';
-                transitTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800';
+                generalTab.className = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
+                transitTab.className = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
                 generalForm.classList.remove('hidden');
                 transitForm.classList.add('hidden');
             }
@@ -901,14 +1338,14 @@
 
             document.querySelectorAll('.gen-cat-btn').forEach(btn => {
                 if (btn.getAttribute('data-cat') === catName) {
-                    btn.className = 'gen-cat-btn p-2.5 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1 transition-all bg-slate-900 text-white border-slate-900 shadow-xs';
+                    btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all border-sky-500 bg-sky-500/10 text-slate-900 dark:text-white ring-1 ring-sky-500/40';
                 } else {
-                    btn.className = 'gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100';
+                    btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all bg-slate-50 dark:bg-darkElevated/60 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-darkBorder hover:bg-slate-100 dark:hover:bg-darkElevated';
                 }
             });
         }
 
-        function handleTransitSubmit(e) {
+        async function handleTransitSubmit(e) {
             e.preventDefault();
             const origin = document.getElementById('transit-origin').value.trim();
             const destination = document.getElementById('transit-dest').value.trim();
@@ -925,7 +1362,9 @@
             const newEntry = {
                 id: Date.now(),
                 type: 'transit',
-                line: selectedLineId,
+                line: originLineId,
+                originLine: originLineId,
+                destLine: destLineId,
                 origin,
                 destination,
                 amount,
@@ -934,7 +1373,7 @@
             };
 
             expenses.unshift(newEntry);
-            saveToStorage();
+            await StorageManager.saveTransactions(expenses);
             updateHeaderSummary();
             renderHistoryList();
 
@@ -944,7 +1383,7 @@
             showToast('บันทึกการเดินทางรถไฟฟ้าเรียบร้อย 🚇');
         }
 
-        function handleGeneralSubmit(e) {
+        async function handleGeneralSubmit(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('gen-amount').value);
             const note = document.getElementById('gen-note').value.trim();
@@ -962,7 +1401,7 @@
             };
 
             expenses.unshift(newEntry);
-            saveToStorage();
+            await StorageManager.saveTransactions(expenses);
             updateHeaderSummary();
             renderHistoryList();
 
@@ -972,7 +1411,7 @@
         }
 
         // ============================================================================
-        // 6. HEADER DASHBOARD & HISTORY RENDER
+        // 8. HEADER DASHBOARD & SPACIOUS DUAL-BADGE HISTORY LIST
         // ============================================================================
         function updateHeaderSummary() {
             const transitSum = expenses
@@ -993,16 +1432,31 @@
             document.getElementById('header-transit-sum').textContent = transitSum.toLocaleString('th-TH');
             document.getElementById('header-general-sum').textContent = generalSum.toLocaleString('th-TH');
             document.getElementById('header-total-income').textContent = incomeSum.toLocaleString('th-TH');
+            document.getElementById('header-tx-count').textContent = `${expenses.length} รายการ`;
+
+            const clearBtn = document.getElementById('clear-all-btn');
+            if (expenses.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
         }
 
         function setHistoryFilter(filter) {
             currentHistoryFilter = filter;
+            const labels = {
+                all: 'ทั้งหมด',
+                transit: '🚇 รถไฟฟ้า',
+                general: '🧾 ทั่วไป',
+                income: '💰 รายรับ'
+            };
             ['all', 'transit', 'general', 'income'].forEach(f => {
                 const btn = document.getElementById(`hist-filter-${f}`);
+                btn.textContent = labels[f];
                 if (f === filter) {
-                    btn.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-white transition-all';
+                    btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-xs transition-all shrink-0';
                 } else {
-                    btn.className = 'px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
+                    btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-darkCard text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-darkBorder hover:bg-slate-100 dark:hover:bg-darkElevated transition-all shrink-0';
                 }
             });
             renderHistoryList();
@@ -1029,9 +1483,12 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                        <i class="ph ph-notebook text-3xl text-slate-300"></i>
-                        <p class="text-xs text-slate-400 mt-1">ยังไม่มีรายการในหมวดหมู่นี้</p>
+                    <div class="text-center py-12 px-5 bg-white dark:bg-darkCard rounded-3xl border border-dashed border-slate-200 dark:border-darkBorder">
+                        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-500 flex items-center justify-center mx-auto mb-3">
+                            <i class="ph ph-train-regional text-2xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700 dark:text-slate-200">ยังไม่มีรายการบันทึก</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">เริ่มจดการเดินทางด้วยรถไฟฟ้าหรือค่าใช้จ่ายแรกของคุณได้เลย</p>
                     </div>
                 `;
                 return;
@@ -1039,57 +1496,90 @@
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'p-3.5 rounded-2xl bg-white border border-slate-100 shadow-xs flex items-center justify-between gap-3 hover:border-slate-200 transition-all';
 
                 if (item.type === 'transit') {
-                    const line = TRANSIT_LINES[item.line] || TRANSIT_LINES['bts-sukhumvit'];
+                    const oLineId = item.originLine || item.line || 'bts-sukhumvit';
+                    const dLineId = item.destLine || oLineId;
+                    const oLine = TRANSIT_LINES[oLineId] || TRANSIT_LINES['bts-sukhumvit'];
+                    const dLine = TRANSIT_LINES[dLineId] || oLine;
+                    const isCross = oLine.id !== dLine.id;
+
+                    const originClean = stripStationCode(item.origin);
+                    const destClean = stripStationCode(item.destination);
+
+                    card.className = 'relative overflow-hidden p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder shadow-2xs transition-all';
+                    card.style.borderLeftWidth = '5px';
+                    card.style.borderLeftColor = oLine.colorHex;
+
+                    const lineSubtitle = isCross
+                        ? `${oLine.name} <span class="mx-1 text-slate-400">➔</span> ${dLine.name}`
+                        : `${oLine.name}`;
+
                     card.innerHTML = `
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-10 h-10 rounded-2xl ${line.dotColor} text-white flex flex-col items-center justify-center shrink-0 shadow-xs">
-                                <span class="text-[9px] font-bold leading-none opacity-90">${line.system}</span>
-                                <i class="ph ph-train text-base leading-none mt-0.5"></i>
-                            </div>
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${line.badgeBg} ${line.badgeText}">${line.name}</span>
-                                    ${item.isSplit ? '<span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200">หาร 2 แล้ว</span>' : ''}
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0 flex-1 space-y-2">
+                                <!-- Top Meta Row -->
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                        <i class="ph ph-train text-sky-500"></i>
+                                        ${lineSubtitle}
+                                    </span>
+                                    ${isCross ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/30">เปลี่ยนสาย</span>' : ''}
+                                    ${item.isSplit ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-300 border border-sky-500/30">หาร 2 แล้ว</span>' : ''}
                                 </div>
-                                <p class="text-xs font-semibold text-slate-800 truncate mt-1">
-                                    ${item.origin} <span class="text-slate-400 font-normal">➔</span> ${item.destination}
-                                </p>
+
+                                <!-- Clear Dual Color-Coded Station Badges (e.g. BTS พหลโยธิน 59 -> MRT รามอินทรา กม.4) -->
+                                <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${oLine.badgeClass}">
+                                        <span class="w-2 h-2 rounded-full ${oLine.dotClass}"></span>
+                                        <span>${oLine.system} ${originClean}</span>
+                                    </span>
+                                    <i class="ph ph-arrow-right text-slate-400 text-sm mx-0.5"></i>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${dLine.badgeClass}">
+                                        <span class="w-2 h-2 rounded-full ${dLine.dotClass}"></span>
+                                        <span>${dLine.system} ${destClean}</span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex flex-col items-end shrink-0">
-                            <span class="text-sm font-bold text-slate-900">-฿${item.amount.toLocaleString('th-TH')}</span>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="text-[10px] text-slate-400">${formatThaiDateShort(item.date)}</span>
-                                <button onclick="deleteEntry(${item.id})" class="text-slate-300 hover:text-rose-500 transition-colors" title="ลบรายการ">
-                                    <i class="ph ph-trash text-xs"></i>
-                                </button>
+
+                            <!-- Price & Date Column -->
+                            <div class="flex flex-col items-end shrink-0">
+                                <span class="text-base font-bold text-slate-900 dark:text-white tabular-nums">-฿${item.amount.toLocaleString('th-TH')}</span>
+                                <div class="flex items-center gap-2.5 mt-2">
+                                    <span class="text-[11px] text-slate-400 font-medium">${formatThaiDateShort(item.date)}</span>
+                                    <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 transition-colors p-1" title="ลบรายการ">
+                                        <i class="ph ph-trash text-sm"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
                 } else {
                     const isInc = item.type === 'income';
-                    const meta = GENERAL_CATEGORY_META[item.category] || { icon: '✨', badge: 'bg-slate-100 text-slate-700' };
+                    const meta = GENERAL_CATEGORY_META[item.category] || { icon: '✨', barColor: '#64748b', badge: 'bg-slate-500/15 text-slate-600 dark:text-slate-300 border-slate-500/30' };
+
+                    card.className = 'relative overflow-hidden p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder shadow-2xs flex items-center justify-between gap-3 transition-all';
+                    card.style.borderLeftWidth = '5px';
+                    card.style.borderLeftColor = meta.barColor;
+
                     card.innerHTML = `
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-10 h-10 rounded-2xl ${isInc ? 'bg-emerald-100' : 'bg-slate-100'} flex items-center justify-center text-lg shrink-0">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-darkElevated flex items-center justify-center text-xl shrink-0 border border-slate-200/60 dark:border-darkBorder">
                                 ${meta.icon}
                             </div>
-                            <div class="min-w-0">
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${meta.badge}">${item.category}</span>
-                                <p class="text-xs font-medium text-slate-700 truncate mt-1">${item.note || '-'}</p>
+                            <div class="min-w-0 space-y-1">
+                                <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-lg border ${meta.badge}">${item.category}</span>
+                                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">${item.note || '-'}</p>
                             </div>
                         </div>
                         <div class="flex flex-col items-end shrink-0">
-                            <span class="text-sm font-bold ${isInc ? 'text-emerald-600' : 'text-slate-900'}">
+                            <span class="text-base font-bold tabular-nums ${isInc ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}">
                                 ${isInc ? '+' : '-'}฿${item.amount.toLocaleString('th-TH')}
                             </span>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="text-[10px] text-slate-400">${formatThaiDateShort(item.date)}</span>
-                                <button onclick="deleteEntry(${item.id})" class="text-slate-300 hover:text-rose-500 transition-colors" title="ลบรายการ">
-                                    <i class="ph ph-trash text-xs"></i>
+                            <div class="flex items-center gap-2.5 mt-1.5">
+                                <span class="text-[11px] text-slate-400 font-medium">${formatThaiDateShort(item.date)}</span>
+                                <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 transition-colors p-1" title="ลบรายการ">
+                                    <i class="ph ph-trash text-sm"></i>
                                 </button>
                             </div>
                         </div>
@@ -1100,12 +1590,12 @@
             });
         }
 
-        function deleteEntry(id) {
+        async function deleteEntry(id) {
             expenses = expenses.filter(item => item.id !== id);
-            saveToStorage();
+            await StorageManager.saveTransactions(expenses);
             updateHeaderSummary();
             renderHistoryList();
-            showToast('ลบรายการแล้ว');
+            showToast('ลบรายการเรียบร้อย');
         }
 
         function openClearConfirmModal() {
@@ -1116,29 +1606,74 @@
             document.getElementById('confirm-modal').classList.add('hidden');
         }
 
-        function confirmClearAll() {
+        async function confirmClearAll() {
             expenses = [];
-            saveToStorage();
+            await StorageManager.saveTransactions(expenses);
             updateHeaderSummary();
             renderHistoryList();
             closeClearConfirmModal();
-            showToast('ล้างข้อมูลทั้งหมดเรียบร้อย');
-        }
-
-        function resetSampleData() {
-            expenses = createDefaultSampleData();
-            saveToStorage();
-            updateHeaderSummary();
-            renderHistoryList();
-            showToast('โหลดข้อมูลตัวอย่างแล้ว');
+            showToast('ล้างข้อมูลทั้งหมดแล้ว');
         }
 
         // ============================================================================
-        // 7. DETAILED ANALYTICS MODAL & DATE FILTERING
+        // 9. BACKUP & RESTORE (EXPORT / IMPORT JSON)
+        // ============================================================================
+        function openBackupModal() {
+            document.getElementById('backup-modal').classList.remove('hidden');
+        }
+
+        function closeBackupModal() {
+            document.getElementById('backup-modal').classList.add('hidden');
+        }
+
+        function exportBackupFile() {
+            const payload = {
+                version: 3,
+                exportedAt: new Date().toISOString(),
+                transactions: expenses
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `bkk-expense-backup-${getTodayStr()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            showToast('ดาวน์โหลดไฟล์สำรองข้อมูลแล้ว 💾');
+        }
+
+        function importBackupFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    const list = Array.isArray(parsed) ? parsed : (parsed.transactions || []);
+                    if (Array.isArray(list)) {
+                        expenses = list;
+                        await StorageManager.saveTransactions(expenses);
+                        updateHeaderSummary();
+                        renderHistoryList();
+                        closeBackupModal();
+                        showToast(`กู้คืนข้อมูลสำเร็จ (${expenses.length} รายการ) ✅`);
+                    }
+                } catch (err) {
+                    showToast('ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่สำรองไว้');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ============================================================================
+        // 10. ANALYTICS MODAL & DATE FILTERING
         // ============================================================================
         function openAnalyticsModal() {
             document.getElementById('analytics-modal').classList.remove('hidden');
-            renderAnalyticsData();
+            setAnalyticsRange(currentAnalyticsRange);
         }
 
         function closeAnalyticsModal() {
@@ -1152,9 +1687,9 @@
             ['today', '7days', 'month', 'all', 'custom'].forEach(r => {
                 const btn = document.getElementById(`range-btn-${r}`);
                 if (r === rangeType) {
-                    btn.className = 'range-btn py-1.5 px-2 rounded-xl text-xs font-semibold border border-slate-900 bg-slate-900 text-white';
+                    btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-sky-500 bg-sky-600 text-white shadow-2xs transition-all';
                 } else {
-                    btn.className = 'range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600';
+                    btn.className = 'py-2 px-2 rounded-xl text-xs font-semibold border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkElevated text-slate-600 dark:text-slate-300 transition-all';
                 }
             });
 
@@ -1170,7 +1705,7 @@
         function renderAnalyticsData() {
             const today = getTodayStr();
             const sevenDaysAgo = getDaysAgoStr(6);
-            const currentMonthPrefix = today.slice(0, 7); // YYYY-MM
+            const currentMonthPrefix = today.slice(0, 7);
 
             let labelText = 'ข้อมูลทั้งหมด';
             const filtered = expenses.filter(item => {
@@ -1221,18 +1756,19 @@
             document.getElementById('modal-net-balance').textContent = `สุทธิ ${net >= 0 ? '+' : ''}฿${net.toLocaleString('th-TH')}`;
             document.getElementById('modal-transit-trips').textContent = `${transitItems.length} เที่ยว`;
 
-            // 1. Render Transit Breakdown by Line
+            // 1. Transit Breakdown by Line
             const transitContainer = document.getElementById('modal-transit-breakdown');
             transitContainer.innerHTML = '';
 
             if (transitItems.length === 0) {
-                transitContainer.innerHTML = `<p class="text-xs text-slate-400 py-3 text-center bg-slate-50 rounded-xl">ไม่มีประวัติการขึ้นรถไฟฟ้าในช่วงเวลานี้</p>`;
+                transitContainer.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center bg-slate-50 dark:bg-darkElevated/50 rounded-2xl">ไม่มีประวัติการขึ้นรถไฟฟ้าในช่วงเวลานี้</p>`;
             } else {
                 const byLine = {};
                 transitItems.forEach(t => {
-                    if (!byLine[t.line]) byLine[t.line] = { sum: 0, count: 0 };
-                    byLine[t.line].sum += t.amount;
-                    byLine[t.line].count += 1;
+                    const key = t.originLine || t.line || 'bts-sukhumvit';
+                    if (!byLine[key]) byLine[key] = { sum: 0, count: 0 };
+                    byLine[key].sum += t.amount;
+                    byLine[key].count += 1;
                 });
 
                 Object.entries(byLine)
@@ -1242,32 +1778,32 @@
                         const pct = transitTotal > 0 ? Math.round((stats.sum / transitTotal) * 100) : 0;
 
                         const row = document.createElement('div');
-                        row.className = 'p-3 rounded-xl bg-slate-50 border border-slate-100';
+                        row.className = 'p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/60 dark:border-darkBorder';
                         row.innerHTML = `
-                            <div class="flex items-center justify-between text-xs mb-1.5">
+                            <div class="flex items-center justify-between text-xs mb-2">
                                 <div class="flex items-center gap-2">
-                                    <span class="w-2.5 h-2.5 rounded-full ${line.dotColor}"></span>
-                                    <span class="font-bold text-slate-800">${line.name}</span>
-                                    <span class="text-[10px] text-slate-400">(${stats.count} เที่ยว)</span>
+                                    <span class="w-2.5 h-2.5 rounded-full ${line.dotClass}"></span>
+                                    <span class="font-bold text-slate-800 dark:text-slate-100">${line.name}</span>
+                                    <span class="text-[11px] text-slate-400">(${stats.count} เที่ยว)</span>
                                 </div>
-                                <div class="font-bold text-slate-900">
+                                <div class="font-bold text-slate-900 dark:text-white tabular-nums">
                                     ฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span>
                                 </div>
                             </div>
-                            <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                                <div class="h-full ${line.barColor} rounded-full" style="width: ${pct}%"></div>
+                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full ${line.dotClass} rounded-full" style="width: ${pct}%"></div>
                             </div>
                         `;
                         transitContainer.appendChild(row);
                     });
             }
 
-            // 2. Render General Breakdown by Category
+            // 2. General Breakdown
             const generalContainer = document.getElementById('modal-general-breakdown');
             generalContainer.innerHTML = '';
 
             if (generalItems.length === 0) {
-                generalContainer.innerHTML = `<p class="text-xs text-slate-400 py-3 text-center bg-slate-50 rounded-xl">ไม่มีรายจ่ายทั่วไปในช่วงเวลานี้</p>`;
+                generalContainer.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center bg-slate-50 dark:bg-darkElevated/50 rounded-2xl">ไม่มีรายจ่ายทั่วไปในช่วงเวลานี้</p>`;
             } else {
                 const byCat = {};
                 generalItems.forEach(g => {
@@ -1279,24 +1815,24 @@
                 Object.entries(byCat)
                     .sort((a, b) => b[1].sum - a[1].sum)
                     .forEach(([catName, stats]) => {
-                        const meta = GENERAL_CATEGORY_META[catName] || { icon: '✨', color: 'bg-slate-600' };
+                        const meta = GENERAL_CATEGORY_META[catName] || { icon: '✨', barColor: '#64748b' };
                         const pct = generalTotal > 0 ? Math.round((stats.sum / generalTotal) * 100) : 0;
 
                         const row = document.createElement('div');
-                        row.className = 'p-3 rounded-xl bg-slate-50 border border-slate-100';
+                        row.className = 'p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/60 dark:border-darkBorder';
                         row.innerHTML = `
-                            <div class="flex items-center justify-between text-xs mb-1.5">
-                                <div class="flex items-center gap-1.5">
+                            <div class="flex items-center justify-between text-xs mb-2">
+                                <div class="flex items-center gap-2">
                                     <span>${meta.icon}</span>
-                                    <span class="font-bold text-slate-800">${catName}</span>
-                                    <span class="text-[10px] text-slate-400">(${stats.count} รายการ)</span>
+                                    <span class="font-bold text-slate-800 dark:text-slate-100">${catName}</span>
+                                    <span class="text-[11px] text-slate-400">(${stats.count} รายการ)</span>
                                 </div>
-                                <div class="font-bold text-slate-900">
+                                <div class="font-bold text-slate-900 dark:text-white tabular-nums">
                                     ฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span>
                                 </div>
                             </div>
-                            <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                                <div class="h-full ${meta.color} rounded-full" style="width: ${pct}%"></div>
+                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full rounded-full" style="width: ${pct}%; background-color: ${meta.barColor}"></div>
                             </div>
                         `;
                         generalContainer.appendChild(row);
@@ -1305,16 +1841,16 @@
         }
 
         // ============================================================================
-        // 8. TOAST NOTIFICATION
+        // 11. TOAST NOTIFICATION
         // ============================================================================
         function showToast(msg) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2 rounded-full shadow-lg text-xs font-medium z-50 animate-fade-in';
+            toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold z-50 animate-fade-in';
             toast.textContent = msg;
             document.body.appendChild(toast);
             setTimeout(() => {
                 toast.remove();
-            }, 2200);
+            }, 2300);
         }
 
         window.onload = initApp;
