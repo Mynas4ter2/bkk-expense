@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BKK Transit & Expense Tracker - จดจ่าย & รถไฟฟ้าคนกรุง</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-blue-200">
+
+    <!-- Mobile App Container -->
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl relative pb-24 flex flex-col">
+
+        <!-- Top Summary Header (Clickable for Analytics Modal) -->
+        <header class="pt-7 pb-6 px-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-b-[2rem] shadow-lg relative overflow-hidden">
+            <!-- Subtle decorative circle -->
+            <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-blue-500/10 blur-2xl pointer-events-none"></div>
+
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-400/30">BKK Local</span>
+                        <h1 class="text-xl font-bold tracking-tight">BKK Expense 🚇</h1>
+                    </div>
+                    <p class="text-slate-400 text-xs mt-0.5">บันทึกรายจ่าย & ค่าเดินทางรถไฟฟ้ากรุงเทพฯ</p>
+                </div>
+                <button onclick="openAnalyticsModal()" class="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center transition-all border border-white/10" title="ดูสถิติละเอียด">
+                    <i class="ph ph-chart-pie-slice text-xl text-emerald-300"></i>
+                </button>
+            </div>
+
+            <!-- Interactive Summary Box (Click anywhere to open modal) -->
+            <div onclick="openAnalyticsModal()" class="cursor-pointer group bg-white/[0.07] hover:bg-white/[0.12] active:scale-[0.99] transition-all backdrop-blur-md rounded-2xl p-4 border border-white/15">
+                <div class="flex items-baseline justify-between mb-3">
+                    <div>
+                        <p class="text-[11px] text-slate-300 font-medium flex items-center gap-1">
+                            <span>รายจ่ายรวมทั้งหมด</span>
+                            <i class="ph ph-info text-xs text-slate-400"></i>
+                        </p>
+                        <p class="text-3xl font-bold tracking-tight text-white mt-0.5">
+                            ฿<span id="header-total-expense">0</span>
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[11px] text-emerald-300 font-medium">รายรับรวม</p>
+                        <p class="text-base font-semibold text-emerald-400">+฿<span id="header-total-income">0</span></p>
+                    </div>
+                </div>
+
+                <!-- Mini Sub-cards: Transit vs General -->
+                <div class="grid grid-cols-2 gap-2.5 pt-3 border-t border-white/10">
+                    <div class="bg-slate-900/50 rounded-xl p-2.5 border border-white/5 flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-300 flex items-center justify-center shrink-0">
+                            <i class="ph ph-train text-lg"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[10px] text-slate-400 truncate">ค่ารถไฟฟ้า</p>
+                            <p class="text-sm font-semibold text-sky-200 truncate">฿<span id="header-transit-sum">0</span></p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/50 rounded-xl p-2.5 border border-white/5 flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
+                            <i class="ph ph-ForkKnife text-lg"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[10px] text-slate-400 truncate">ใช้จ่ายทั่วไป</p>
+                            <p class="text-sm font-semibold text-amber-200 truncate">฿<span id="header-general-sum">0</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trigger CTA Bar -->
+                <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs text-sky-300 group-hover:text-sky-200">
+                    <span class="flex items-center gap-1.5 font-medium">
+                        <i class="ph ph-sliders-horizontal text-sm"></i>
+                        ดูสรุปแยกหมวดหมู่ & เลือกช่วงเวลา
+                    </span>
+                    <span class="flex items-center gap-0.5 text-[11px] bg-sky-500/20 px-2 py-0.5 rounded-full border border-sky-400/30">
+                        คลิกดูรายละเอียด <i class="ph ph-caret-right"></i>
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="px-5 pt-5 flex-1">
+
+            <!-- Mode Switcher Tabs -->
+            <div class="flex bg-slate-100 p-1 rounded-2xl mb-4 border border-slate-200/70">
+                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" class="flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 bg-white shadow-sm text-slate-900">
+                    <i class="ph ph-train text-base text-blue-600"></i>
+                    <span>เดินทางรถไฟฟ้า</span>
+                </button>
+                <button type="button" onclick="switchMode('general')" id="tab-btn-general" class="flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800">
+                    <i class="ph ph-receipt text-base"></i>
+                    <span>รายรับ / รายจ่ายทั่วไป</span>
+                </button>
+            </div>
+
+            <!-- Shared Date Picker Bar -->
+            <div class="flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/80 mb-4">
+                <label for="entry-date" class="text-xs font-medium text-slate-600 flex items-center gap-1.5">
+                    <i class="ph ph-calendar-blank text-slate-500 text-base"></i>
+                    <span>วันที่ทำรายการ</span>
+                </label>
+                <input type="date" id="entry-date" class="text-xs font-semibold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-800">
+            </div>
+
+            <!-- ==================== TRANSIT FORM ==================== -->
+            <form id="form-transit" onsubmit="handleTransitSubmit(event)" class="space-y-4 animate-fade-in">
+                <!-- Transit Line Pill Selector -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-xs font-semibold text-slate-700">1. เลือกสายรถไฟฟ้า (ครบทุกสีใน กทม.)</label>
+                        <span id="selected-line-badge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-lime-100 text-lime-800">BTS สายสุขุมวิท</span>
+                    </div>
+                    <div id="line-pills-container" class="flex gap-2 overflow-x-auto no-scrollbar pb-1.5 pt-0.5">
+                        <!-- Dynamically populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Origin & Destination with Custom Autocomplete -->
+                <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/90 relative space-y-3">
+                    <!-- Origin Input -->
+                    <div class="relative">
+                        <label class="block text-[11px] font-medium text-slate-500 mb-1">
+                            สถานีต้นทาง <span class="text-slate-400">(พิมพ์ชื่อ หรือ รหัสสถานีเพื่อค้นหา)</span>
+                        </label>
+                        <div class="relative">
+                            <i class="ph ph-map-pin-line absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="transit-origin" autocomplete="off" required
+                                placeholder="เช่น พหลโยธิน 59 หรือ N18"
+                                onfocus="openStationDropdown('origin')"
+                                oninput="filterStationDropdown('origin')"
+                                class="w-full pl-9 pr-8 py-2.5 text-sm bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
+                            <button type="button" onclick="clearStationInput('origin')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500">
+                                <i class="ph ph-x-circle"></i>
+                            </button>
+                        </div>
+                        <!-- Origin Autocomplete Dropdown -->
+                        <div id="dropdown-origin" class="hidden absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-slate-200 max-h-48 overflow-y-auto z-30 divide-y divide-slate-100"></div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <div class="flex items-center justify-center -my-1 relative z-10">
+                        <button type="button" onclick="swapStations()" class="flex items-center gap-1 text-[11px] font-medium bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm hover:bg-slate-100 active:scale-95 transition-all text-slate-600">
+                            <i class="ph ph-arrows-down-up text-blue-600 text-sm"></i>
+                            <span>สลับต้นทาง-ปลายทาง</span>
+                        </button>
+                    </div>
+
+                    <!-- Destination Input -->
+                    <div class="relative">
+                        <label class="block text-[11px] font-medium text-slate-500 mb-1">
+                            สถานีปลายทาง <span class="text-slate-400">(เลือกจากในลิสต์ หรือพิมพ์เองได้)</span>
+                        </label>
+                        <div class="relative">
+                            <i class="ph ph-flag-banner absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="transit-dest" autocomplete="off" required
+                                placeholder="เช่น อโศก หรือ E4"
+                                onfocus="openStationDropdown('dest')"
+                                oninput="filterStationDropdown('dest')"
+                                class="w-full pl-9 pr-8 py-2.5 text-sm bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
+                            <button type="button" onclick="clearStationInput('dest')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500">
+                                <i class="ph ph-x-circle"></i>
+                            </button>
+                        </div>
+                        <!-- Destination Autocomplete Dropdown -->
+                        <div id="dropdown-dest" class="hidden absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-slate-200 max-h-48 overflow-y-auto z-30 divide-y divide-slate-100"></div>
+                    </div>
+                </div>
+
+                <!-- Fare Amount + Quick Fare Chips -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-xs font-semibold text-slate-700">ค่าโดยสาร (บาท)</label>
+                        <div class="flex gap-1">
+                            <button type="button" onclick="setQuickFare(15)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">15฿</button>
+                            <button type="button" onclick="setQuickFare(25)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">25฿</button>
+                            <button type="button" onclick="setQuickFare(33)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">33฿</button>
+                            <button type="button" onclick="setQuickFare(45)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">45฿</button>
+                            <button type="button" onclick="setQuickFare(62)" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">62฿</button>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">฿</span>
+                        <input type="number" id="transit-amount" required min="1" step="0.5"
+                            oninput="updateSplitPreview()"
+                            placeholder="0"
+                            class="w-full pl-8 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none text-base font-semibold">
+                    </div>
+                </div>
+
+                <!-- Split 50% Checkbox -->
+                <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/80 cursor-pointer hover:bg-slate-100/70 transition-colors">
+                    <div class="flex items-center gap-2.5">
+                        <input type="checkbox" id="transit-split" onchange="updateSplitPreview()" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500">
+                        <span class="text-xs font-medium text-slate-700">หาร 2 กับเพื่อน (คำนวณครึ่งราคาอัตโนมัติ)</span>
+                    </div>
+                    <span id="split-preview-badge" class="hidden text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">จ่ายจริง 0฿</span>
+                </label>
+
+                <button type="submit" id="transit-submit-btn" class="w-full py-3 rounded-xl font-semibold text-sm text-white shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 bg-lime-600 hover:bg-lime-700">
+                    <i class="ph ph-plus-circle text-lg"></i>
+                    <span>บันทึกการเดินทางรถไฟฟ้า</span>
+                </button>
+            </form>
+
+            <!-- ==================== GENERAL FORM ==================== -->
+            <form id="form-general" onsubmit="handleGeneralSubmit(event)" class="space-y-4 hidden animate-fade-in">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">เลือกหมวดหมู่</label>
+                    <div class="grid grid-cols-3 gap-2" id="general-category-grid">
+                        <button type="button" onclick="selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense')" data-cat="อาหาร/เครื่องดื่ม" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-900 text-white border-slate-900">
+                            <span class="text-lg">🍜</span>
+                            <span>อาหาร/น้ำ</span>
+                        </button>
+                        <button type="button" onclick="selectGeneralCategory('เดินทางอื่นๆ', 'expense')" data-cat="เดินทางอื่นๆ" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+                            <span class="text-lg">🛵</span>
+                            <span>วิน/แท็กซี่/เมล์</span>
+                        </button>
+                        <button type="button" onclick="selectGeneralCategory('ของใช้/ช้อปปิ้ง', 'expense')" data-cat="ของใช้/ช้อปปิ้ง" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+                            <span class="text-lg">🛍️</span>
+                            <span>ของใช้/ช้อป</span>
+                        </button>
+                        <button type="button" onclick="selectGeneralCategory('ที่พัก/บิล', 'expense')" data-cat="ที่พัก/บิล" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+                            <span class="text-lg">🏠</span>
+                            <span>ที่พัก/ค่าน้ำไฟ</span>
+                        </button>
+                        <button type="button" onclick="selectGeneralCategory('บันเทิง/เกม', 'expense')" data-cat="บันเทิง/เกม" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+                            <span class="text-lg">🎮</span>
+                            <span>บันเทิง/เกม</span>
+                        </button>
+                        <button type="button" onclick="selectGeneralCategory('รายรับ', 'income')" data-cat="รายรับ" class="gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100">
+                            <span class="text-lg">💰</span>
+                            <span>รายรับเข้า</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">จำนวนเงิน (บาท)</label>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">฿</span>
+                        <input type="number" id="gen-amount" required min="1" step="0.5" placeholder="0"
+                            class="w-full pl-8 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-slate-800 outline-none text-base font-semibold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">รายละเอียดเพิ่มเติม</label>
+                    <input type="text" id="gen-note" placeholder="เช่น ข้าวมันไก่, วินปากซอย, เงินเดือนเข้า"
+                        class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-slate-800 outline-none text-sm">
+                </div>
+
+                <button type="submit" id="gen-submit-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl active:scale-[0.99] transition-all shadow-md text-sm flex items-center justify-center gap-1.5">
+                    <i class="ph ph-check-circle text-lg"></i>
+                    <span>บันทึกรายการ</span>
+                </button>
+            </form>
+
+            <!-- ==================== HISTORY LIST ==================== -->
+            <section class="mt-8">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                        <i class="ph ph-clock-counter-clockwise text-base text-slate-500"></i>
+                        <span>ประวัติรายการ</span>
+                    </h2>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="resetSampleData()" class="text-[11px] text-blue-600 hover:underline font-medium">โหลดตัวอย่าง</button>
+                        <span class="text-slate-300">|</span>
+                        <button type="button" onclick="openClearConfirmModal()" class="text-[11px] text-rose-500 hover:underline font-medium">ล้างทั้งหมด</button>
+                    </div>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="flex gap-1.5 mb-3 overflow-x-auto no-scrollbar">
+                    <button onclick="setHistoryFilter('all')" id="hist-filter-all" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-800 text-white transition-all">ทั้งหมด</button>
+                    <button onclick="setHistoryFilter('transit')" id="hist-filter-transit" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🚇 รถไฟฟ้า</button>
+                    <button onclick="setHistoryFilter('general')" id="hist-filter-general" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🧾 ทั่วไป</button>
+                    <button onclick="setHistoryFilter('income')" id="hist-filter-income" class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">💰 รายรับ</button>
+                </div>
+
+                <div id="history-container" class="space-y-2.5 pb-6">
+                    <!-- Injected via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==================== DETAILED ANALYTICS MODAL ==================== -->
+    <div id="analytics-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-xs">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl animate-slide-up overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="px-5 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                        <i class="ph ph-chart-bar text-blue-600 text-lg"></i>
+                        <span>สรุปรายรับ-รายจ่าย & รถไฟฟ้า</span>
+                    </h3>
+                    <p class="text-[11px] text-slate-500" id="modal-period-label">ข้อมูลทั้งหมด</p>
+                </div>
+                <button onclick="closeAnalyticsModal()" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300/70 flex items-center justify-center text-slate-600">
+                    <i class="ph ph-x text-base"></i>
+                </button>
+            </div>
+
+            <!-- Modal Scrollable Content -->
+            <div class="p-5 overflow-y-auto space-y-5 flex-1">
+                
+                <!-- Date Period Filter Buttons -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">เลือกช่วงเวลาที่ต้องการดู</label>
+                    <div class="grid grid-cols-5 gap-1.5">
+                        <button onclick="setAnalyticsRange('today')" id="range-btn-today" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">วันนี้</button>
+                        <button onclick="setAnalyticsRange('7days')" id="range-btn-7days" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">7 วัน</button>
+                        <button onclick="setAnalyticsRange('month')" id="range-btn-month" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">เดือนนี้</button>
+                        <button onclick="setAnalyticsRange('all')" id="range-btn-all" class="range-btn py-1.5 px-2 rounded-xl text-xs font-semibold border border-slate-900 bg-slate-900 text-white">ทั้งหมด</button>
+                        <button onclick="setAnalyticsRange('custom')" id="range-btn-custom" class="range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600">เลือกเอง</button>
+                    </div>
+
+                    <!-- Custom Date Range Picker -->
+                    <div id="custom-date-box" class="hidden mt-2.5 p-3 bg-slate-50 rounded-xl border border-slate-200 grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[10px] text-slate-500 mb-1">ตั้งแต่วันที่</label>
+                            <input type="date" id="filter-start-date" onchange="renderAnalyticsData()" class="w-full text-xs p-1.5 rounded-lg border border-slate-200 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-500 mb-1">ถึงวันที่</label>
+                            <input type="date" id="filter-end-date" onchange="renderAnalyticsData()" class="w-full text-xs p-1.5 rounded-lg border border-slate-200 bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overview KPI Cards inside Modal -->
+                <div class="grid grid-cols-3 gap-2.5">
+                    <div class="bg-slate-900 text-white p-3 rounded-2xl">
+                        <p class="text-[10px] text-slate-400">รายจ่ายรวม</p>
+                        <p class="text-base font-bold mt-0.5">฿<span id="modal-total-exp">0</span></p>
+                        <p class="text-[10px] text-slate-400 mt-1"><span id="modal-total-count">0</span> รายการ</p>
+                    </div>
+                    <div class="bg-sky-50 border border-sky-100 p-3 rounded-2xl">
+                        <p class="text-[10px] text-sky-700 font-medium">ค่ารถไฟฟ้า</p>
+                        <p class="text-base font-bold text-sky-900 mt-0.5">฿<span id="modal-transit-exp">0</span></p>
+                        <p class="text-[10px] text-sky-600 mt-1"><span id="modal-transit-pct">0</span>% ของรายจ่าย</p>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-100 p-3 rounded-2xl">
+                        <p class="text-[10px] text-amber-700 font-medium">รายจ่ายทั่วไป</p>
+                        <p class="text-base font-bold text-amber-900 mt-0.5">฿<span id="modal-general-exp">0</span></p>
+                        <p class="text-[10px] text-amber-600 mt-1"><span id="modal-general-pct">0</span>% ของรายจ่าย</p>
+                    </div>
+                </div>
+
+                <!-- Net Income Bar -->
+                <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/70 text-xs">
+                    <span class="text-emerald-800 font-medium">💰 รายรับในช่วงเวลานี้: <strong>+฿<span id="modal-income-sum">0</span></strong></span>
+                    <span class="text-emerald-900 font-bold" id="modal-net-balance">คงเหลือ ฿0</span>
+                </div>
+
+                <!-- Section 1: Transit Breakdown by Line -->
+                <div>
+                    <div class="flex items-center justify-between mb-2.5">
+                        <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                            <i class="ph ph-train text-blue-600 text-sm"></i>
+                            <span>แยกตามสายรถไฟฟ้าที่ใช้เดินทาง</span>
+                        </h4>
+                        <span class="text-[11px] text-slate-400" id="modal-transit-trips">0 เที่ยว</span>
+                    </div>
+                    <div id="modal-transit-breakdown" class="space-y-2.5">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Section 2: General Expenses Breakdown -->
+                <div>
+                    <div class="flex items-center justify-between mb-2.5 pt-2 border-t border-slate-100">
+                        <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                            <i class="ph ph-SealPercent text-amber-600 text-sm"></i>
+                            <span>แยกตามหมวดหมู่ใช้จ่ายทั่วไป</span>
+                        </h4>
+                    </div>
+                    <div id="modal-general-breakdown" class="space-y-2.5">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-100 bg-white">
+                <button onclick="closeAnalyticsModal()" class="w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800">
+                    ปิดหน้าต่างสรุป
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CUSTOM CONFIRM MODAL (No window.confirm) ==================== -->
+    <div id="confirm-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 px-6">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 shadow-xl text-center animate-fade-in">
+            <div class="w-11 h-11 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-3">
+                <i class="ph ph-trash text-xl"></i>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900">ล้างข้อมูลทั้งหมด?</h4>
+            <p class="text-xs text-slate-500 mt-1">ประวัติรายรับ-รายจ่ายและการเดินทางทั้งหมดจะถูกลบออกจากเครื่องนี้</p>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button onclick="closeClearConfirmModal()" class="py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">ยกเลิก</button>
+                <button onclick="confirmClearAll()" class="py-2 rounded-xl text-xs font-semibold bg-rose-600 text-white hover:bg-rose-700">ลบทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================================
+        // 1. COMPLETE BANGKOK TRANSIT STATION DATABASE (ALL 9 LINES)
+        // ============================================================================
+        const TRANSIT_LINES = {
+            'bts-sukhumvit': {
+                id: 'bts-sukhumvit',
+                system: 'BTS',
+                name: 'BTS สายสุขุมวิท',
+                shortName: 'BTS สุขุมวิท (เขียวอ่อน)',
+                dotColor: 'bg-lime-500',
+                btnBg: 'bg-lime-600 hover:bg-lime-700',
+                badgeBg: 'bg-lime-100',
+                badgeText: 'text-lime-800',
+                barColor: 'bg-lime-500',
+                stations: [
+                    'N24 คูคต', 'N23 แยก คปอ.', 'N22 พิพิธภัณฑ์กองทัพอากาศ', 'N21 โรงพยาบาลภูมิพลอดุลยเดช',
+                    'N20 สะพานใหม่', 'N19 สายหยุด', 'N18 พหลโยธิน 59', 'N17 วัดพระศรีมหาธาตุ',
+                    'N16 กรมทหารราบที่ 11', 'N15 บางบัว', 'N14 กรมป่าไม้', 'N13 มหาวิทยาลัยเกษตรศาสตร์',
+                    'N12 เสนานิคม', 'N11 รัชโยธิน', 'N10 พหลโยธิน 24', 'N9 ห้าแยกลาดพร้าว',
+                    'N8 หมอชิต', 'N7 สะพานควาย', 'N6 เสนาร่วม', 'N5 อารีย์',
+                    'N4 สนามเป้า', 'N3 อนุสาวรีย์ชัยสมรภูมิ', 'N2 พญาไท', 'N1 ราชเทวี',
+                    'CEN สยาม', 'E1 ชิดลม', 'E2 เพลินจิต', 'E3 นานา',
+                    'E4 อโศก', 'E5 พร้อมพงษ์', 'E6 ทองหล่อ', 'E7 เอกมัย',
+                    'E8 พระโขนง', 'E9 อ่อนนุช', 'E10 บางจาก', 'E11 ปุณณวิถี',
+                    'E12 อุดมสุข', 'E13 บางนา', 'E14 แบริ่ง', 'E15 สำโรง',
+                    'E16 ปู่เจ้า', 'E17 ช้างเอราวัณ', 'E18 โรงเรียนนายเรือ', 'E19 ปากน้ำ',
+                    'E20 ศรีนครินทร์', 'E21 แพรกษา', 'E22 สายลวด', 'E23 เคหะฯ'
+                ]
+            },
+            'bts-silom': {
+                id: 'bts-silom',
+                system: 'BTS',
+                name: 'BTS สายสีลม',
+                shortName: 'BTS สีลม (เขียวเข้ม)',
+                dotColor: 'bg-emerald-700',
+                btnBg: 'bg-emerald-700 hover:bg-emerald-800',
+                badgeBg: 'bg-emerald-100',
+                badgeText: 'text-emerald-900',
+                barColor: 'bg-emerald-700',
+                stations: [
+                    'W1 สนามกีฬาแห่งชาติ', 'CEN สยาม', 'S1 ราชดำริ', 'S2 ศาลาแดง',
+                    'S3 ช่องนนทรี', 'S4 เซนต์หลุยส์', 'S5 สุรศักดิ์', 'S6 สะพานตากสิน',
+                    'S7 กรุงธนบุรี', 'S8 วงเวียนใหญ่', 'S9 โพธิ์นิมิตร', 'S10 ตลาดพลู',
+                    'S11 วุฒากาศ', 'S12 บางหว้า'
+                ]
+            },
+            'mrt-blue': {
+                id: 'mrt-blue',
+                system: 'MRT',
+                name: 'MRT สายสีน้ำเงิน',
+                shortName: 'MRT สีน้ำเงิน',
+                dotColor: 'bg-blue-600',
+                btnBg: 'bg-blue-600 hover:bg-blue-700',
+                badgeBg: 'bg-blue-100',
+                badgeText: 'text-blue-800',
+                barColor: 'bg-blue-600',
+                stations: [
+                    'BL01 ท่าพระ', 'BL02 จรัญฯ 13', 'BL03 ไฟฉาย', 'BL04 บางขุนนนท์',
+                    'BL05 บางยี่ขัน', 'BL06 สิรินธร', 'BL07 บางพลัด', 'BL08 บางอ้อ',
+                    'BL09 บางโพ', 'BL10 เตาปูน', 'BL11 บางซื่อ', 'BL12 กำแพงเพชร',
+                    'BL13 สวนจตุจักร', 'BL14 พหลโยธิน', 'BL15 ลาดพร้าว', 'BL16 รัชดาภิเษก',
+                    'BL17 สุทธิสาร', 'BL18 ห้วยขวาง', 'BL19 ศูนย์วัฒนธรรมแห่งประเทศไทย', 'BL20 พระราม 9',
+                    'BL21 เพชรบุรี', 'BL22 สุขุมวิท', 'BL23 ศูนย์การประชุมแห่งชาติสิริกิติ์', 'BL24 คลองเตย',
+                    'BL25 ลุมพินี', 'BL26 สีลม', 'BL27 สามย่าน', 'BL28 หัวลำโพง',
+                    'BL29 วัดมังกร', 'BL30 สามยอด', 'BL31 สนามไชย', 'BL32 อิสรภาพ',
+                    'BL33 บางไผ่', 'BL34 บางหว้า', 'BL35 เพชรเกษม 48', 'BL36 ภาษีเจริญ',
+                    'BL37 บางแค', 'BL38 หลักสอง'
+                ]
+            },
+            'mrt-purple': {
+                id: 'mrt-purple',
+                system: 'MRT',
+                name: 'MRT สายสีม่วง',
+                shortName: 'MRT สีม่วง',
+                dotColor: 'bg-purple-600',
+                btnBg: 'bg-purple-600 hover:bg-purple-700',
+                badgeBg: 'bg-purple-100',
+                badgeText: 'text-purple-800',
+                barColor: 'bg-purple-600',
+                stations: [
+                    'PP01 คลองบางไผ่', 'PP02 ตลาดบางใหญ่', 'PP03 สามแยกบางใหญ่', 'PP04 บางพลู',
+                    'PP05 บางรักใหญ่', 'PP06 บางรักน้อยท่าอิฐ', 'PP07 ไทรม้า', 'PP08 สะพานพระนั่งเกล้า',
+                    'PP09 แยกนนทบุรี 1', 'PP10 บางกระสอ', 'PP11 ศูนย์ราชการนนทบุรี', 'PP12 กระทรวงสาธารณสุข',
+                    'PP13 แยกติวานนท์', 'PP14 วงศ์สว่าง', 'PP15 บางซ่อน', 'PP16 เตาปูน'
+                ]
+            },
+            'mrt-yellow': {
+                id: 'mrt-yellow',
+                system: 'MRT',
+                name: 'MRT สายสีเหลือง',
+                shortName: 'MRT สีเหลือง',
+                dotColor: 'bg-yellow-500',
+                btnBg: 'bg-yellow-500 hover:bg-yellow-600',
+                badgeBg: 'bg-yellow-100',
+                badgeText: 'text-yellow-900',
+                barColor: 'bg-yellow-500',
+                stations: [
+                    'YL01 ลาดพร้าว', 'YL02 พาวานา', 'YL03 โชคชัย 4', 'YL04 ลาดพร้าว 71',
+                    'YL05 ลาดพร้าว 83', 'YL06 มหาดไทย', 'YL07 ลาดพร้าว 101', 'YL08 บางกะปิ',
+                    'YL09 แยกลำสาลี', 'YL10 ศรีกรีฑา', 'YL11 หัวหมาก', 'YL12 กลันตัน',
+                    'YL13 ศรีนุช', 'YL14 ศรีนครินทร์ 38', 'YL15 สวนหลวง ร.9', 'YL16 ศรีอุดม',
+                    'YL17 ศรีเอี่ยม', 'YL18 ศรีลาซาล', 'YL19 ศรีแบริ่ง', 'YL20 ศรีด่าน',
+                    'YL21 ศรีเทพา', 'YL22 ทิพวัล', 'YL23 สำโรง'
+                ]
+            },
+            'mrt-pink': {
+                id: 'mrt-pink',
+                system: 'MRT',
+                name: 'MRT สายสีชมพู',
+                shortName: 'MRT สีชมพู',
+                dotColor: 'bg-pink-500',
+                btnBg: 'bg-pink-500 hover:bg-pink-600',
+                badgeBg: 'bg-pink-100',
+                badgeText: 'text-pink-800',
+                barColor: 'bg-pink-500',
+                stations: [
+                    'PK01 ศูนย์ราชการนนทบุรี', 'PK02 แคราย', 'PK03 สนามบินน้ำ', 'PK04 สามัคคี',
+                    'PK05 กรมชลประทาน', 'PK06 แยกปากเกร็ด', 'PK07 เลี่ยงเมืองปากเกร็ด', 'PK08 แจ้งวัฒนะ-ปากเกร็ด 28',
+                    'PK09 ศรีรัช', 'PK10 เมืองทองธานี', 'PK11 แจ้งวัฒนะ 14', 'PK12 ศูนย์ราชการเฉลิมพระเกียรติ',
+                    'PK13 โทรคมนาคมแห่งชาติ', 'PK14 หลักสี่', 'PK15 ราชภัฏพระนคร', 'PK16 วัดพระศรีมหาธาตุ',
+                    'PK17 รามอินทรา 3', 'PK18 ลาดปลาเค้า', 'PK19 รามอินทรา กม.4', 'PK20 มัยลาภ',
+                    'PK21 วัชรพล', 'PK22 รามอินทรา กม.6', 'PK23 คู้บอน', 'PK24 รามอินทรา กม.9',
+                    'PK25 วงแหวนรามอินทรา', 'PK26 นพรัตน์', 'PK27 บางชัน', 'PK28 เศรษฐบุตรบำเพ็ญ',
+                    'PK29 ตลาดมีนบุรี', 'PK30 มีนบุรี'
+                ]
+            },
+            'arl-red': {
+                id: 'arl-red',
+                system: 'ARL',
+                name: 'Airport Rail Link',
+                shortName: 'Airport Link',
+                dotColor: 'bg-orange-600',
+                btnBg: 'bg-orange-600 hover:bg-orange-700',
+                badgeBg: 'bg-orange-100',
+                badgeText: 'text-orange-900',
+                barColor: 'bg-orange-600',
+                stations: [
+                    'A1 สุวรรณภูมิ', 'A2 ลาดกระบัง', 'A3 บ้านทับช้าง', 'A4 หัวหมาก',
+                    'A5 รามคำแหง', 'A6 มักกะสัน', 'A7 ราชปรารภ', 'A8 พญาไท'
+                ]
+            },
+            'srt-red': {
+                id: 'srt-red',
+                system: 'SRT',
+                name: 'SRT สายสีแดง',
+                shortName: 'SRT สายสีแดง',
+                dotColor: 'bg-red-700',
+                btnBg: 'bg-red-700 hover:bg-red-800',
+                badgeBg: 'bg-red-100',
+                badgeText: 'text-red-900',
+                barColor: 'bg-red-700',
+                stations: [
+                    'RN01 กรุงเทพอภิวัฒน์ (บางซื่อ)', 'RN02 จตุจักร', 'RN03 วัดเสมียนนารี', 'RN04 บางเขน',
+                    'RN05 ทุ่งสองห้อง', 'RN06 หลักสี่', 'RN07 การเคหะ', 'RN08 ดอนเมือง',
+                    'RN09 หลักหก', 'RN10 รังสิต', 'RW02 บางซ่อน', 'RW05 บางบำหรุ', 'RW06 ตลิ่งชัน'
+                ]
+            },
+            'bts-gold': {
+                id: 'bts-gold',
+                system: 'BTS',
+                name: 'BTS สายสีทอง',
+                shortName: 'BTS สายสีทอง',
+                dotColor: 'bg-amber-600',
+                btnBg: 'bg-amber-600 hover:bg-amber-700',
+                badgeBg: 'bg-amber-100',
+                badgeText: 'text-amber-900',
+                barColor: 'bg-amber-600',
+                stations: [
+                    'G1 กรุงธนบุรี', 'G2 เจริญนคร (ไอคอนสยาม)', 'G3 คลองสาน'
+                ]
+            }
+        };
+
+        const GENERAL_CATEGORY_META = {
+            'อาหาร/เครื่องดื่ม': { icon: '🍜', color: 'bg-orange-500', badge: 'bg-orange-50 text-orange-700' },
+            'เดินทางอื่นๆ': { icon: '🛵', color: 'bg-cyan-500', badge: 'bg-cyan-50 text-cyan-700' },
+            'ของใช้/ช้อปปิ้ง': { icon: '🛍️', color: 'bg-pink-500', badge: 'bg-pink-50 text-pink-700' },
+            'ที่พัก/บิล': { icon: '🏠', color: 'bg-indigo-500', badge: 'bg-indigo-50 text-indigo-700' },
+            'บันเทิง/เกม': { icon: '🎮', color: 'bg-violet-500', badge: 'bg-violet-50 text-violet-700' },
+            'รายรับ': { icon: '💰', color: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700' }
+        };
+
+        // ============================================================================
+        // 2. APPLICATION STATE & SAMPLE DATA
+        // ============================================================================
+        let selectedLineId = 'bts-sukhumvit';
+        let selectedGeneralCategory = 'อาหาร/เครื่องดื่ม';
+        let selectedGeneralType = 'expense';
+        let currentHistoryFilter = 'all';
+        let currentAnalyticsRange = 'all';
+        let expenses = [];
+
+        function getTodayStr() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getDaysAgoStr(days) {
+            const d = new Date();
+            d.setDate(d.getDate() - days);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function createDefaultSampleData() {
+            const today = getTodayStr();
+            const yesterday = getDaysAgoStr(1);
+            const twoDaysAgo = getDaysAgoStr(2);
+            return [
+                {
+                    id: Date.now() - 10000,
+                    type: 'transit',
+                    line: 'bts-sukhumvit',
+                    origin: 'N18 พหลโยธิน 59',
+                    destination: 'N8 หมอชิต',
+                    amount: 15,
+                    isSplit: false,
+                    date: today
+                },
+                {
+                    id: Date.now() - 20000,
+                    type: 'transit',
+                    line: 'mrt-blue',
+                    origin: 'BL22 สุขุมวิท',
+                    destination: 'BL23 ศูนย์การประชุมแห่งชาติสิริกิติ์',
+                    amount: 17,
+                    isSplit: true,
+                    date: today
+                },
+                {
+                    id: Date.now() - 30000,
+                    type: 'general',
+                    category: 'อาหาร/เครื่องดื่ม',
+                    note: 'มื้อเที่ยง & กาแฟเย็น',
+                    amount: 125,
+                    date: today
+                },
+                {
+                    id: Date.now() - 40000,
+                    type: 'transit',
+                    line: 'bts-sukhumvit',
+                    origin: 'E4 อโศก',
+                    destination: 'E9 อ่อนนุช',
+                    amount: 33,
+                    isSplit: false,
+                    date: yesterday
+                },
+                {
+                    id: Date.now() - 50000,
+                    type: 'general',
+                    category: 'เดินทางอื่นๆ',
+                    note: 'วินมอเตอร์ไซค์เข้าซอย',
+                    amount: 25,
+                    date: twoDaysAgo
+                }
+            ];
+        }
+
+        // ============================================================================
+        // 3. INITIALIZATION
+        // ============================================================================
+        function initApp() {
+            const saved = localStorage.getItem('bkk_transit_expenses_v2');
+            if (saved) {
+                try {
+                    expenses = JSON.parse(saved);
+                } catch (e) {
+                    expenses = createDefaultSampleData();
+                }
+            } else {
+                expenses = createDefaultSampleData();
+                saveToStorage();
+            }
+
+            // Set default dates
+            const today = getTodayStr();
+            document.getElementById('entry-date').value = today;
+            document.getElementById('filter-start-date').value = getDaysAgoStr(7);
+            document.getElementById('filter-end-date').value = today;
+
+            renderLinePills();
+            selectTransitLine('bts-sukhumvit');
+            updateHeaderSummary();
+            renderHistoryList();
+
+            // Close station autocomplete dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#transit-origin') && !e.target.closest('#dropdown-origin')) {
+                    document.getElementById('dropdown-origin').classList.add('hidden');
+                }
+                if (!e.target.closest('#transit-dest') && !e.target.closest('#dropdown-dest')) {
+                    document.getElementById('dropdown-dest').classList.add('hidden');
+                }
+            });
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('bkk_transit_expenses_v2', JSON.stringify(expenses));
+        }
+
+        // ============================================================================
+        // 4. LINE SELECTOR & SMART STATION AUTOCOMPLETE
+        // ============================================================================
+        function renderLinePills() {
+            const container = document.getElementById('line-pills-container');
+            container.innerHTML = '';
+
+            Object.values(TRANSIT_LINES).forEach(line => {
+                const isSelected = line.id === selectedLineId;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectTransitLine(line.id);
+                btn.className = `shrink-0 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 border transition-all ${
+                    isSelected
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-sm scale-[1.02]'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                }`;
+                btn.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full ${line.dotColor}"></span>
+                    <span>${line.shortName}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectTransitLine(lineId) {
+            selectedLineId = lineId;
+            const line = TRANSIT_LINES[lineId];
+            renderLinePills();
+
+            // Update badge and submit button color
+            const badge = document.getElementById('selected-line-badge');
+            badge.className = `text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${line.badgeBg} ${line.badgeText}`;
+            badge.textContent = `${line.name} (${line.stations.length} สถานี)`;
+
+            const submitBtn = document.getElementById('transit-submit-btn');
+            submitBtn.className = `w-full py-3 rounded-xl font-semibold text-sm text-white shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 ${line.btnBg}`;
+
+            // Clear current station inputs if switching line
+            document.getElementById('dropdown-origin').classList.add('hidden');
+            document.getElementById('dropdown-dest').classList.add('hidden');
+        }
+
+        function openStationDropdown(fieldType) {
+            filterStationDropdown(fieldType);
+        }
+
+        function filterStationDropdown(fieldType) {
+            const inputEl = document.getElementById(fieldType === 'origin' ? 'transit-origin' : 'transit-dest');
+            const dropdownEl = document.getElementById(fieldType === 'origin' ? 'dropdown-origin' : 'dropdown-dest');
+            const query = inputEl.value.trim().toLowerCase();
+            const stations = TRANSIT_LINES[selectedLineId].stations;
+            const line = TRANSIT_LINES[selectedLineId];
+
+            const matched = stations.filter(st => st.toLowerCase().includes(query));
+
+            dropdownEl.innerHTML = '';
+            if (matched.length === 0) {
+                dropdownEl.innerHTML = `
+                    <div class="px-3.5 py-2.5 text-xs text-slate-400">
+                        ไม่พบสถานีที่ตรงกันใน ${line.name} (สามารถพิมพ์ชื่อเองได้)
+                    </div>
+                `;
+            } else {
+                matched.forEach(stationStr => {
+                    const parts = stationStr.split(' ');
+                    const code = parts[0];
+                    const name = parts.slice(1).join(' ');
+
+                    const item = document.createElement('button');
+                    item.type = 'button';
+                    item.className = 'w-full text-left px-3.5 py-2.5 text-xs hover:bg-slate-50 flex items-center justify-between transition-colors';
+                    item.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="px-1.5 py-0.5 rounded font-bold text-[10px] ${line.badgeBg} ${line.badgeText}">${code}</span>
+                            <span class="font-medium text-slate-800">${name}</span>
+                        </div>
+                        <i class="ph ph-plus text-slate-400"></i>
+                    `;
+                    item.onclick = () => {
+                        inputEl.value = stationStr;
+                        dropdownEl.classList.add('hidden');
+                    };
+                    dropdownEl.appendChild(item);
+                });
+            }
+
+            dropdownEl.classList.remove('hidden');
+        }
+
+        function clearStationInput(fieldType) {
+            const inputEl = document.getElementById(fieldType === 'origin' ? 'transit-origin' : 'transit-dest');
+            inputEl.value = '';
+            inputEl.focus();
+            filterStationDropdown(fieldType);
+        }
+
+        function swapStations() {
+            const originEl = document.getElementById('transit-origin');
+            const destEl = document.getElementById('transit-dest');
+            const temp = originEl.value;
+            originEl.value = destEl.value;
+            destEl.value = temp;
+        }
+
+        function setQuickFare(val) {
+            document.getElementById('transit-amount').value = val;
+            updateSplitPreview();
+        }
+
+        function updateSplitPreview() {
+            const rawVal = parseFloat(document.getElementById('transit-amount').value) || 0;
+            const isSplit = document.getElementById('transit-split').checked;
+            const badge = document.getElementById('split-preview-badge');
+
+            if (isSplit && rawVal > 0) {
+                badge.textContent = `จ่ายจริง ${(rawVal / 2).toLocaleString('th-TH')}฿`;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // ============================================================================
+        // 5. FORM SWITCHING & SUBMISSION
+        // ============================================================================
+        function switchMode(mode) {
+            const transitTab = document.getElementById('tab-btn-transit');
+            const generalTab = document.getElementById('tab-btn-general');
+            const transitForm = document.getElementById('form-transit');
+            const generalForm = document.getElementById('form-general');
+
+            if (mode === 'transit') {
+                transitTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 bg-white shadow-sm text-slate-900';
+                generalTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800';
+                transitForm.classList.remove('hidden');
+                generalForm.classList.add('hidden');
+            } else {
+                generalTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 bg-white shadow-sm text-slate-900';
+                transitTab.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800';
+                generalForm.classList.remove('hidden');
+                transitForm.classList.add('hidden');
+            }
+        }
+
+        function selectGeneralCategory(catName, type) {
+            selectedGeneralCategory = catName;
+            selectedGeneralType = type;
+
+            document.querySelectorAll('.gen-cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === catName) {
+                    btn.className = 'gen-cat-btn p-2.5 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1 transition-all bg-slate-900 text-white border-slate-900 shadow-xs';
+                } else {
+                    btn.className = 'gen-cat-btn p-2.5 rounded-xl border text-xs font-medium flex flex-col items-center gap-1 transition-all bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100';
+                }
+            });
+        }
+
+        function handleTransitSubmit(e) {
+            e.preventDefault();
+            const origin = document.getElementById('transit-origin').value.trim();
+            const destination = document.getElementById('transit-dest').value.trim();
+            let amount = parseFloat(document.getElementById('transit-amount').value);
+            const isSplit = document.getElementById('transit-split').checked;
+            const date = document.getElementById('entry-date').value || getTodayStr();
+
+            if (!origin || !destination || isNaN(amount) || amount <= 0) return;
+
+            if (isSplit) {
+                amount = amount / 2;
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                type: 'transit',
+                line: selectedLineId,
+                origin,
+                destination,
+                amount,
+                isSplit,
+                date
+            };
+
+            expenses.unshift(newEntry);
+            saveToStorage();
+            updateHeaderSummary();
+            renderHistoryList();
+
+            document.getElementById('transit-amount').value = '';
+            document.getElementById('transit-split').checked = false;
+            updateSplitPreview();
+            showToast('บันทึกการเดินทางรถไฟฟ้าเรียบร้อย 🚇');
+        }
+
+        function handleGeneralSubmit(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('gen-amount').value);
+            const note = document.getElementById('gen-note').value.trim();
+            const date = document.getElementById('entry-date').value || getTodayStr();
+
+            if (isNaN(amount) || amount <= 0) return;
+
+            const newEntry = {
+                id: Date.now(),
+                type: selectedGeneralType === 'income' ? 'income' : 'general',
+                category: selectedGeneralCategory,
+                note: note || selectedGeneralCategory,
+                amount,
+                date
+            };
+
+            expenses.unshift(newEntry);
+            saveToStorage();
+            updateHeaderSummary();
+            renderHistoryList();
+
+            document.getElementById('gen-amount').value = '';
+            document.getElementById('gen-note').value = '';
+            showToast(selectedGeneralType === 'income' ? 'บันทึกรายรับเรียบร้อย 💰' : 'บันทึกรายจ่ายเรียบร้อย 🧾');
+        }
+
+        // ============================================================================
+        // 6. HEADER DASHBOARD & HISTORY RENDER
+        // ============================================================================
+        function updateHeaderSummary() {
+            const transitSum = expenses
+                .filter(x => x.type === 'transit')
+                .reduce((acc, cur) => acc + cur.amount, 0);
+
+            const generalSum = expenses
+                .filter(x => x.type === 'general')
+                .reduce((acc, cur) => acc + cur.amount, 0);
+
+            const incomeSum = expenses
+                .filter(x => x.type === 'income')
+                .reduce((acc, cur) => acc + cur.amount, 0);
+
+            const totalExpense = transitSum + generalSum;
+
+            document.getElementById('header-total-expense').textContent = totalExpense.toLocaleString('th-TH');
+            document.getElementById('header-transit-sum').textContent = transitSum.toLocaleString('th-TH');
+            document.getElementById('header-general-sum').textContent = generalSum.toLocaleString('th-TH');
+            document.getElementById('header-total-income').textContent = incomeSum.toLocaleString('th-TH');
+        }
+
+        function setHistoryFilter(filter) {
+            currentHistoryFilter = filter;
+            ['all', 'transit', 'general', 'income'].forEach(f => {
+                const btn = document.getElementById(`hist-filter-${f}`);
+                if (f === filter) {
+                    btn.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-white transition-all';
+                } else {
+                    btn.className = 'px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
+                }
+            });
+            renderHistoryList();
+        }
+
+        function formatThaiDateShort(yyyy_mm_dd) {
+            if (!yyyy_mm_dd) return '';
+            const parts = yyyy_mm_dd.split('-');
+            if (parts.length !== 3) return yyyy_mm_dd;
+            const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const day = parseInt(parts[2], 10);
+            const mIdx = parseInt(parts[1], 10) - 1;
+            return `${day} ${months[mIdx] || ''}`;
+        }
+
+        function renderHistoryList() {
+            const container = document.getElementById('history-container');
+            container.innerHTML = '';
+
+            const filtered = expenses.filter(item => {
+                if (currentHistoryFilter === 'all') return true;
+                return item.type === currentHistoryFilter;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                        <i class="ph ph-notebook text-3xl text-slate-300"></i>
+                        <p class="text-xs text-slate-400 mt-1">ยังไม่มีรายการในหมวดหมู่นี้</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'p-3.5 rounded-2xl bg-white border border-slate-100 shadow-xs flex items-center justify-between gap-3 hover:border-slate-200 transition-all';
+
+                if (item.type === 'transit') {
+                    const line = TRANSIT_LINES[item.line] || TRANSIT_LINES['bts-sukhumvit'];
+                    card.innerHTML = `
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-10 h-10 rounded-2xl ${line.dotColor} text-white flex flex-col items-center justify-center shrink-0 shadow-xs">
+                                <span class="text-[9px] font-bold leading-none opacity-90">${line.system}</span>
+                                <i class="ph ph-train text-base leading-none mt-0.5"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${line.badgeBg} ${line.badgeText}">${line.name}</span>
+                                    ${item.isSplit ? '<span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200">หาร 2 แล้ว</span>' : ''}
+                                </div>
+                                <p class="text-xs font-semibold text-slate-800 truncate mt-1">
+                                    ${item.origin} <span class="text-slate-400 font-normal">➔</span> ${item.destination}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end shrink-0">
+                            <span class="text-sm font-bold text-slate-900">-฿${item.amount.toLocaleString('th-TH')}</span>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-[10px] text-slate-400">${formatThaiDateShort(item.date)}</span>
+                                <button onclick="deleteEntry(${item.id})" class="text-slate-300 hover:text-rose-500 transition-colors" title="ลบรายการ">
+                                    <i class="ph ph-trash text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const isInc = item.type === 'income';
+                    const meta = GENERAL_CATEGORY_META[item.category] || { icon: '✨', badge: 'bg-slate-100 text-slate-700' };
+                    card.innerHTML = `
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-10 h-10 rounded-2xl ${isInc ? 'bg-emerald-100' : 'bg-slate-100'} flex items-center justify-center text-lg shrink-0">
+                                ${meta.icon}
+                            </div>
+                            <div class="min-w-0">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${meta.badge}">${item.category}</span>
+                                <p class="text-xs font-medium text-slate-700 truncate mt-1">${item.note || '-'}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end shrink-0">
+                            <span class="text-sm font-bold ${isInc ? 'text-emerald-600' : 'text-slate-900'}">
+                                ${isInc ? '+' : '-'}฿${item.amount.toLocaleString('th-TH')}
+                            </span>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-[10px] text-slate-400">${formatThaiDateShort(item.date)}</span>
+                                <button onclick="deleteEntry(${item.id})" class="text-slate-300 hover:text-rose-500 transition-colors" title="ลบรายการ">
+                                    <i class="ph ph-trash text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        function deleteEntry(id) {
+            expenses = expenses.filter(item => item.id !== id);
+            saveToStorage();
+            updateHeaderSummary();
+            renderHistoryList();
+            showToast('ลบรายการแล้ว');
+        }
+
+        function openClearConfirmModal() {
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+
+        function closeClearConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+
+        function confirmClearAll() {
+            expenses = [];
+            saveToStorage();
+            updateHeaderSummary();
+            renderHistoryList();
+            closeClearConfirmModal();
+            showToast('ล้างข้อมูลทั้งหมดเรียบร้อย');
+        }
+
+        function resetSampleData() {
+            expenses = createDefaultSampleData();
+            saveToStorage();
+            updateHeaderSummary();
+            renderHistoryList();
+            showToast('โหลดข้อมูลตัวอย่างแล้ว');
+        }
+
+        // ============================================================================
+        // 7. DETAILED ANALYTICS MODAL & DATE FILTERING
+        // ============================================================================
+        function openAnalyticsModal() {
+            document.getElementById('analytics-modal').classList.remove('hidden');
+            renderAnalyticsData();
+        }
+
+        function closeAnalyticsModal() {
+            document.getElementById('analytics-modal').classList.add('hidden');
+        }
+
+        function setAnalyticsRange(rangeType) {
+            currentAnalyticsRange = rangeType;
+            const customBox = document.getElementById('custom-date-box');
+
+            ['today', '7days', 'month', 'all', 'custom'].forEach(r => {
+                const btn = document.getElementById(`range-btn-${r}`);
+                if (r === rangeType) {
+                    btn.className = 'range-btn py-1.5 px-2 rounded-xl text-xs font-semibold border border-slate-900 bg-slate-900 text-white';
+                } else {
+                    btn.className = 'range-btn py-1.5 px-2 rounded-xl text-xs font-medium border border-slate-200 bg-white text-slate-600';
+                }
+            });
+
+            if (rangeType === 'custom') {
+                customBox.classList.remove('hidden');
+            } else {
+                customBox.classList.add('hidden');
+            }
+
+            renderAnalyticsData();
+        }
+
+        function renderAnalyticsData() {
+            const today = getTodayStr();
+            const sevenDaysAgo = getDaysAgoStr(6);
+            const currentMonthPrefix = today.slice(0, 7); // YYYY-MM
+
+            let labelText = 'ข้อมูลทั้งหมด';
+            const filtered = expenses.filter(item => {
+                if (currentAnalyticsRange === 'today') {
+                    labelText = `ข้อมูลวันนี้ (${formatThaiDateShort(today)})`;
+                    return item.date === today;
+                }
+                if (currentAnalyticsRange === '7days') {
+                    labelText = `ย้อนหลัง 7 วัน (${formatThaiDateShort(sevenDaysAgo)} - ${formatThaiDateShort(today)})`;
+                    return item.date >= sevenDaysAgo && item.date <= today;
+                }
+                if (currentAnalyticsRange === 'month') {
+                    labelText = `ข้อมูลเดือนนี้ (${currentMonthPrefix})`;
+                    return item.date && item.date.startsWith(currentMonthPrefix);
+                }
+                if (currentAnalyticsRange === 'custom') {
+                    const start = document.getElementById('filter-start-date').value;
+                    const end = document.getElementById('filter-end-date').value;
+                    labelText = `ช่วงวันที่ ${formatThaiDateShort(start)} ถึง ${formatThaiDateShort(end)}`;
+                    return (!start || item.date >= start) && (!end || item.date <= end);
+                }
+                return true;
+            });
+
+            document.getElementById('modal-period-label').textContent = labelText;
+
+            const transitItems = filtered.filter(x => x.type === 'transit');
+            const generalItems = filtered.filter(x => x.type === 'general');
+            const incomeItems = filtered.filter(x => x.type === 'income');
+
+            const transitTotal = transitItems.reduce((s, x) => s + x.amount, 0);
+            const generalTotal = generalItems.reduce((s, x) => s + x.amount, 0);
+            const incomeTotal = incomeItems.reduce((s, x) => s + x.amount, 0);
+            const grandTotalExp = transitTotal + generalTotal;
+
+            const transitPct = grandTotalExp > 0 ? Math.round((transitTotal / grandTotalExp) * 100) : 0;
+            const generalPct = grandTotalExp > 0 ? Math.round((generalTotal / grandTotalExp) * 100) : 0;
+
+            document.getElementById('modal-total-exp').textContent = grandTotalExp.toLocaleString('th-TH');
+            document.getElementById('modal-total-count').textContent = transitItems.length + generalItems.length;
+            document.getElementById('modal-transit-exp').textContent = transitTotal.toLocaleString('th-TH');
+            document.getElementById('modal-transit-pct').textContent = transitPct;
+            document.getElementById('modal-general-exp').textContent = generalTotal.toLocaleString('th-TH');
+            document.getElementById('modal-general-pct').textContent = generalPct;
+            document.getElementById('modal-income-sum').textContent = incomeTotal.toLocaleString('th-TH');
+
+            const net = incomeTotal - grandTotalExp;
+            document.getElementById('modal-net-balance').textContent = `สุทธิ ${net >= 0 ? '+' : ''}฿${net.toLocaleString('th-TH')}`;
+            document.getElementById('modal-transit-trips').textContent = `${transitItems.length} เที่ยว`;
+
+            // 1. Render Transit Breakdown by Line
+            const transitContainer = document.getElementById('modal-transit-breakdown');
+            transitContainer.innerHTML = '';
+
+            if (transitItems.length === 0) {
+                transitContainer.innerHTML = `<p class="text-xs text-slate-400 py-3 text-center bg-slate-50 rounded-xl">ไม่มีประวัติการขึ้นรถไฟฟ้าในช่วงเวลานี้</p>`;
+            } else {
+                const byLine = {};
+                transitItems.forEach(t => {
+                    if (!byLine[t.line]) byLine[t.line] = { sum: 0, count: 0 };
+                    byLine[t.line].sum += t.amount;
+                    byLine[t.line].count += 1;
+                });
+
+                Object.entries(byLine)
+                    .sort((a, b) => b[1].sum - a[1].sum)
+                    .forEach(([lineId, stats]) => {
+                        const line = TRANSIT_LINES[lineId] || TRANSIT_LINES['bts-sukhumvit'];
+                        const pct = transitTotal > 0 ? Math.round((stats.sum / transitTotal) * 100) : 0;
+
+                        const row = document.createElement('div');
+                        row.className = 'p-3 rounded-xl bg-slate-50 border border-slate-100';
+                        row.innerHTML = `
+                            <div class="flex items-center justify-between text-xs mb-1.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full ${line.dotColor}"></span>
+                                    <span class="font-bold text-slate-800">${line.name}</span>
+                                    <span class="text-[10px] text-slate-400">(${stats.count} เที่ยว)</span>
+                                </div>
+                                <div class="font-bold text-slate-900">
+                                    ฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span>
+                                </div>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                <div class="h-full ${line.barColor} rounded-full" style="width: ${pct}%"></div>
+                            </div>
+                        `;
+                        transitContainer.appendChild(row);
+                    });
+            }
+
+            // 2. Render General Breakdown by Category
+            const generalContainer = document.getElementById('modal-general-breakdown');
+            generalContainer.innerHTML = '';
+
+            if (generalItems.length === 0) {
+                generalContainer.innerHTML = `<p class="text-xs text-slate-400 py-3 text-center bg-slate-50 rounded-xl">ไม่มีรายจ่ายทั่วไปในช่วงเวลานี้</p>`;
+            } else {
+                const byCat = {};
+                generalItems.forEach(g => {
+                    if (!byCat[g.category]) byCat[g.category] = { sum: 0, count: 0 };
+                    byCat[g.category].sum += g.amount;
+                    byCat[g.category].count += 1;
+                });
+
+                Object.entries(byCat)
+                    .sort((a, b) => b[1].sum - a[1].sum)
+                    .forEach(([catName, stats]) => {
+                        const meta = GENERAL_CATEGORY_META[catName] || { icon: '✨', color: 'bg-slate-600' };
+                        const pct = generalTotal > 0 ? Math.round((stats.sum / generalTotal) * 100) : 0;
+
+                        const row = document.createElement('div');
+                        row.className = 'p-3 rounded-xl bg-slate-50 border border-slate-100';
+                        row.innerHTML = `
+                            <div class="flex items-center justify-between text-xs mb-1.5">
+                                <div class="flex items-center gap-1.5">
+                                    <span>${meta.icon}</span>
+                                    <span class="font-bold text-slate-800">${catName}</span>
+                                    <span class="text-[10px] text-slate-400">(${stats.count} รายการ)</span>
+                                </div>
+                                <div class="font-bold text-slate-900">
+                                    ฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span>
+                                </div>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                <div class="h-full ${meta.color} rounded-full" style="width: ${pct}%"></div>
+                            </div>
+                        `;
+                        generalContainer.appendChild(row);
+                    });
+            }
+        }
+
+        // ============================================================================
+        // 8. TOAST NOTIFICATION
+        // ============================================================================
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2 rounded-full shadow-lg text-xs font-medium z-50 animate-fade-in';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 2200);
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
