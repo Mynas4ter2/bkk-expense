@@ -25,7 +25,7 @@
             }
         }
     </script>
-    <!-- Google Fonts: Plus Jakarta Sans + IBM Plex Sans Thai (Clean, Spacious, Highly Legible) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -39,28 +39,22 @@
             transition: background-color 0.25s ease;
         }
         /* ==================== LAYER 4: OUTER DESKTOP BACKDROP ==================== */
-        html.dark body {
-            background-color: #120c18;
-            background-image: radial-gradient(circle at 50% 0%, rgba(88, 55, 120, 0.22), transparent 70%);
-        }
-        html:not(.dark) body {
-            background-color: #e6dfd5;
-            background-image: radial-gradient(circle at 50% 0%, rgba(255, 250, 242, 0.7), transparent 70%);
-        }
+        html.dark body { background-color: #0f0a14; }
+        html:not(.dark) body { background-color: #e6dfd5; }
 
-        /* ==================== LAYER 3: MAIN APP PANEL WALLPAPER (VISIBLE ON MOBILE & PC) ==================== */
+        /* ==================== LAYER 3: MAIN APP PANEL WALLPAPER ==================== */
         html.dark .app-wallpaper-panel {
             background-color: #1e1525;
             background-image:
                 radial-gradient(rgba(255, 255, 255, 0.085) 1.5px, transparent 1.5px),
-                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e9d5ff' stroke-opacity='0.075' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3Ccircle cx='16' cy='41' r='1.1' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3Ccircle cx='19.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3C/g%3E%3C/svg%3E");
+                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e9d5ff' stroke-opacity='0.06' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23e9d5ff' fill-opacity='0.06'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 24px 24px, 64px 64px;
         }
         html:not(.dark) .app-wallpaper-panel {
             background-color: #f5f0eb;
             background-image:
                 radial-gradient(rgba(120, 90, 70, 0.11) 1.5px, transparent 1.5px),
-                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23785a46' stroke-opacity='0.095' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23785a46' fill-opacity='0.085'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.085'/%3E%3Ccircle cx='16' cy='41' r='1.1' fill='%23785a46' fill-opacity='0.085'/%3E%3Ccircle cx='19.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.085'/%3E%3C/g%3E%3C/svg%3E");
+                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23785a46' stroke-opacity='0.08' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23785a46' fill-opacity='0.08'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 24px 24px, 64px 64px;
         }
 
@@ -70,94 +64,73 @@
             -webkit-backdrop-filter: blur(12px);
         }
         html.dark .glass-box {
-            background-color: rgba(45, 33, 58, 0.88);
-            border-color: rgba(192, 155, 230, 0.22);
-            box-shadow: 0 10px 28px -6px rgba(8, 4, 14, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+            background-color: rgba(42, 31, 53, 0.85); /* #2a1f35 with opacity */
+            border-color: rgba(192, 155, 230, 0.15);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
         }
         html:not(.dark) .glass-box {
-            background-color: rgba(255, 252, 248, 0.90);
-            border-color: rgba(180, 155, 135, 0.38);
-            box-shadow: 0 10px 24px -6px rgba(110, 85, 65, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-color: rgba(180, 155, 135, 0.25);
+            box-shadow: 0 4px 20px -2px rgba(110, 85, 65, 0.08);
         }
-        .tabular-nums {
-            font-variant-numeric: tabular-nums;
-        }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
         @keyframes slideUp {
             from { transform: translateY(100%); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        .animate-slide-up {
-            animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        .animate-slide-up { animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in {
-            animation: fadeIn 0.22s ease-out forwards;
-        }
-        /* Custom subtle scrollbar */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.25);
-            border-radius: 9999px;
-        }
+        .animate-fade-in { animation: fadeIn 0.22s ease-out forwards; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 9999px; }
     </style>
 </head>
 <body class="text-slate-800 dark:text-slate-100 antialiased transition-colors duration-200 selection:bg-purple-500/30">
 
-    <!-- LAYER 3: App-in-a-box Wrapper with Cute Patterned Wallpaper inside -->
+    <!-- LAYER 3: App-in-a-box Wrapper with Wallpaper -->
     <div class="app-wallpaper-panel max-w-md mx-auto min-h-screen sm:my-8 sm:min-h-[calc(100vh-4rem)] sm:rounded-[2.5rem] sm:overflow-hidden shadow-[0_25px_70px_-15px_rgba(0,0,0,0.6)] relative pb-20 flex flex-col border-x sm:border border-[#d8c8b8] dark:border-[#4a3960]">
 
-        <!-- Brave / Storage Persistence Status Banner (Hidden unless needed) -->
         <div id="storage-warning-banner" class="hidden bg-amber-500/15 border-b border-amber-500/30 px-4 py-2.5 text-xs text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
                 <i class="ph ph-shield-warning text-base shrink-0"></i>
-                <span>ตรวจพบโหมดจำกัดความจำ แนะนำให้กดปุ่ม Backup เก็บไฟล์ไว้เสมอ</span>
+                <span>แนะนำให้กดปุ่ม Backup เก็บไฟล์ไว้เสมอ</span>
             </div>
             <button onclick="openBackupModal()" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-semibold shrink-0">สำรองข้อมูล</button>
         </div>
 
-        <!-- ==================== HEADER & SUMMARY DASHBOARD ==================== -->
-        <header class="pt-6 pb-6 px-5 glass-box border-b border-[#e5d9cc] dark:border-darkBorder rounded-b-[2rem] relative overflow-hidden transition-colors">
-            <!-- Ambient Glow -->
-            <div class="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-purple-500/15 dark:bg-purple-500/20 blur-3xl pointer-events-none"></div>
-            <div class="absolute -left-12 bottom-0 w-36 h-36 rounded-full bg-sky-500/10 dark:bg-sky-500/15 blur-2xl pointer-events-none"></div>
+        <!-- HEADER & SUMMARY -->
+        <header class="pt-6 pb-6 px-5 glass-box border-b rounded-b-[2rem] relative overflow-hidden transition-colors z-20">
+            <div class="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-purple-500/15 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 bottom-0 w-36 h-36 rounded-full bg-sky-500/10 blur-2xl pointer-events-none"></div>
 
-            <!-- Top Action Bar -->
             <div class="flex items-center justify-between mb-5 relative z-10">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="px-2.5 py-0.5 text-[11px] font-semibold tracking-wide bg-purple-500/15 text-purple-700 dark:text-purple-300 rounded-full border border-purple-500/30 flex items-center gap-1">
+                        <span class="px-2.5 py-0.5 text-[11px] font-semibold bg-purple-500/15 text-purple-700 dark:text-purple-300 rounded-full border border-purple-500/30 flex items-center gap-1">
                             <span id="storage-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             BKK Transit
                         </span>
-                        <h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">จดจ่าย & รถไฟฟ้า</h1>
+                        <h1 class="text-lg font-bold text-slate-900 dark:text-white">จดจ่าย & รถไฟฟ้า</h1>
                     </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน จัดทำโดย Mynas4ter2</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน</p>
                 </div>
-
-                <!-- Header Utility Buttons: Backup, Analytics, Theme Toggle -->
                 <div class="flex items-center gap-2">
-                    <button onclick="openBackupModal()" class="w-10 h-10 rounded-2xl bg-[#f3ece4] dark:bg-darkElevated hover:bg-[#e8dfd5] dark:hover:bg-slate-800 active:scale-95 flex items-center justify-center transition-all border border-[#dfd3c5] dark:border-darkBorder text-slate-700 dark:text-slate-200" title="สำรอง / กู้คืนข้อมูล (Backup)">
+                    <button onclick="openBackupModal()" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-slate-700 dark:text-slate-200">
                         <i class="ph ph-cloud-arrow-down text-lg"></i>
                     </button>
-                    <button onclick="openAnalyticsModal()" class="w-10 h-10 rounded-2xl bg-[#f3ece4] dark:bg-darkElevated hover:bg-[#e8dfd5] dark:hover:bg-slate-800 active:scale-95 flex items-center justify-center transition-all border border-[#dfd3c5] dark:border-darkBorder text-sky-600 dark:text-sky-400" title="สรุปสถิติละเอียด">
+                    <button onclick="openAnalyticsModal()" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-sky-600 dark:text-sky-400">
                         <i class="ph ph-chart-donut text-lg"></i>
                     </button>
-                    <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-10 h-10 rounded-2xl bg-[#f3ece4] dark:bg-darkElevated hover:bg-[#e8dfd5] dark:hover:bg-slate-800 active:scale-95 flex items-center justify-center transition-all border border-[#dfd3c5] dark:border-darkBorder text-amber-500 dark:text-amber-300" title="สลับโหมด มืด/สว่าง">
+                    <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-amber-500 dark:text-amber-300">
                         <i id="theme-icon" class="ph ph-moon-stars text-lg"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Interactive Main Summary Card -->
             <div onclick="openAnalyticsModal()" class="cursor-pointer group bg-gradient-to-br from-[#2d1f3d] to-[#1f152b] dark:from-[#372748] dark:to-[#241930] hover:brightness-110 active:scale-[0.99] transition-all rounded-2xl p-5 text-white border border-purple-400/20 dark:border-purple-300/15 shadow-xl relative z-10">
                 <div class="flex items-start justify-between mb-4">
                     <div>
@@ -174,8 +147,6 @@
                         <p class="text-sm font-bold text-emerald-400 mt-0.5 tabular-nums">+฿<span id="header-total-income">0</span></p>
                     </div>
                 </div>
-
-                <!-- Sub Breakdown: Transit vs General -->
                 <div class="grid grid-cols-2 gap-3 pt-3.5 border-t border-white/10">
                     <div class="bg-white/[0.06] rounded-xl p-3 border border-white/10 flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center shrink-0">
@@ -196,12 +167,9 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Bottom Trigger Bar -->
                 <div class="mt-3.5 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-sky-300 group-hover:text-sky-200">
                     <span class="flex items-center gap-1.5 font-medium">
-                        <i class="ph ph-sliders-horizontal text-sm"></i>
-                        ดูสรุปแยกหมวดหมู่ & เลือกช่วงเวลาวันที่
+                        <i class="ph ph-sliders-horizontal text-sm"></i> ดูสรุปแยกหมวดหมู่ & เลือกช่วงเวลาวันที่
                     </span>
                     <span class="flex items-center gap-1 text-[11px] bg-sky-500/20 px-2.5 py-1 rounded-full border border-sky-400/30 font-medium">
                         เปิดดู <i class="ph ph-caret-right"></i>
@@ -210,277 +178,198 @@
             </div>
         </header>
 
-        <!-- ==================== MAIN CONTENT ==================== -->
-        <main class="px-5 pt-6 flex-1 space-y-6">
+        <!-- MAIN CONTENT -->
+        <main class="px-5 pt-6 flex-1 space-y-6 z-10">
 
-            <!-- Mode Switcher Tabs -->
-            <div class="grid grid-cols-2 glass-box p-1.5 rounded-2xl border">
-                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" class="py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white">
-                    <i class="ph ph-train text-base text-sky-500"></i>
-                    <span>เดินทางรถไฟฟ้า</span>
+            <div class="grid grid-cols-2 glass-box p-1.5 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50">
+                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" class="py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white">
+                    <i class="ph ph-train text-base text-sky-500"></i><span>เดินทางรถไฟฟ้า</span>
                 </button>
                 <button type="button" onclick="switchMode('general')" id="tab-btn-general" class="py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-                    <i class="ph ph-receipt text-base"></i>
-                    <span>รายรับ / รายจ่ายทั่วไป</span>
+                    <i class="ph ph-receipt text-base"></i><span>รายรับ / รายจ่ายทั่วไป</span>
                 </button>
             </div>
 
-            <!-- Date Picker Card -->
-            <div class="flex items-center justify-between glass-box px-4 py-3 rounded-2xl border">
+            <div class="flex items-center justify-between glass-box px-4 py-3 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50">
                 <label for="entry-date" class="text-xs font-medium text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                    <i class="ph ph-calendar-blank text-sky-500 text-base"></i>
-                    <span>วันที่ทำรายการ</span>
+                    <i class="ph ph-calendar-blank text-sky-500 text-base"></i><span>วันที่ทำรายการ</span>
                 </label>
-                <input type="date" id="entry-date" class="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-[#f3ece4] dark:bg-darkElevated px-3 py-1.5 rounded-xl border border-[#dfd3c5] dark:border-darkBorder focus:outline-none focus:ring-2 focus:ring-sky-500">
+                <input type="date" id="entry-date" class="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white/60 dark:bg-darkElevated/60 px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-darkBorder focus:outline-none focus:ring-2 focus:ring-sky-500">
             </div>
 
-            <!-- ==================== TRANSIT FORM (SUPPORTS CROSS-LINE) ==================== -->
+            <!-- TRANSIT FORM -->
             <form id="form-transit" onsubmit="handleTransitSubmit(event)" class="space-y-5 animate-fade-in">
-
-                <!-- All-Visible 3x3 Grid Line Selector -->
-                <div class="glass-box p-4 rounded-2xl border space-y-3">
+                <div class="glass-box p-4 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50 space-y-3">
                     <div class="flex items-center justify-between">
                         <div>
-                            <label class="text-xs font-bold text-slate-800 dark:text-slate-100 block">
-                                1. เลือกสายรถไฟฟ้า
-                            </label>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5" id="line-grid-helper">
-                                กดเลือกสายเพื่อกรองสถานี หรือพิมพ์ค้นหาจากทุกสายได้ทันที
-                            </p>
+                            <label class="text-xs font-bold text-slate-800 dark:text-slate-100 block">1. เลือกสายรถไฟฟ้า</label>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5" id="line-grid-helper">กดเลือกสายเพื่อกรองสถานี หรือพิมพ์ค้นหาได้ทันที</p>
                         </div>
-                        <!-- Target Indicator when Cross-Line is active -->
-                        <span id="active-line-target-pill" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25">
-                            สายหลัก
-                        </span>
+                        <span id="active-line-target-pill" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25">สายหลัก</span>
                     </div>
-
-                    <!-- 3-Column Grid: All 9 Lines Visible Immediately without scrolling -->
-                    <div id="line-grid-container" class="grid grid-cols-3 gap-2 pt-1">
-                        <!-- Populated by JS -->
-                    </div>
-
-                    <!-- Cross-Line Toggle Bar -->
+                    <div id="line-grid-container" class="grid grid-cols-3 gap-2 pt-1"></div>
                     <div class="pt-2 border-t border-slate-200/60 dark:border-darkBorder/70 flex items-center justify-between">
                         <label class="flex items-center gap-2 cursor-pointer select-none">
-                            <input type="checkbox" id="cross-line-toggle" onchange="toggleCrossLineMode()" class="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 bg-slate-100 dark:bg-darkElevated border-slate-300 dark:border-darkBorder">
-                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">ขึ้น-ลงคนละสาย (เปลี่ยนสายระหว่างทาง)</span>
+                            <input type="checkbox" id="cross-line-toggle" onchange="toggleCrossLineMode()" class="w-4 h-4 rounded text-sky-500 bg-white/50 border-slate-300">
+                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">ขึ้น-ลงคนละสาย (เปลี่ยนสาย)</span>
                         </label>
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500">เช่น เขียว ➔ ชมพู</span>
                     </div>
                 </div>
 
-                <!-- Station Selection Card (Origin & Destination with Line Badges) -->
-                <div class="glass-box p-4 rounded-2xl border space-y-4 relative z-20">
-
-                    <!-- ORIGIN STATION -->
+                <div class="glass-box p-4 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50 space-y-4 relative z-20">
                     <div class="relative">
                         <div class="flex items-center justify-between mb-1.5">
-                            <label class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                                สถานีต้นทาง (ขึ้นที่ไหน)
-                            </label>
-                            <button type="button" onclick="setGridFocusTarget('origin')" id="origin-line-pill" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all">
-                                <!-- Filled by JS -->
-                            </button>
+                            <label class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>สถานีต้นทาง (ขึ้นที่ไหน)</label>
+                            <button type="button" onclick="setGridFocusTarget('origin')" id="origin-line-pill" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all"></button>
                         </div>
                         <div class="relative">
                             <i class="ph ph-map-pin-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
-                            <input type="text" id="transit-origin" autocomplete="off" required
-                                placeholder="พิมพ์ชื่อสถานี เช่น พหลโยธิน 59 หรือ N18..."
-                                onfocus="handleStationFocus('origin')"
-                                oninput="filterStationDropdown('origin')"
-                                class="w-full pl-10 pr-9 py-3 text-sm bg-white/80 dark:bg-darkElevated/90 text-slate-900 dark:text-white rounded-xl border border-[#dfd3c5] dark:border-darkBorder focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
-                            <button type="button" onclick="clearStationInput('origin')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
-                                <i class="ph ph-x-circle text-base"></i>
-                            </button>
+                            <input type="text" id="transit-origin" autocomplete="off" required placeholder="พิมพ์ชื่อสถานี..." onfocus="handleStationFocus('origin')" oninput="filterStationDropdown('origin')" class="w-full pl-10 pr-9 py-3 text-sm bg-white/60 dark:bg-darkElevated/60 text-slate-900 dark:text-white rounded-xl border border-slate-200/50 dark:border-darkBorder/50 focus:ring-2 focus:ring-sky-500 outline-none transition-all placeholder:text-slate-400">
+                            <button type="button" onclick="clearStationInput('origin')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"><i class="ph ph-x-circle text-base"></i></button>
                         </div>
-                        <!-- Origin Autocomplete Dropdown -->
-                        <div id="dropdown-origin" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-[#fffcf8] dark:bg-darkElevated rounded-2xl shadow-2xl border border-[#dfd3c5] dark:border-darkBorder max-h-56 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-darkBorder/60"></div>
+                        <div id="dropdown-origin" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white dark:bg-darkElevated rounded-2xl shadow-2xl border border-slate-200 dark:border-darkBorder max-h-56 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-darkBorder/60"></div>
                     </div>
-
-                    <!-- SWAP ORIGIN & DESTINATION BUTTON -->
                     <div class="flex items-center justify-center -my-1.5 relative z-10">
-                        <button type="button" onclick="swapStationsAndLines()" class="flex items-center gap-1.5 text-xs font-semibold bg-[#f3ece4] dark:bg-darkElevated px-3.5 py-1.5 rounded-full border border-[#dfd3c5] dark:border-darkBorder shadow-2xs hover:bg-[#e8dfd5] dark:hover:bg-slate-800 active:scale-95 transition-all text-slate-700 dark:text-slate-200">
-                            <i class="ph ph-arrows-down-up text-sky-500 text-sm"></i>
-                            <span>สลับต้นทาง - ปลายทาง</span>
+                        <button type="button" onclick="swapStationsAndLines()" class="flex items-center gap-1.5 text-xs font-semibold bg-white/80 dark:bg-darkElevated px-3.5 py-1.5 rounded-full border border-slate-200/60 dark:border-darkBorder shadow-2xs hover:bg-white dark:hover:bg-slate-800 active:scale-95 transition-all text-slate-700 dark:text-slate-200">
+                            <i class="ph ph-arrows-down-up text-sky-500 text-sm"></i><span>สลับต้นทาง - ปลายทาง</span>
                         </button>
                     </div>
-
-                    <!-- DESTINATION STATION -->
                     <div class="relative">
                         <div class="flex items-center justify-between mb-1.5">
-                            <label class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-                                สถานีปลายทาง (ลงที่ไหน)
-                            </label>
-                            <button type="button" onclick="setGridFocusTarget('dest')" id="dest-line-pill" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all">
-                                <!-- Filled by JS -->
-                            </button>
+                            <label class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-400"></span>สถานีปลายทาง (ลงที่ไหน)</label>
+                            <button type="button" onclick="setGridFocusTarget('dest')" id="dest-line-pill" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all"></button>
                         </div>
                         <div class="relative">
                             <i class="ph ph-flag-banner absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
-                            <input type="text" id="transit-dest" autocomplete="off" required
-                                placeholder="พิมพ์ชื่อสถานี เช่น รามอินทรา กม.4 หรืออโศก..."
-                                onfocus="handleStationFocus('dest')"
-                                oninput="filterStationDropdown('dest')"
-                                class="w-full pl-10 pr-9 py-3 text-sm bg-white/80 dark:bg-darkElevated/90 text-slate-900 dark:text-white rounded-xl border border-[#dfd3c5] dark:border-darkBorder focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
-                            <button type="button" onclick="clearStationInput('dest')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
-                                <i class="ph ph-x-circle text-base"></i>
-                            </button>
+                            <input type="text" id="transit-dest" autocomplete="off" required placeholder="พิมพ์ชื่อสถานี..." onfocus="handleStationFocus('dest')" oninput="filterStationDropdown('dest')" class="w-full pl-10 pr-9 py-3 text-sm bg-white/60 dark:bg-darkElevated/60 text-slate-900 dark:text-white rounded-xl border border-slate-200/50 dark:border-darkBorder/50 focus:ring-2 focus:ring-sky-500 outline-none transition-all placeholder:text-slate-400">
+                            <button type="button" onclick="clearStationInput('dest')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"><i class="ph ph-x-circle text-base"></i></button>
                         </div>
-                        <!-- Destination Autocomplete Dropdown -->
-                        <div id="dropdown-dest" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-[#fffcf8] dark:bg-darkElevated rounded-2xl shadow-2xl border border-[#dfd3c5] dark:border-darkBorder max-h-56 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-darkBorder/60"></div>
+                        <div id="dropdown-dest" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white dark:bg-darkElevated rounded-2xl shadow-2xl border border-slate-200 dark:border-darkBorder max-h-56 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-darkBorder/60"></div>
                     </div>
-
-                    <!-- Live Route Preview Pill -->
-                    <div id="live-route-preview" class="pt-2 border-t border-slate-200/60 dark:border-darkBorder/60 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <div id="live-route-preview" class="pt-2 border-t border-slate-200/60 dark:border-darkBorder/60 flex items-center justify-between text-xs text-slate-500">
                         <span>เส้นทางที่จะบันทึก:</span>
-                        <div id="live-route-badges" class="flex items-center gap-1.5 flex-wrap justify-end">
-                            <!-- Updated dynamically -->
-                        </div>
+                        <div id="live-route-badges" class="flex items-center gap-1.5 flex-wrap justify-end"></div>
                     </div>
                 </div>
 
-                <!-- Fare Amount & Split Option Card (Quick Fare Buttons Removed) -->
-                <div class="glass-box p-4 rounded-2xl border space-y-3.5">
+                <div class="glass-box p-4 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50 space-y-3.5">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label for="transit-amount" class="text-xs font-bold text-slate-800 dark:text-slate-100">2. ค่าโดยสาร (บาท)</label>
-                            <span class="text-[11px] text-slate-400 dark:text-slate-400">ระบุราคาตามจริง</span>
+                            <span class="text-[11px] text-slate-400">ระบุราคา</span>
                         </div>
                         <div class="relative">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base">฿</span>
-                            <input type="number" id="transit-amount" required min="1" step="0.5"
-                                oninput="updateSplitPreview()"
-                                placeholder="0"
-                                class="w-full pl-9 pr-4 py-3 rounded-xl bg-white/80 dark:bg-darkElevated/90 border border-[#dfd3c5] dark:border-darkBorder focus:ring-2 focus:ring-sky-500 outline-none text-lg font-bold text-slate-900 dark:text-white tabular-nums">
+                            <input type="number" id="transit-amount" required min="1" step="0.5" oninput="updateSplitPreview()" placeholder="0" class="w-full pl-9 pr-4 py-3 rounded-xl bg-white/60 dark:bg-darkElevated/60 border border-slate-200/50 dark:border-darkBorder/50 focus:ring-2 focus:ring-sky-500 outline-none text-lg font-bold text-slate-900 dark:text-white tabular-nums">
                         </div>
                     </div>
-
-                    <!-- Split 50% Checkbox -->
-                    <label class="flex items-center justify-between p-3 rounded-xl bg-white/60 dark:bg-darkElevated/70 border border-[#dfd3c5]/80 dark:border-darkBorder cursor-pointer hover:bg-white/90 dark:hover:bg-darkElevated transition-colors">
+                    <label class="flex items-center justify-between p-3 rounded-xl bg-white/40 dark:bg-darkElevated/40 border border-slate-200/50 dark:border-darkBorder/50 cursor-pointer hover:bg-white/70 transition-colors">
                         <div class="flex items-center gap-2.5">
-                            <input type="checkbox" id="transit-split" onchange="updateSplitPreview()" class="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 bg-white dark:bg-darkCard border-slate-300 dark:border-darkBorder">
-                            <span class="text-xs font-medium text-slate-700 dark:text-slate-200">หาร 2 กับเพื่อน (คำนวณครึ่งราคาอัตโนมัติ)</span>
+                            <input type="checkbox" id="transit-split" onchange="updateSplitPreview()" class="w-4 h-4 rounded text-sky-500 border-slate-300">
+                            <span class="text-xs font-medium text-slate-700 dark:text-slate-200">หาร 2 กับเพื่อน (คำนวณครึ่งราคา)</span>
                         </div>
                         <span id="split-preview-badge" class="hidden text-xs font-bold text-sky-600 dark:text-sky-300 bg-sky-500/15 px-2.5 py-0.5 rounded-lg border border-sky-500/30 tabular-nums">จ่ายจริง 0฿</span>
                     </label>
                 </div>
 
-                <!-- Submit Button -->
                 <button type="submit" id="transit-submit-btn" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 bg-lime-600 hover:bg-lime-500">
-                    <i class="ph ph-plus-circle text-lg"></i>
-                    <span>บันทึกการเดินทางรถไฟฟ้า</span>
+                    <i class="ph ph-plus-circle text-lg"></i><span>บันทึกการเดินทางรถไฟฟ้า</span>
                 </button>
             </form>
 
-            <!-- ==================== GENERAL EXPENSE / INCOME FORM ==================== -->
+            <!-- GENERAL FORM -->
             <form id="form-general" onsubmit="handleGeneralSubmit(event)" class="space-y-5 hidden animate-fade-in">
-                <div class="glass-box p-4 rounded-2xl border space-y-4">
+                <div class="glass-box p-4 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50 space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-800 dark:text-slate-100 mb-2.5">เลือกหมวดหมู่รายการ</label>
                         <div class="grid grid-cols-3 gap-2.5" id="general-category-grid">
-                            <button type="button" onclick="selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense')" data-cat="อาหาร/เครื่องดื่ม" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
-                                <span class="text-xl">🍜</span>
-                                <span>อาหาร/น้ำ</span>
-                            </button>
-                            <button type="button" onclick="selectGeneralCategory('เดินทางอื่นๆ', 'expense')" data-cat="เดินทางอื่นๆ" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
-                                <span class="text-xl">🛵</span>
-                                <span>วิน/แท็กซี่/เมล์</span>
-                            </button>
-                            <button type="button" onclick="selectGeneralCategory('ของใช้/ช้อปปิ้ง', 'expense')" data-cat="ของใช้/ช้อปปิ้ง" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
-                                <span class="text-xl">🛍️</span>
-                                <span>ของใช้/ช้อป</span>
-                            </button>
-                            <button type="button" onclick="selectGeneralCategory('ที่พัก/บิล', 'expense')" data-cat="ที่พัก/บิล" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
-                                <span class="text-xl">🏠</span>
-                                <span>ที่พัก/บิล</span>
-                            </button>
-                            <button type="button" onclick="selectGeneralCategory('บันเทิง/เกม', 'expense')" data-cat="บันเทิง/เกม" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
-                                <span class="text-xl">🎮</span>
-                                <span>บันเทิง/เกม</span>
-                            </button>
-                            <button type="button" onclick="selectGeneralCategory('รายรับ', 'income')" data-cat="รายรับ" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all">
-                                <span class="text-xl">💰</span>
-                                <span>รายรับเข้า</span>
-                            </button>
+                            <button type="button" onclick="selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense')" data-cat="อาหาร/เครื่องดื่ม" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all"><span class="text-xl">🍜</span><span>อาหาร/น้ำ</span></button>
+                            <button type="button" onclick="selectGeneralCategory('เดินทางอื่นๆ', 'expense')" data-cat="เดินทางอื่นๆ" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all"><span class="text-xl">🛵</span><span>วิน/แท็กซี่/เมล์</span></button>
+                            <button type="button" onclick="selectGeneralCategory('ของใช้/ช้อปปิ้ง', 'expense')" data-cat="ของใช้/ช้อปปิ้ง" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all"><span class="text-xl">🛍️</span><span>ของใช้/ช้อป</span></button>
+                            <button type="button" onclick="selectGeneralCategory('ที่พัก/บิล', 'expense')" data-cat="ที่พัก/บิล" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all"><span class="text-xl">🏠</span><span>ที่พัก/บิล</span></button>
+                            <button type="button" onclick="selectGeneralCategory('บันเทิง/เกม', 'expense')" data-cat="บันเทิง/เกม" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all"><span class="text-xl">🎮</span><span>บันเทิง/เกม</span></button>
+                            <button type="button" onclick="selectGeneralCategory('รายรับ', 'income')" data-cat="รายรับ" class="gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all"><span class="text-xl">💰</span><span>รายรับเข้า</span></button>
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold text-slate-800 dark:text-slate-100 mb-1.5">จำนวนเงิน (บาท)</label>
                         <div class="relative">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base">฿</span>
-                            <input type="number" id="gen-amount" required min="1" step="0.5" placeholder="0"
-                                class="w-full pl-9 pr-4 py-3 rounded-xl bg-white/80 dark:bg-darkElevated/90 border border-[#dfd3c5] dark:border-darkBorder focus:ring-2 focus:ring-sky-500 outline-none text-lg font-bold text-slate-900 dark:text-white tabular-nums">
+                            <input type="number" id="gen-amount" required min="1" step="0.5" placeholder="0" class="w-full pl-9 pr-4 py-3 rounded-xl bg-white/60 dark:bg-darkElevated/60 border border-slate-200/50 dark:border-darkBorder/50 focus:ring-2 focus:ring-sky-500 outline-none text-lg font-bold text-slate-900 dark:text-white tabular-nums">
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold text-slate-800 dark:text-slate-100 mb-1.5">รายละเอียดเพิ่มเติม</label>
-                        <input type="text" id="gen-note" placeholder="เช่น ข้าวกระเพรา, วินมอเตอร์ไซค์, เงินเดือน"
-                            class="w-full px-4 py-3 rounded-xl bg-white/80 dark:bg-darkElevated/90 border border-[#dfd3c5] dark:border-darkBorder focus:ring-2 focus:ring-sky-500 outline-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500">
+                        <input type="text" id="gen-note" placeholder="เช่น ข้าวกระเพรา, วินมอเตอร์ไซค์" class="w-full px-4 py-3 rounded-xl bg-white/60 dark:bg-darkElevated/60 border border-slate-200/50 dark:border-darkBorder/50 focus:ring-2 focus:ring-sky-500 outline-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400">
                     </div>
                 </div>
-
                 <button type="submit" id="gen-submit-btn" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3.5 rounded-2xl active:scale-[0.99] transition-all shadow-lg text-sm flex items-center justify-center gap-2">
-                    <i class="ph ph-check-circle text-lg"></i>
-                    <span>บันทึกรายการ</span>
+                    <i class="ph ph-check-circle text-lg"></i><span>บันทึกรายการ</span>
                 </button>
             </form>
 
-            <!-- ==================== TRANSACTION HISTORY ==================== -->
+            <!-- TRANSACTION HISTORY (ACCORDION DRAWER) -->
             <section class="pt-2">
                 <div class="flex items-center justify-between mb-3.5">
-                    <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 cursor-pointer select-none" onclick="toggleHistoryDrawer()">
                         <i class="ph ph-clock-counter-clockwise text-lg text-sky-500"></i>
                         <span>ประวัติการทำรายการ</span>
+                        <i id="history-chevron" class="ph ph-caret-up text-slate-400 transition-transform"></i>
                     </h2>
                     <div class="flex items-center gap-3">
                         <button type="button" onclick="openBackupModal()" class="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium flex items-center gap-1">
-                            <i class="ph ph-download-simple"></i> สำรองข้อมูล
+                            <i class="ph ph-download-simple"></i> สำรอง
                         </button>
-                        <button type="button" onclick="openClearConfirmModal()" id="clear-all-btn" class="text-xs text-rose-500 dark:text-rose-400 hover:underline font-medium hidden">
+                        <button type="button" onclick="openClearConfirmModal()" id="clear-all-btn" class="text-xs text-rose-500 hover:underline font-medium hidden">
                             ล้างทั้งหมด
                         </button>
                     </div>
                 </div>
 
-                <!-- Filter Pills -->
-                <div class="flex gap-2 mb-4 overflow-x-auto pb-1">
-                    <button onclick="setHistoryFilter('all')" id="hist-filter-all" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
-                    <button onclick="setHistoryFilter('transit')" id="hist-filter-transit" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
-                    <button onclick="setHistoryFilter('general')" id="hist-filter-general" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
-                    <button onclick="setHistoryFilter('income')" id="hist-filter-income" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
-                </div>
+                <div id="history-drawer-content" class="transition-all duration-300 origin-top">
+                    <!-- Filter Pills -->
+                    <div class="flex gap-2 mb-4 overflow-x-auto pb-1">
+                        <button onclick="setHistoryFilter('all')" id="hist-filter-all" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                        <button onclick="setHistoryFilter('transit')" id="hist-filter-transit" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                        <button onclick="setHistoryFilter('general')" id="hist-filter-general" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                        <button onclick="setHistoryFilter('income')" id="hist-filter-income" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all"></button>
+                    </div>
 
-                <!-- Spacious History Cards Container -->
-                <div id="history-container" class="space-y-3.5 pb-4">
-                    <!-- Populated by JS -->
+                    <!-- Spacious History Cards Container -->
+                    <div id="history-container" class="space-y-3.5">
+                        <!-- Populated by JS -->
+                    </div>
+                    
+                    <!-- Load More Button -->
+                    <div id="load-more-container" class="hidden pt-4 pb-2 flex justify-center">
+                        <button onclick="loadMoreHistory()" class="px-5 py-2 rounded-full text-xs font-bold bg-slate-200/50 dark:bg-darkElevated/50 text-slate-700 dark:text-slate-300 hover:bg-slate-300/50 dark:hover:bg-darkElevated transition-all flex items-center gap-1.5">
+                            โหลดดูเพิ่มเติม <i class="ph ph-caret-down"></i>
+                        </button>
+                    </div>
                 </div>
             </section>
-
-            <!-- ==================== TERMS & PRIVACY POLICY FOOTER BAR ==================== -->
-            <footer class="pt-4 pb-6 border-t border-[#e2d5c8]/70 dark:border-darkBorder/60 text-center">
-                <button type="button" onclick="openPolicyModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl glass-box border text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 active:scale-95 transition-all">
-                    <i class="ph ph-shield-check text-sky-500 text-base"></i>
-                    <span>ข้อตกลงการใช้งาน & นโยบายความเป็นส่วนตัว (Terms & Privacy Policy)</span>
-                </button>
-            </footer>
         </main>
+        
+        <!-- ==================== TERMS & PRIVACY POLICY FOOTER BAR (ALWAYS VISIBLE OUTSIDE DRAWER) ==================== -->
+        <footer class="mt-auto pt-6 pb-6 border-t border-slate-200/50 dark:border-darkBorder/50 text-center relative z-10 px-5">
+            <button type="button" onclick="openPolicyModal()" class="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl glass-box border border-slate-200/50 dark:border-darkBorder/50 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 active:scale-95 transition-all">
+                <i class="ph ph-shield-check text-sky-500 text-base"></i>
+                <span>นโยบายความเป็นส่วนตัว (Privacy Policy)</span>
+            </button>
+        </footer>
     </div>
 
     <!-- ==================== TERMS & PRIVACY POLICY MODAL ==================== -->
     <div id="policy-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs p-0 sm:p-4">
-        <div class="bg-[#fffcf8] dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col shadow-2xl border border-[#dfd3c5] dark:border-darkBorder animate-slide-up overflow-hidden">
-            <div class="px-5 pt-5 pb-4 border-b border-[#ece2d6] dark:border-darkBorder flex items-center justify-between bg-[#f5efe6]/70 dark:bg-darkElevated/50">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up overflow-hidden">
+            <div class="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-darkBorder flex items-center justify-between bg-slate-50 dark:bg-darkElevated/50">
                 <div class="flex items-center gap-2.5">
                     <div class="w-9 h-9 rounded-xl bg-sky-500/15 text-sky-500 flex items-center justify-center">
                         <i class="ph ph-shield-check text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">ข้อตกลงการใช้งาน & นโยบายความเป็นส่วนตัว</h3>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Terms & Conditions / Privacy Policy</p>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">นโยบายความเป็นส่วนตัว</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">การปกป้องข้อมูลของคุณ</p>
                     </div>
                 </div>
                 <button onclick="closePolicyModal()" class="w-8 h-8 rounded-full bg-slate-200/70 dark:bg-darkElevated flex items-center justify-center text-slate-500">
@@ -489,34 +378,34 @@
             </div>
 
             <div class="p-5 overflow-y-auto space-y-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/25 space-y-1">
-                    <p class="font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1.5">
-                        <i class="ph ph-train text-base"></i>
-                        1. เกี่ยวกับเว็บแอปพลิเคชันนี้
-                    </p>
-                    <p>BKK Transit & Expense Tracker เป็นเครื่องมือช่วยจดบันทึกค่าเดินทางด้วยรถไฟฟ้าในกรุงเทพฯ (รองรับการเดินทางข้ามสายครบทั้ง 9 สาย) รวมถึงบันทึกรายรับและรายจ่ายทั่วไปในชีวิตประจำวัน พร้อมสรุปสถิติแยกตามหมวดหมู่และช่วงวันที่</p>
-                </div>
-
                 <div class="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-1">
                     <p class="font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
                         <i class="ph ph-lock-key text-base"></i>
-                        2. นโยบายความเป็นส่วนตัว (ไม่เก็บข้อมูลขึ้นเซิร์ฟเวอร์ 100%)
+                        1. ไม่มีการส่งข้อมูลขึ้นเซิร์ฟเวอร์ (Offline 100%)
                     </p>
                     <p>เว็บแอปนี้ทำงานแบบ <strong>Local-First 100%</strong> ข้อมูลรายการใช้จ่ายและการเดินทางทั้งหมดของคุณจะถูกบันทึกไว้ในหน่วยความจำเบราว์เซอร์บนอุปกรณ์ของคุณเท่านั้น (ผ่านระบบ IndexedDB, LocalStorage และ Cookie สำรองในเครื่อง) <strong>ไม่มีการส่งข้อมูลออกไปเก็บยังเซิร์ฟเวอร์กลาง ไม่มีการติดตามตัวตน และไม่มีใครสามารถเข้าถึงข้อมูลการเงินของคุณได้</strong></p>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/25 space-y-1">
+                    <p class="font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1.5">
+                        <i class="ph ph-train text-base"></i>
+                        2. เกี่ยวกับฟังก์ชันแอป
+                    </p>
+                    <p>BKK Transit & Expense Tracker เป็นเครื่องมือช่วยจดบันทึกค่าเดินทางด้วยรถไฟฟ้าในกรุงเทพฯ (รองรับการเดินทางข้ามสายครบทั้ง 9 สาย) รวมถึงบันทึกรายรับและรายจ่ายทั่วไปในชีวิตประจำวัน พร้อมสรุปสถิติแยกตามหมวดหมู่และช่วงวันที่</p>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 space-y-1">
                     <p class="font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
                         <i class="ph ph-floppy-disk text-base"></i>
-                        3. คำแนะนำในการดูแลและสำรองข้อมูล
+                        3. การป้องกันข้อมูลหาย
                     </p>
-                    <p>เนื่องจากข้อมูลถูกเก็บไว้ในเบราว์เซอร์ของแต่ละอุปกรณ์ หากคุณทำการล้างข้อมูลเว็บไซต์ (Clear Site Data) ถอนการติดตั้งเบราว์เซอร์ หรือเปลี่ยนโทรศัพท์เครื่องใหม่ ข้อมูลในเครื่องอาจถูกลบไปด้วย แนะนำให้กดปุ่ม <strong>"สำรองข้อมูล (Backup)"</strong> เพื่อดาวน์โหลดไฟล์ <code>.json</code> เก็บไว้เป็นระยะ</p>
+                    <p>เนื่องจากข้อมูลเก็บในเครื่อง หากคุณกดล้างแคชเบราว์เซอร์ (Clear Site Data) ข้อมูลอาจหายได้ แนะนำให้กดปุ่ม <strong>"สำรองข้อมูล"</strong> มุมขวาบน เพื่อเซฟไฟล์ <code>.json</code> เก็บไว้เป็นระยะครับ</p>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-[#ece2d6] dark:border-darkBorder bg-[#fffcf8] dark:bg-darkCard">
-                <button onclick="closePolicyModal()" class="w-full py-3 rounded-xl bg-slate-900 dark:bg-darkElevated text-white text-xs font-bold hover:bg-slate-800 border border-slate-800 dark:border-darkBorder">
-                    รับทราบและปิดหน้าต่าง
+            <div class="p-4 border-t border-slate-100 dark:border-darkBorder bg-white dark:bg-darkCard">
+                <button onclick="closePolicyModal()" class="w-full py-3 rounded-xl bg-sky-600 text-white text-xs font-bold hover:bg-sky-500 shadow-md transition-all">
+                    รับทราบและเริ่มใช้งาน
                 </button>
             </div>
         </div>
@@ -524,10 +413,8 @@
 
     <!-- ==================== ANALYTICS MODAL ==================== -->
     <div id="analytics-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs">
-        <div class="bg-[#fffcf8] dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl border border-[#dfd3c5] dark:border-darkBorder animate-slide-up overflow-hidden">
-            
-            <!-- Modal Header -->
-            <div class="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-darkBorder flex items-center justify-between bg-slate-50/70 dark:bg-darkElevated/50">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up overflow-hidden">
+            <div class="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-darkBorder flex items-center justify-between bg-slate-50 dark:bg-darkElevated/50">
                 <div>
                     <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         <i class="ph ph-chart-donut text-sky-500 text-xl"></i>
@@ -535,15 +422,12 @@
                     </h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" id="modal-period-label">ข้อมูลทั้งหมด</p>
                 </div>
-                <button onclick="closeAnalyticsModal()" class="w-9 h-9 rounded-full bg-slate-200/70 dark:bg-darkElevated hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                <button onclick="closeAnalyticsModal()" class="w-9 h-9 rounded-full bg-slate-200/70 dark:bg-darkElevated hover:bg-slate-300 flex items-center justify-center text-slate-600">
                     <i class="ph ph-x text-base"></i>
                 </button>
             </div>
 
-            <!-- Scrollable Content -->
             <div class="p-5 overflow-y-auto space-y-5 flex-1">
-                
-                <!-- Date Period Filter Buttons -->
                 <div>
                     <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">เลือกช่วงเวลาที่ต้องการดู</label>
                     <div class="grid grid-cols-5 gap-1.5">
@@ -553,8 +437,6 @@
                         <button onclick="setAnalyticsRange('all')" id="range-btn-all" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">ทั้งหมด</button>
                         <button onclick="setAnalyticsRange('custom')" id="range-btn-custom" class="py-2 px-2 rounded-xl text-xs font-semibold border transition-all">เลือกเอง</button>
                     </div>
-
-                    <!-- Custom Date Range Picker -->
                     <div id="custom-date-box" class="hidden mt-3 p-3.5 bg-slate-50 dark:bg-darkElevated rounded-2xl border border-slate-200 dark:border-darkBorder grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-[11px] text-slate-500 dark:text-slate-400 mb-1">ตั้งแต่วันที่</label>
@@ -567,7 +449,6 @@
                     </div>
                 </div>
 
-                <!-- Overview KPI Cards -->
                 <div class="grid grid-cols-3 gap-2.5">
                     <div class="bg-slate-900 dark:bg-darkElevated text-white p-3.5 rounded-2xl border border-slate-800 dark:border-darkBorder">
                         <p class="text-[11px] text-slate-400">รายจ่ายรวม</p>
@@ -577,47 +458,41 @@
                     <div class="bg-sky-500/10 border border-sky-500/25 p-3.5 rounded-2xl">
                         <p class="text-[11px] text-sky-600 dark:text-sky-400 font-semibold">ค่ารถไฟฟ้า</p>
                         <p class="text-base font-bold text-sky-700 dark:text-sky-300 mt-1 tabular-nums">฿<span id="modal-transit-exp">0</span></p>
-                        <p class="text-[10px] text-sky-600/80 dark:text-sky-400/80 mt-1"><span id="modal-transit-pct">0</span>% ของรายจ่าย</p>
+                        <p class="text-[10px] text-sky-600/80 mt-1"><span id="modal-transit-pct">0</span>% ของรายจ่าย</p>
                     </div>
                     <div class="bg-amber-500/10 border border-amber-500/25 p-3.5 rounded-2xl">
                         <p class="text-[11px] text-amber-600 dark:text-amber-400 font-semibold">ใช้จ่ายทั่วไป</p>
                         <p class="text-base font-bold text-amber-700 dark:text-amber-300 mt-1 tabular-nums">฿<span id="modal-general-exp">0</span></p>
-                        <p class="text-[10px] text-amber-600/80 dark:text-amber-400/80 mt-1"><span id="modal-general-pct">0</span>% ของรายจ่าย</p>
+                        <p class="text-[10px] text-amber-600/80 mt-1"><span id="modal-general-pct">0</span>% ของรายจ่าย</p>
                     </div>
                 </div>
 
-                <!-- Net Income Bar -->
                 <div class="flex items-center justify-between px-4 py-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-xs">
                     <span class="text-emerald-700 dark:text-emerald-300 font-medium">💰 รายรับ: <strong class="tabular-nums">+฿<span id="modal-income-sum">0</span></strong></span>
                     <span class="text-emerald-800 dark:text-emerald-200 font-bold tabular-nums" id="modal-net-balance">คงเหลือ ฿0</span>
                 </div>
 
-                <!-- Transit Breakdown by Line -->
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                            <i class="ph ph-train text-sky-500 text-base"></i>
-                            <span>แยกตามสายรถไฟฟ้าที่ใช้เดินทาง</span>
+                            <i class="ph ph-train text-sky-500 text-base"></i><span>แยกตามสายรถไฟฟ้าที่ใช้เดินทาง</span>
                         </h4>
                         <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="modal-transit-trips">0 เที่ยว</span>
                     </div>
                     <div id="modal-transit-breakdown" class="space-y-2.5"></div>
                 </div>
 
-                <!-- General Breakdown by Category -->
                 <div>
                     <div class="flex items-center justify-between mb-3 pt-3 border-t border-slate-100 dark:border-darkBorder">
                         <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                            <i class="ph ph-tag text-amber-500 text-base"></i>
-                            <span>แยกตามหมวดหมู่ใช้จ่ายทั่วไป</span>
+                            <i class="ph ph-tag text-amber-500 text-base"></i><span>แยกตามหมวดหมู่ใช้จ่ายทั่วไป</span>
                         </h4>
                     </div>
                     <div id="modal-general-breakdown" class="space-y-2.5"></div>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="p-4 border-t border-slate-100 dark:border-darkBorder bg-[#fffcf8] dark:bg-darkCard">
+            <div class="p-4 border-t border-slate-100 dark:border-darkBorder bg-white dark:bg-darkCard">
                 <button onclick="closeAnalyticsModal()" class="w-full py-3 rounded-xl bg-slate-900 dark:bg-darkElevated text-white text-xs font-bold hover:bg-slate-800 border border-slate-800 dark:border-darkBorder">
                     ปิดหน้าต่างสรุป
                 </button>
@@ -625,40 +500,30 @@
         </div>
     </div>
 
-    <!-- ==================== BACKUP / RESTORE MODAL (FOR BRAVE & DEVICE MIGRATION) ==================== -->
+    <!-- ==================== BACKUP / RESTORE MODAL ==================== -->
     <div id="backup-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs">
-        <div class="bg-[#fffcf8] dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl border border-[#dfd3c5] dark:border-darkBorder animate-slide-up space-y-4">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 dark:border-darkBorder pb-3.5">
                 <div class="flex items-center gap-2.5">
                     <div class="w-9 h-9 rounded-xl bg-sky-500/15 text-sky-500 flex items-center justify-center">
                         <i class="ph ph-database text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">ระบบปกป้องข้อมูล 3 ชั้น & สำรองไฟล์</h3>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400" id="persistence-status-text">IndexedDB + LocalStorage + Cookie Sync</p>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">ระบบสำรองไฟล์</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400" id="persistence-status-text">IndexedDB + LocalStorage</p>
                     </div>
                 </div>
                 <button onclick="closeBackupModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkElevated flex items-center justify-center text-slate-500">
                     <i class="ph ph-x"></i>
                 </button>
             </div>
-
-            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/70 dark:border-darkBorder text-xs text-slate-600 dark:text-slate-300 space-y-1.5 leading-relaxed">
-                <p class="font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
-                    <i class="ph ph-shield-check text-emerald-500 text-base"></i>
-                    คำแนะนำสำหรับผู้ใช้ Brave มือถือ:
-                </p>
-                <p>หากตั้งค่า Brave ให้ล้างข้อมูลอัตโนมัติเมื่อปิดแอป (Forget me when I close this site) ให้กดไอคอนสิงโต Brave ด้านบน แล้วปิดตัวเลือกการล้างข้อมูลของเว็บนี้ หรือกดดาวน์โหลดไฟล์สำรองเก็บไว้ได้ตลอดเวลาครับ</p>
-            </div>
-
             <div class="grid grid-cols-2 gap-3 pt-1">
                 <button onclick="exportBackupFile()" class="p-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex flex-col items-center gap-1.5 shadow-md active:scale-95 transition-all">
                     <i class="ph ph-download-simple text-xl"></i>
                     <span>ดาวน์โหลดไฟล์ Backup</span>
                     <span class="text-[10px] font-normal opacity-80">(.json เก็บไว้ในเครื่อง)</span>
                 </button>
-
-                <label class="p-3.5 rounded-2xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-darkBorder font-bold text-xs flex flex-col items-center gap-1.5 cursor-pointer active:scale-95 transition-all">
+                <label class="p-3.5 rounded-2xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 text-slate-800 dark:text-white border border-slate-200 dark:border-darkBorder font-bold text-xs flex flex-col items-center gap-1.5 cursor-pointer active:scale-95 transition-all">
                     <i class="ph ph-upload-simple text-xl text-emerald-500"></i>
                     <span>กู้คืนข้อมูลจากไฟล์</span>
                     <span class="text-[10px] font-normal text-slate-500 dark:text-slate-400">(เลือกไฟล์ .json)</span>
@@ -670,12 +535,12 @@
 
     <!-- ==================== CONFIRM CLEAR MODAL ==================== -->
     <div id="confirm-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-950/75 px-6 backdrop-blur-xs">
-        <div class="bg-[#fffcf8] dark:bg-darkCard rounded-3xl max-w-xs w-full p-6 shadow-2xl border border-[#dfd3c5] dark:border-darkBorder text-center animate-fade-in">
+        <div class="bg-white dark:bg-darkCard rounded-3xl max-w-xs w-full p-6 shadow-2xl border border-slate-200 dark:border-darkBorder text-center animate-fade-in">
             <div class="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-500 flex items-center justify-center mx-auto mb-3.5">
                 <i class="ph ph-trash text-2xl"></i>
             </div>
             <h4 class="text-base font-bold text-slate-900 dark:text-white">ล้างข้อมูลทั้งหมด?</h4>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">ประวัติรายรับ-รายจ่ายและการเดินทางทั้งหมดจะถูกลบออกจากหน่วยความจำเครื่องนี้</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">ประวัติรายรับ-รายจ่ายจะถูกลบออกจากเครื่อง</p>
             <div class="grid grid-cols-2 gap-2.5 mt-5">
                 <button onclick="closeClearConfirmModal()" class="py-2.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-darkElevated text-slate-700 dark:text-slate-300">ยกเลิก</button>
                 <button onclick="confirmClearAll()" class="py-2.5 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-500">ลบทั้งหมด</button>
@@ -684,177 +549,17 @@
     </div>
 
     <script>
-        // ============================================================================
-        // 1. COMPLETE BANGKOK TRANSIT STATION DATABASE (ALL 9 LINES + COLOR TOKENS)
-        // ============================================================================
+        // 1. BANGKOK TRANSIT STATION DATABASE
         const TRANSIT_LINES = {
-            'bts-sukhumvit': {
-                id: 'bts-sukhumvit',
-                system: 'BTS',
-                name: 'BTS สายสุขุมวิท',
-                shortLabel: 'สุขุมวิท',
-                colorHex: '#84cc16',
-                dotClass: 'bg-lime-500',
-                btnClass: 'bg-lime-600 hover:bg-lime-500',
-                badgeClass: 'bg-lime-500/15 text-lime-700 dark:text-lime-300 border-lime-500/30',
-                solidBadge: 'bg-lime-500 text-slate-950',
-                stations: [
-                    'N24 คูคต', 'N23 แยก คปอ.', 'N22 พิพิธภัณฑ์กองทัพอากาศ', 'N21 โรงพยาบาลภูมิพลอดุลยเดช',
-                    'N20 สะพานใหม่', 'N19 สายหยุด', 'N18 พหลโยธิน 59', 'N17 วัดพระศรีมหาธาตุ',
-                    'N16 กรมทหารราบที่ 11', 'N15 บางบัว', 'N14 กรมป่าไม้', 'N13 มหาวิทยาลัยเกษตรศาสตร์',
-                    'N12 เสนานิคม', 'N11 รัชโยธิน', 'N10 พหลโยธิน 24', 'N9 ห้าแยกลาดพร้าว',
-                    'N8 หมอชิต', 'N7 สะพานควาย', 'N6 เสนาร่วม', 'N5 อารีย์',
-                    'N4 สนามเป้า', 'N3 อนุสาวรีย์ชัยสมรภูมิ', 'N2 พญาไท', 'N1 ราชเทวี',
-                    'CEN สยาม', 'E1 ชิดลม', 'E2 เพลินจิต', 'E3 นานา',
-                    'E4 อโศก', 'E5 พร้อมพงษ์', 'E6 ทองหล่อ', 'E7 เอกมัย',
-                    'E8 พระโขนง', 'E9 อ่อนนุช', 'E10 บางจาก', 'E11 ปุณณวิถี',
-                    'E12 อุดมสุข', 'E13 บางนา', 'E14 แบริ่ง', 'E15 สำโรง',
-                    'E16 ปู่เจ้า', 'E17 ช้างเอราวัณ', 'E18 โรงเรียนนายเรือ', 'E19 ปากน้ำ',
-                    'E20 ศรีนครินทร์', 'E21 แพรกษา', 'E22 สายลวด', 'E23 เคหะฯ'
-                ]
-            },
-            'bts-silom': {
-                id: 'bts-silom',
-                system: 'BTS',
-                name: 'BTS สายสีลม',
-                shortLabel: 'สีลม',
-                colorHex: '#0d9488',
-                dotClass: 'bg-teal-600',
-                btnClass: 'bg-teal-600 hover:bg-teal-500',
-                badgeClass: 'bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30',
-                solidBadge: 'bg-teal-600 text-white',
-                stations: [
-                    'W1 สนามกีฬาแห่งชาติ', 'CEN สยาม', 'S1 ราชดำริ', 'S2 ศาลาแดง',
-                    'S3 ช่องนนทรี', 'S4 เซนต์หลุยส์', 'S5 สุรศักดิ์', 'S6 สะพานตากสิน',
-                    'S7 กรุงธนบุรี', 'S8 วงเวียนใหญ่', 'S9 โพธิ์นิมิตร', 'S10 ตลาดพลู',
-                    'S11 วุฒากาศ', 'S12 บางหว้า'
-                ]
-            },
-            'mrt-blue': {
-                id: 'mrt-blue',
-                system: 'MRT',
-                name: 'MRT สายสีน้ำเงิน',
-                shortLabel: 'สีน้ำเงิน',
-                colorHex: '#2563eb',
-                dotClass: 'bg-blue-600',
-                btnClass: 'bg-blue-600 hover:bg-blue-500',
-                badgeClass: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30',
-                solidBadge: 'bg-blue-600 text-white',
-                stations: [
-                    'BL01 ท่าพระ', 'BL02 จรัญฯ 13', 'BL03 ไฟฉาย', 'BL04 บางขุนนนท์',
-                    'BL05 บางยี่ขัน', 'BL06 สิรินธร', 'BL07 บางพลัด', 'BL08 บางอ้อ',
-                    'BL09 บางโพ', 'BL10 เตาปูน', 'BL11 บางซื่อ', 'BL12 กำแพงเพชร',
-                    'BL13 สวนจตุจักร', 'BL14 พหลโยธิน', 'BL15 ลาดพร้าว', 'BL16 รัชดาภิเษก',
-                    'BL17 สุทธิสาร', 'BL18 ห้วยขวาง', 'BL19 ศูนย์วัฒนธรรมแห่งประเทศไทย', 'BL20 พระราม 9',
-                    'BL21 เพชรบุรี', 'BL22 สุขุมวิท', 'BL23 ศูนย์การประชุมแห่งชาติสิริกิติ์', 'BL24 คลองเตย',
-                    'BL25 ลุมพินี', 'BL26 สีลม', 'BL27 สามย่าน', 'BL28 หัวลำโพง',
-                    'BL29 วัดมังกร', 'BL30 สามยอด', 'BL31 สนามไชย', 'BL32 อิสรภาพ',
-                    'BL33 บางไผ่', 'BL34 บางหว้า', 'BL35 เพชรเกษม 48', 'BL36 ภาษีเจริญ',
-                    'BL37 บางแค', 'BL38 หลักสอง'
-                ]
-            },
-            'mrt-purple': {
-                id: 'mrt-purple',
-                system: 'MRT',
-                name: 'MRT สายสีม่วง',
-                shortLabel: 'สีม่วง',
-                colorHex: '#9333ea',
-                dotClass: 'bg-purple-600',
-                btnClass: 'bg-purple-600 hover:bg-purple-500',
-                badgeClass: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30',
-                solidBadge: 'bg-purple-600 text-white',
-                stations: [
-                    'PP01 คลองบางไผ่', 'PP02 ตลาดบางใหญ่', 'PP03 สามแยกบางใหญ่', 'PP04 บางพลู',
-                    'PP05 บางรักใหญ่', 'PP06 บางรักน้อยท่าอิฐ', 'PP07 ไทรม้า', 'PP08 สะพานพระนั่งเกล้า',
-                    'PP09 แยกนนทบุรี 1', 'PP10 บางกระสอ', 'PP11 ศูนย์ราชการนนทบุรี', 'PP12 กระทรวงสาธารณสุข',
-                    'PP13 แยกติวานนท์', 'PP14 วงศ์สว่าง', 'PP15 บางซ่อน', 'PP16 เตาปูน'
-                ]
-            },
-            'mrt-yellow': {
-                id: 'mrt-yellow',
-                system: 'MRT',
-                name: 'MRT สายสีเหลือง',
-                shortLabel: 'สีเหลือง',
-                colorHex: '#eab308',
-                dotClass: 'bg-yellow-500',
-                btnClass: 'bg-yellow-500 hover:bg-yellow-400 text-slate-950',
-                badgeClass: 'bg-yellow-500/15 text-yellow-700 dark:text-yellow-300 border-yellow-500/30',
-                solidBadge: 'bg-yellow-400 text-slate-950',
-                stations: [
-                    'YL01 ลาดพร้าว', 'YL02 พาวานา', 'YL03 โชคชัย 4', 'YL04 ลาดพร้าว 71',
-                    'YL05 ลาดพร้าว 83', 'YL06 มหาดไทย', 'YL07 ลาดพร้าว 101', 'YL08 บางกะปิ',
-                    'YL09 แยกลำสาลี', 'YL10 ศรีกรีฑา', 'YL11 หัวหมาก', 'YL12 กลันตัน',
-                    'YL13 ศรีนุช', 'YL14 ศรีนครินทร์ 38', 'YL15 สวนหลวง ร.9', 'YL16 ศรีอุดม',
-                    'YL17 ศรีเอี่ยม', 'YL18 ศรีลาซาล', 'YL19 ศรีแบริ่ง', 'YL20 ศรีด่าน',
-                    'YL21 ศรีเทพา', 'YL22 ทิพวัล', 'YL23 สำโรง'
-                ]
-            },
-            'mrt-pink': {
-                id: 'mrt-pink',
-                system: 'MRT',
-                name: 'MRT สายสีชมพู',
-                shortLabel: 'สีชมพู',
-                colorHex: '#ec4899',
-                dotClass: 'bg-pink-500',
-                btnClass: 'bg-pink-600 hover:bg-pink-500',
-                badgeClass: 'bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30',
-                solidBadge: 'bg-pink-500 text-white',
-                stations: [
-                    'PK01 ศูนย์ราชการนนทบุรี', 'PK02 แคราย', 'PK03 สนามบินน้ำ', 'PK04 สามัคคี',
-                    'PK05 กรมชลประทาน', 'PK06 แยกปากเกร็ด', 'PK07 เลี่ยงเมืองปากเกร็ด', 'PK08 แจ้งวัฒนะ-ปากเกร็ด 28',
-                    'PK09 ศรีรัช', 'PK10 เมืองทองธานี', 'PK11 แจ้งวัฒนะ 14', 'PK12 ศูนย์ราชการเฉลิมพระเกียรติ',
-                    'PK13 โทรคมนาคมแห่งชาติ', 'PK14 หลักสี่', 'PK15 ราชภัฏพระนคร', 'PK16 วัดพระศรีมหาธาตุ',
-                    'PK17 รามอินทรา 3', 'PK18 ลาดปลาเค้า', 'PK19 รามอินทรา กม.4', 'PK20 มัยลาภ',
-                    'PK21 วัชรพล', 'PK22 รามอินทรา กม.6', 'PK23 คู้บอน', 'PK24 รามอินทรา กม.9',
-                    'PK25 วงแหวนรามอินทรา', 'PK26 นพรัตน์', 'PK27 บางชัน', 'PK28 เศรษฐบุตรบำเพ็ญ',
-                    'PK29 ตลาดมีนบุรี', 'PK30 มีนบุรี'
-                ]
-            },
-            'arl-red': {
-                id: 'arl-red',
-                system: 'ARL',
-                name: 'Airport Rail Link',
-                shortLabel: 'Airport Link',
-                colorHex: '#ea580c',
-                dotClass: 'bg-orange-600',
-                btnClass: 'bg-orange-600 hover:bg-orange-500',
-                badgeClass: 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30',
-                solidBadge: 'bg-orange-600 text-white',
-                stations: [
-                    'A1 สุวรรณภูมิ', 'A2 ลาดกระบัง', 'A3 บ้านทับช้าง', 'A4 หัวหมาก',
-                    'A5 รามคำแหง', 'A6 มักกะสัน', 'A7 ราชปรารภ', 'A8 พญาไท'
-                ]
-            },
-            'srt-red': {
-                id: 'srt-red',
-                system: 'SRT',
-                name: 'SRT สายสีแดง',
-                shortLabel: 'สายสีแดง',
-                colorHex: '#dc2626',
-                dotClass: 'bg-red-600',
-                btnClass: 'bg-red-600 hover:bg-red-500',
-                badgeClass: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30',
-                solidBadge: 'bg-red-600 text-white',
-                stations: [
-                    'RN01 กรุงเทพอภิวัฒน์ (บางซื่อ)', 'RN02 จตุจักร', 'RN03 วัดเสมียนนารี', 'RN04 บางเขน',
-                    'RN05 ทุ่งสองห้อง', 'RN06 หลักสี่', 'RN07 การเคหะ', 'RN08 ดอนเมือง',
-                    'RN09 หลักหก', 'RN10 รังสิต', 'RW02 บางซ่อน', 'RW05 บางบำหรุ', 'RW06 ตลิ่งชัน'
-                ]
-            },
-            'bts-gold': {
-                id: 'bts-gold',
-                system: 'BTS',
-                name: 'BTS สายสีทอง',
-                shortLabel: 'สายสีทอง',
-                colorHex: '#d97706',
-                dotClass: 'bg-amber-500',
-                btnClass: 'bg-amber-600 hover:bg-amber-500',
-                badgeClass: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
-                solidBadge: 'bg-amber-500 text-slate-950',
-                stations: [
-                    'G1 กรุงธนบุรี', 'G2 เจริญนคร (ไอคอนสยาม)', 'G3 คลองสาน'
-                ]
-            }
+            'bts-sukhumvit': { id: 'bts-sukhumvit', system: 'BTS', name: 'BTS สายสุขุมวิท', shortLabel: 'สุขุมวิท', colorHex: '#84cc16', dotClass: 'bg-lime-500', btnClass: 'bg-lime-600 hover:bg-lime-500', badgeClass: 'bg-lime-500/15 text-lime-700 dark:text-lime-300 border-lime-500/30', stations: ['N24 คูคต', 'N23 แยก คปอ.', 'N22 พิพิธภัณฑ์กองทัพอากาศ', 'N21 โรงพยาบาลภูมิพลอดุลยเดช', 'N20 สะพานใหม่', 'N19 สายหยุด', 'N18 พหลโยธิน 59', 'N17 วัดพระศรีมหาธาตุ', 'N16 กรมทหารราบที่ 11', 'N15 บางบัว', 'N14 กรมป่าไม้', 'N13 มหาวิทยาลัยเกษตรศาสตร์', 'N12 เสนานิคม', 'N11 รัชโยธิน', 'N10 พหลโยธิน 24', 'N9 ห้าแยกลาดพร้าว', 'N8 หมอชิต', 'N7 สะพานควาย', 'N6 เสนาร่วม', 'N5 อารีย์', 'N4 สนามเป้า', 'N3 อนุสาวรีย์ชัยสมรภูมิ', 'N2 พญาไท', 'N1 ราชเทวี', 'CEN สยาม', 'E1 ชิดลม', 'E2 เพลินจิต', 'E3 นานา', 'E4 อโศก', 'E5 พร้อมพงษ์', 'E6 ทองหล่อ', 'E7 เอกมัย', 'E8 พระโขนง', 'E9 อ่อนนุช', 'E10 บางจาก', 'E11 ปุณณวิถี', 'E12 อุดมสุข', 'E13 บางนา', 'E14 แบริ่ง', 'E15 สำโรง', 'E16 ปู่เจ้า', 'E17 ช้างเอราวัณ', 'E18 โรงเรียนนายเรือ', 'E19 ปากน้ำ', 'E20 ศรีนครินทร์', 'E21 แพรกษา', 'E22 สายลวด', 'E23 เคหะฯ'] },
+            'bts-silom': { id: 'bts-silom', system: 'BTS', name: 'BTS สายสีลม', shortLabel: 'สีลม', colorHex: '#0d9488', dotClass: 'bg-teal-600', btnClass: 'bg-teal-600 hover:bg-teal-500', badgeClass: 'bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30', stations: ['W1 สนามกีฬาแห่งชาติ', 'CEN สยาม', 'S1 ราชดำริ', 'S2 ศาลาแดง', 'S3 ช่องนนทรี', 'S4 เซนต์หลุยส์', 'S5 สุรศักดิ์', 'S6 สะพานตากสิน', 'S7 กรุงธนบุรี', 'S8 วงเวียนใหญ่', 'S9 โพธิ์นิมิตร', 'S10 ตลาดพลู', 'S11 วุฒากาศ', 'S12 บางหว้า'] },
+            'mrt-blue': { id: 'mrt-blue', system: 'MRT', name: 'MRT สายสีน้ำเงิน', shortLabel: 'สีน้ำเงิน', colorHex: '#2563eb', dotClass: 'bg-blue-600', btnClass: 'bg-blue-600 hover:bg-blue-500', badgeClass: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30', stations: ['BL01 ท่าพระ', 'BL02 จรัญฯ 13', 'BL03 ไฟฉาย', 'BL04 บางขุนนนท์', 'BL05 บางยี่ขัน', 'BL06 สิรินธร', 'BL07 บางพลัด', 'BL08 บางอ้อ', 'BL09 บางโพ', 'BL10 เตาปูน', 'BL11 บางซื่อ', 'BL12 กำแพงเพชร', 'BL13 สวนจตุจักร', 'BL14 พหลโยธิน', 'BL15 ลาดพร้าว', 'BL16 รัชดาภิเษก', 'BL17 สุทธิสาร', 'BL18 ห้วยขวาง', 'BL19 ศูนย์วัฒนธรรมแห่งประเทศไทย', 'BL20 พระราม 9', 'BL21 เพชรบุรี', 'BL22 สุขุมวิท', 'BL23 ศูนย์การประชุมแห่งชาติสิริกิติ์', 'BL24 คลองเตย', 'BL25 ลุมพินี', 'BL26 สีลม', 'BL27 สามย่าน', 'BL28 หัวลำโพง', 'BL29 วัดมังกร', 'BL30 สามยอด', 'BL31 สนามไชย', 'BL32 อิสรภาพ', 'BL33 บางไผ่', 'BL34 บางหว้า', 'BL35 เพชรเกษม 48', 'BL36 ภาษีเจริญ', 'BL37 บางแค', 'BL38 หลักสอง'] },
+            'mrt-purple': { id: 'mrt-purple', system: 'MRT', name: 'MRT สายสีม่วง', shortLabel: 'สีม่วง', colorHex: '#9333ea', dotClass: 'bg-purple-600', btnClass: 'bg-purple-600 hover:bg-purple-500', badgeClass: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30', stations: ['PP01 คลองบางไผ่', 'PP02 ตลาดบางใหญ่', 'PP03 สามแยกบางใหญ่', 'PP04 บางพลู', 'PP05 บางรักใหญ่', 'PP06 บางรักน้อยท่าอิฐ', 'PP07 ไทรม้า', 'PP08 สะพานพระนั่งเกล้า', 'PP09 แยกนนทบุรี 1', 'PP10 บางกระสอ', 'PP11 ศูนย์ราชการนนทบุรี', 'PP12 กระทรวงสาธารณสุข', 'PP13 แยกติวานนท์', 'PP14 วงศ์สว่าง', 'PP15 บางซ่อน', 'PP16 เตาปูน'] },
+            'mrt-yellow': { id: 'mrt-yellow', system: 'MRT', name: 'MRT สายสีเหลือง', shortLabel: 'สีเหลือง', colorHex: '#eab308', dotClass: 'bg-yellow-500', btnClass: 'bg-yellow-500 hover:bg-yellow-400 text-slate-950', badgeClass: 'bg-yellow-500/15 text-yellow-700 dark:text-yellow-300 border-yellow-500/30', stations: ['YL01 ลาดพร้าว', 'YL02 พาวานา', 'YL03 โชคชัย 4', 'YL04 ลาดพร้าว 71', 'YL05 ลาดพร้าว 83', 'YL06 มหาดไทย', 'YL07 ลาดพร้าว 101', 'YL08 บางกะปิ', 'YL09 แยกลำสาลี', 'YL10 ศรีกรีฑา', 'YL11 หัวหมาก', 'YL12 กลันตัน', 'YL13 ศรีนุช', 'YL14 ศรีนครินทร์ 38', 'YL15 สวนหลวง ร.9', 'YL16 ศรีอุดม', 'YL17 ศรีเอี่ยม', 'YL18 ศรีลาซาล', 'YL19 ศรีแบริ่ง', 'YL20 ศรีด่าน', 'YL21 ศรีเทพา', 'YL22 ทิพวัล', 'YL23 สำโรง'] },
+            'mrt-pink': { id: 'mrt-pink', system: 'MRT', name: 'MRT สายสีชมพู', shortLabel: 'สีชมพู', colorHex: '#ec4899', dotClass: 'bg-pink-500', btnClass: 'bg-pink-600 hover:bg-pink-500', badgeClass: 'bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30', stations: ['PK01 ศูนย์ราชการนนทบุรี', 'PK02 แคราย', 'PK03 สนามบินน้ำ', 'PK04 สามัคคี', 'PK05 กรมชลประทาน', 'PK06 แยกปากเกร็ด', 'PK07 เลี่ยงเมืองปากเกร็ด', 'PK08 แจ้งวัฒนะ-ปากเกร็ด 28', 'PK09 ศรีรัช', 'PK10 เมืองทองธานี', 'PK11 แจ้งวัฒนะ 14', 'PK12 ศูนย์ราชการเฉลิมพระเกียรติ', 'PK13 โทรคมนาคมแห่งชาติ', 'PK14 หลักสี่', 'PK15 ราชภัฏพระนคร', 'PK16 วัดพระศรีมหาธาตุ', 'PK17 รามอินทรา 3', 'PK18 ลาดปลาเค้า', 'PK19 รามอินทรา กม.4', 'PK20 มัยลาภ', 'PK21 วัชรพล', 'PK22 รามอินทรา กม.6', 'PK23 คู้บอน', 'PK24 รามอินทรา กม.9', 'PK25 วงแหวนรามอินทรา', 'PK26 นพรัตน์', 'PK27 บางชัน', 'PK28 เศรษฐบุตรบำเพ็ญ', 'PK29 ตลาดมีนบุรี', 'PK30 มีนบุรี'] },
+            'arl-red': { id: 'arl-red', system: 'ARL', name: 'Airport Rail Link', shortLabel: 'Airport Link', colorHex: '#ea580c', dotClass: 'bg-orange-600', btnClass: 'bg-orange-600 hover:bg-orange-500', badgeClass: 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30', stations: ['A1 สุวรรณภูมิ', 'A2 ลาดกระบัง', 'A3 บ้านทับช้าง', 'A4 หัวหมาก', 'A5 รามคำแหง', 'A6 มักกะสัน', 'A7 ราชปรารภ', 'A8 พญาไท'] },
+            'srt-red': { id: 'srt-red', system: 'SRT', name: 'SRT สายสีแดง', shortLabel: 'สายสีแดง', colorHex: '#dc2626', dotClass: 'bg-red-600', btnClass: 'bg-red-600 hover:bg-red-500', badgeClass: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30', stations: ['RN01 กรุงเทพอภิวัฒน์ (บางซื่อ)', 'RN02 จตุจักร', 'RN03 วัดเสมียนนารี', 'RN04 บางเขน', 'RN05 ทุ่งสองห้อง', 'RN06 หลักสี่', 'RN07 การเคหะ', 'RN08 ดอนเมือง', 'RN09 หลักหก', 'RN10 รังสิต', 'RW02 บางซ่อน', 'RW05 บางบำหรุ', 'RW06 ตลิ่งชัน'] },
+            'bts-gold': { id: 'bts-gold', system: 'BTS', name: 'BTS สายสีทอง', shortLabel: 'สายสีทอง', colorHex: '#d97706', dotClass: 'bg-amber-500', btnClass: 'bg-amber-600 hover:bg-amber-500', badgeClass: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30', stations: ['G1 กรุงธนบุรี', 'G2 เจริญนคร (ไอคอนสยาม)', 'G3 คลองสาน'] }
         };
 
         const GENERAL_CATEGORY_META = {
@@ -866,32 +571,18 @@
             'รายรับ': { icon: '💰', barColor: '#10b981', badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' }
         };
 
-        // ============================================================================
-        // 2. TRIPLE-LAYER STORAGE MANAGER (FIXES BRAVE MOBILE DATA LOSS)
-        //    Syncs across: 1) IndexedDB  2) localStorage  3) Cookie + window.name
-        // ============================================================================
+        // 2. STORAGE MANAGER (3 Layers)
         const STORAGE_KEY = 'bkk_expense_clean_v3';
-        const LEGACY_KEYS = ['bkk_transit_expenses_v2', 'bkk_expenses'];
         const IDB_NAME = 'BKKTransitExpenseDB';
         const IDB_STORE = 'app_state';
 
         const StorageManager = {
             db: null,
-
             async initPersistence() {
                 if (navigator.storage && navigator.storage.persist) {
-                    try {
-                        const granted = await navigator.storage.persist();
-                        const statusText = document.getElementById('persistence-status-text');
-                        if (statusText) {
-                            statusText.textContent = granted
-                                ? 'เปิดโหมดป้องกันการลบข้อมูลอัตโนมัติแล้ว (Persistent Storage)'
-                                : 'ทำงานด้วยระบบสำรอง 3 ชั้น (IndexedDB + LocalStorage + Cookie)';
-                        }
-                    } catch (e) {}
+                    try { await navigator.storage.persist(); } catch (e) {}
                 }
             },
-
             openIDB() {
                 return new Promise((resolve) => {
                     if (!window.indexedDB) return resolve(null);
@@ -899,21 +590,13 @@
                         const req = indexedDB.open(IDB_NAME, 1);
                         req.onupgradeneeded = (e) => {
                             const db = e.target.result;
-                            if (!db.objectStoreNames.contains(IDB_STORE)) {
-                                db.createObjectStore(IDB_STORE);
-                            }
+                            if (!db.objectStoreNames.contains(IDB_STORE)) db.createObjectStore(IDB_STORE);
                         };
-                        req.onsuccess = (e) => {
-                            this.db = e.target.result;
-                            resolve(this.db);
-                        };
+                        req.onsuccess = (e) => { this.db = e.target.result; resolve(this.db); };
                         req.onerror = () => resolve(null);
-                    } catch (err) {
-                        resolve(null);
-                    }
+                    } catch (err) { resolve(null); }
                 });
             },
-
             async saveIDB(key, data) {
                 const db = this.db || await this.openIDB();
                 if (!db) return;
@@ -923,12 +606,9 @@
                         tx.objectStore(IDB_STORE).put(data, key);
                         tx.oncomplete = () => resolve(true);
                         tx.onerror = () => resolve(false);
-                    } catch (e) {
-                        resolve(false);
-                    }
+                    } catch (e) { resolve(false); }
                 });
             },
-
             async loadIDB(key) {
                 const db = this.db || await this.openIDB();
                 if (!db) return null;
@@ -938,12 +618,9 @@
                         const req = tx.objectStore(IDB_STORE).get(key);
                         req.onsuccess = () => resolve(req.result || null);
                         req.onerror = () => resolve(null);
-                    } catch (e) {
-                        resolve(null);
-                    }
+                    } catch (e) { resolve(null); }
                 });
             },
-
             saveCookieBackup(jsonStr) {
                 try {
                     const encoded = encodeURIComponent(jsonStr);
@@ -953,38 +630,27 @@
                     window.name = jsonStr;
                 } catch (e) {}
             },
-
             loadCookieBackup() {
                 try {
                     const match = document.cookie.split('; ').find(row => row.startsWith(STORAGE_KEY + '='));
-                    if (match) {
-                        return JSON.parse(decodeURIComponent(match.split('=')[1]));
-                    }
-                    if (window.name && window.name.startsWith('[')) {
-                        return JSON.parse(window.name);
-                    }
+                    if (match) return JSON.parse(decodeURIComponent(match.split('=')[1]));
+                    if (window.name && window.name.startsWith('[')) return JSON.parse(window.name);
                 } catch (e) {}
                 return null;
             },
-
             async saveTransactions(list) {
                 const jsonStr = JSON.stringify(list);
-                try {
-                    localStorage.setItem(STORAGE_KEY, jsonStr);
-                } catch (e) {
-                    document.getElementById('storage-warning-banner').classList.remove('hidden');
-                }
+                try { localStorage.setItem(STORAGE_KEY, jsonStr); } 
+                catch (e) { document.getElementById('storage-warning-banner').classList.remove('hidden'); }
                 await this.saveIDB(STORAGE_KEY, list);
                 this.saveCookieBackup(jsonStr);
             },
-
             async loadTransactions() {
                 let fromIDB = await this.loadIDB(STORAGE_KEY);
                 if (Array.isArray(fromIDB) && fromIDB.length > 0) {
                     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(fromIDB)); } catch (e) {}
                     return fromIDB;
                 }
-
                 try {
                     const raw = localStorage.getItem(STORAGE_KEY);
                     if (raw) {
@@ -995,20 +661,16 @@
                         }
                     }
                 } catch (e) {}
-
                 const fromCookie = this.loadCookieBackup();
                 if (Array.isArray(fromCookie) && fromCookie.length > 0) {
                     await this.saveTransactions(fromCookie);
                     return fromCookie;
                 }
-
                 return [];
             }
         };
 
-        // ============================================================================
-        // 3. APPLICATION STATE (CLEAN START - ZERO SAMPLE DATA)
-        // ============================================================================
+        // 3. APP STATE
         let originLineId = 'bts-sukhumvit';
         let destLineId = 'bts-sukhumvit';
         let isCrossLineMode = false;
@@ -1019,38 +681,26 @@
         let currentHistoryFilter = 'all';
         let currentAnalyticsRange = 'all';
         let expenses = [];
+        
+        // History Display Limits (Pagination)
+        let isHistoryOpen = localStorage.getItem('bkk_history_open') !== 'false';
+        let historyLimit = 15; 
 
         function getTodayStr() {
             const d = new Date();
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
-
         function getDaysAgoStr(days) {
             const d = new Date();
             d.setDate(d.getDate() - days);
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
 
-        // ============================================================================
-        // 4. THEME MANAGEMENT (DARK MODE AS BASE DEFAULT)
-        // ============================================================================
+        // 4. THEME & INITIALIZATION
         function initTheme() {
-            let savedTheme = 'dark';
-            try {
-                const stored = localStorage.getItem('bkk_theme_pref');
-                if (stored === 'light' || stored === 'dark') {
-                    savedTheme = stored;
-                }
-            } catch (e) {}
+            let savedTheme = localStorage.getItem('bkk_theme_pref') || 'dark';
             applyTheme(savedTheme);
         }
-
         function applyTheme(theme) {
             const htmlEl = document.documentElement;
             const iconEl = document.getElementById('theme-icon');
@@ -1063,15 +713,17 @@
             }
             try { localStorage.setItem('bkk_theme_pref', theme); } catch (e) {}
         }
-
         function toggleTheme() {
             const isDark = document.documentElement.classList.contains('dark');
             applyTheme(isDark ? 'light' : 'dark');
         }
 
-        // ============================================================================
-        // 5. APP INITIALIZATION
-        // ============================================================================
+        function checkFirstTimePrivacy() {
+            if (!localStorage.getItem('bkk_privacy_accepted')) {
+                openPolicyModal();
+            }
+        }
+
         async function initApp() {
             initTheme();
             await StorageManager.initPersistence();
@@ -1088,45 +740,54 @@
             selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense');
             setHistoryFilter('all');
             updateHeaderSummary();
-            renderHistoryList();
+            updateHistoryDrawerUI();
+            checkFirstTimePrivacy();
 
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('#transit-origin') && !e.target.closest('#dropdown-origin')) {
-                    document.getElementById('dropdown-origin').classList.add('hidden');
-                }
-                if (!e.target.closest('#transit-dest') && !e.target.closest('#dropdown-dest')) {
-                    document.getElementById('dropdown-dest').classList.add('hidden');
-                }
+                if (!e.target.closest('#transit-origin') && !e.target.closest('#dropdown-origin')) document.getElementById('dropdown-origin').classList.add('hidden');
+                if (!e.target.closest('#transit-dest') && !e.target.closest('#dropdown-dest')) document.getElementById('dropdown-dest').classList.add('hidden');
             });
-
             document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') {
-                    StorageManager.saveTransactions(expenses);
-                }
+                if (document.visibilityState === 'hidden') StorageManager.saveTransactions(expenses);
             });
         }
 
-        // ============================================================================
-        // 6. ALL-VISIBLE 3-COLUMN TRANSIT LINE GRID & CROSS-LINE LOGIC
-        // ============================================================================
+        // 5. HISTORY ACCORDION & PAGINATION LOGIC
+        function toggleHistoryDrawer() {
+            isHistoryOpen = !isHistoryOpen;
+            localStorage.setItem('bkk_history_open', isHistoryOpen);
+            updateHistoryDrawerUI();
+        }
+        function updateHistoryDrawerUI() {
+            const content = document.getElementById('history-drawer-content');
+            const chevron = document.getElementById('history-chevron');
+            if (isHistoryOpen) {
+                content.classList.remove('hidden');
+                chevron.classList.replace('ph-caret-down', 'ph-caret-up');
+            } else {
+                content.classList.add('hidden');
+                chevron.classList.replace('ph-caret-up', 'ph-caret-down');
+            }
+        }
+        function loadMoreHistory() {
+            historyLimit += 15;
+            renderHistoryList();
+        }
+
+        // 6. TRANSIT LINE & AUTOCOMPLETE LOGIC
         function toggleCrossLineMode() {
             isCrossLineMode = document.getElementById('cross-line-toggle').checked;
             const targetPill = document.getElementById('active-line-target-pill');
-            const helperText = document.getElementById('line-grid-helper');
-
             if (isCrossLineMode) {
                 activeGridTarget = 'dest';
                 targetPill.textContent = 'กำลังเลือกสาย: ปลายทาง';
                 targetPill.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-rose-500/15 text-rose-500 dark:text-rose-300 border border-rose-500/30';
-                helperText.textContent = 'แตะที่ป้ายชื่อสายของ "ต้นทาง" หรือ "ปลายทาง" ด้านล่างเพื่อเปลี่ยนสีสายแยกกัน';
             } else {
                 activeGridTarget = 'origin';
                 destLineId = originLineId;
                 targetPill.textContent = 'เดินทางสายเดียวกัน';
                 targetPill.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25';
-                helperText.textContent = 'กดเลือกสายเพื่อกรองสถานี หรือพิมพ์ค้นหาจากทุกสายได้ทันที';
             }
-
             renderLineGrid();
             updateStationLinePills();
             updateLiveRoutePreview();
@@ -1155,34 +816,24 @@
         function renderLineGrid() {
             const container = document.getElementById('line-grid-container');
             container.innerHTML = '';
-
             const currentActiveLineId = (isCrossLineMode && activeGridTarget === 'dest') ? destLineId : originLineId;
-
             Object.values(TRANSIT_LINES).forEach(line => {
                 const isSelected = line.id === currentActiveLineId;
                 const isOriginMatch = line.id === originLineId;
                 const isDestMatch = isCrossLineMode && line.id === destLineId;
-
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.onclick = () => selectLineFromGrid(line.id);
 
-                let borderStyle = 'border-[#dfd3c5] dark:border-darkBorder bg-white/70 dark:bg-darkElevated/70 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500';
-                if (isSelected) {
-                    borderStyle = 'border-sky-500 dark:border-sky-400 bg-sky-500/15 dark:bg-sky-500/20 text-slate-900 dark:text-white ring-1 ring-sky-500/50 shadow-xs';
-                }
-
+                let borderStyle = 'border-slate-200/50 dark:border-darkBorder/50 bg-white/60 dark:bg-darkElevated/60 text-slate-700 dark:text-slate-300 hover:border-slate-300';
+                if (isSelected) borderStyle = 'border-sky-500 dark:border-sky-400 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/50 shadow-xs';
+                
                 let roleTag = '';
                 if (isCrossLineMode) {
-                    if (isOriginMatch && isDestMatch) {
-                        roleTag = '<span class="text-[9px] px-1 rounded bg-slate-500/20">ขึ้น+ลง</span>';
-                    } else if (isOriginMatch) {
-                        roleTag = '<span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-500 font-bold">ขึ้น</span>';
-                    } else if (isDestMatch) {
-                        roleTag = '<span class="text-[9px] px-1 rounded bg-rose-500/20 text-rose-400 font-bold">ลง</span>';
-                    }
+                    if (isOriginMatch && isDestMatch) roleTag = '<span class="text-[9px] px-1 rounded bg-slate-500/20">ขึ้น+ลง</span>';
+                    else if (isOriginMatch) roleTag = '<span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-500 font-bold">ขึ้น</span>';
+                    else if (isDestMatch) roleTag = '<span class="text-[9px] px-1 rounded bg-rose-500/20 text-rose-400 font-bold">ลง</span>';
                 }
-
                 btn.className = `p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-1.5 active:scale-95 ${borderStyle}`;
                 btn.innerHTML = `
                     <div class="flex items-center gap-2 min-w-0">
@@ -1191,51 +842,32 @@
                             <p class="text-[10px] font-bold opacity-65 leading-none">${line.system}</p>
                             <p class="text-xs font-bold truncate mt-0.5 leading-tight">${line.shortLabel}</p>
                         </div>
-                    </div>
-                    ${roleTag}
+                    </div> ${roleTag}
                 `;
                 container.appendChild(btn);
             });
         }
 
         function selectLineFromGrid(lineId) {
-            if (!isCrossLineMode) {
-                originLineId = lineId;
-                destLineId = lineId;
-            } else {
-                if (activeGridTarget === 'origin') {
-                    originLineId = lineId;
-                } else {
-                    destLineId = lineId;
-                }
-            }
-
-            renderLineGrid();
-            updateStationLinePills();
-            updateLiveRoutePreview();
+            if (!isCrossLineMode) { originLineId = lineId; destLineId = lineId; } 
+            else { if (activeGridTarget === 'origin') originLineId = lineId; else destLineId = lineId; }
+            renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview();
         }
 
         function updateStationLinePills() {
-            const originLine = TRANSIT_LINES[originLineId];
-            const destLine = TRANSIT_LINES[destLineId];
-
+            const oLine = TRANSIT_LINES[originLineId];
+            const dLine = TRANSIT_LINES[destLineId];
             const originPill = document.getElementById('origin-line-pill');
             const destPill = document.getElementById('dest-line-pill');
-
-            originPill.className = `text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all ${originLine.badgeClass} ${isCrossLineMode && activeGridTarget === 'origin' ? 'ring-2 ring-emerald-400' : ''}`;
-            originPill.innerHTML = `<span class="w-2 h-2 rounded-full ${originLine.dotClass}"></span><span>${originLine.name}</span>`;
-
-            destPill.className = `text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all ${destLine.badgeClass} ${isCrossLineMode && activeGridTarget === 'dest' ? 'ring-2 ring-rose-400' : ''}`;
-            destPill.innerHTML = `<span class="w-2 h-2 rounded-full ${destLine.dotClass}"></span><span>${destLine.name}</span>`;
-
-            const submitBtn = document.getElementById('transit-submit-btn');
-            submitBtn.className = `w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 ${originLine.btnClass}`;
+            originPill.className = `text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all ${oLine.badgeClass} ${isCrossLineMode && activeGridTarget === 'origin' ? 'ring-2 ring-emerald-400' : ''}`;
+            originPill.innerHTML = `<span class="w-2 h-2 rounded-full ${oLine.dotClass}"></span><span>${oLine.name}</span>`;
+            destPill.className = `text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border transition-all ${dLine.badgeClass} ${isCrossLineMode && activeGridTarget === 'dest' ? 'ring-2 ring-rose-400' : ''}`;
+            destPill.innerHTML = `<span class="w-2 h-2 rounded-full ${dLine.dotClass}"></span><span>${dLine.name}</span>`;
+            document.getElementById('transit-submit-btn').className = `w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 ${oLine.btnClass}`;
         }
 
         function handleStationFocus(fieldType) {
-            if (isCrossLineMode) {
-                setGridFocusTarget(fieldType);
-            }
+            if (isCrossLineMode) setGridFocusTarget(fieldType);
             filterStationDropdown(fieldType);
         }
 
@@ -1243,54 +875,38 @@
             const inputEl = document.getElementById(fieldType === 'origin' ? 'transit-origin' : 'transit-dest');
             const dropdownEl = document.getElementById(fieldType === 'origin' ? 'dropdown-origin' : 'dropdown-dest');
             const query = inputEl.value.trim().toLowerCase();
-
             const targetLineId = fieldType === 'origin' ? originLineId : destLineId;
             const primaryLine = TRANSIT_LINES[targetLineId];
 
             dropdownEl.innerHTML = '';
-
             let results = [];
-
             primaryLine.stations.forEach(st => {
-                if (!query || st.toLowerCase().includes(query)) {
-                    results.push({ stationStr: st, line: primaryLine, isPrimary: true });
-                }
+                if (!query || st.toLowerCase().includes(query)) results.push({ stationStr: st, line: primaryLine, isPrimary: true });
             });
-
             if (query.length > 0) {
                 Object.values(TRANSIT_LINES).forEach(otherLine => {
                     if (otherLine.id === primaryLine.id) return;
                     otherLine.stations.forEach(st => {
-                        if (st.toLowerCase().includes(query)) {
-                            results.push({ stationStr: st, line: otherLine, isPrimary: false });
-                        }
+                        if (st.toLowerCase().includes(query)) results.push({ stationStr: st, line: otherLine, isPrimary: false });
                     });
                 });
             }
 
             if (results.length === 0) {
-                dropdownEl.innerHTML = `
-                    <div class="px-4 py-3 text-xs text-slate-400">
-                        ไม่พบสถานีที่ตรงกัน (สามารถพิมพ์ชื่อสถานีเองได้เลย)
-                    </div>
-                `;
+                dropdownEl.innerHTML = `<div class="px-4 py-3 text-xs text-slate-400">ไม่พบสถานีที่ตรงกัน</div>`;
             } else {
                 results.forEach(({ stationStr, line }) => {
                     const parts = stationStr.split(' ');
-                    const code = parts[0];
-                    const name = parts.slice(1).join(' ');
-
                     const item = document.createElement('button');
                     item.type = 'button';
-                    item.className = 'w-full text-left px-4 py-2.5 text-xs hover:bg-[#f3ece4] dark:hover:bg-slate-800/80 flex items-center justify-between transition-colors';
+                    item.className = 'w-full text-left px-4 py-2.5 text-xs hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center justify-between transition-colors';
                     item.innerHTML = `
                         <div class="flex items-center gap-2.5 min-w-0">
-                            <span class="px-2 py-0.5 rounded-md font-bold text-[10px] border shrink-0 ${line.badgeClass}">${code}</span>
-                            <span class="font-semibold text-slate-800 dark:text-slate-100 truncate">${name}</span>
+                            <span class="px-2 py-0.5 rounded-md font-bold text-[10px] border shrink-0 ${line.badgeClass}">${parts[0]}</span>
+                            <span class="font-semibold text-slate-800 dark:text-slate-100 truncate">${parts.slice(1).join(' ')}</span>
                         </div>
                         <span class="text-[10px] font-medium text-slate-400 shrink-0 ml-2 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full ${line.dotClass}"></span>
-                            ${line.system} ${line.shortLabel}
+                            <span class="w-1.5 h-1.5 rounded-full ${line.dotClass}"></span>${line.system} ${line.shortLabel}
                         </span>
                     `;
                     item.onclick = () => {
@@ -1305,115 +921,75 @@
                             }
                             destLineId = line.id;
                         }
-                        renderLineGrid();
-                        updateStationLinePills();
-                        updateLiveRoutePreview();
+                        renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview();
                         dropdownEl.classList.add('hidden');
                     };
                     dropdownEl.appendChild(item);
                 });
             }
-
             dropdownEl.classList.remove('hidden');
             updateLiveRoutePreview();
         }
 
         function clearStationInput(fieldType) {
             const inputEl = document.getElementById(fieldType === 'origin' ? 'transit-origin' : 'transit-dest');
-            inputEl.value = '';
-            inputEl.focus();
-            filterStationDropdown(fieldType);
-            updateLiveRoutePreview();
+            inputEl.value = ''; inputEl.focus(); filterStationDropdown(fieldType); updateLiveRoutePreview();
         }
 
         function swapStationsAndLines() {
-            const originEl = document.getElementById('transit-origin');
-            const destEl = document.getElementById('transit-dest');
-            const tempStation = originEl.value;
-            originEl.value = destEl.value;
-            destEl.value = tempStation;
-
-            const tempLine = originLineId;
-            originLineId = destLineId;
-            destLineId = tempLine;
-
-            renderLineGrid();
-            updateStationLinePills();
-            updateLiveRoutePreview();
+            const oEl = document.getElementById('transit-origin'), dEl = document.getElementById('transit-dest');
+            [oEl.value, dEl.value] = [dEl.value, oEl.value];
+            [originLineId, destLineId] = [destLineId, originLineId];
+            renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview();
         }
 
-        function stripStationCode(stationStr) {
-            if (!stationStr) return '';
-            const parts = stationStr.trim().split(' ');
-            if (parts.length > 1 && /^[A-Z0-9]+$/i.test(parts[0])) {
-                return parts.slice(1).join(' ');
-            }
-            return stationStr;
+        function stripStationCode(s) {
+            const parts = (s || '').trim().split(' ');
+            return (parts.length > 1 && /^[A-Z0-9]+$/i.test(parts[0])) ? parts.slice(1).join(' ') : s;
         }
 
         function updateLiveRoutePreview() {
-            const originVal = document.getElementById('transit-origin').value.trim() || 'สถานีต้นทาง';
-            const destVal = document.getElementById('transit-dest').value.trim() || 'สถานีปลายทาง';
+            const oVal = document.getElementById('transit-origin').value.trim() || 'สถานีต้นทาง';
+            const dVal = document.getElementById('transit-dest').value.trim() || 'สถานีปลายทาง';
             const oLine = TRANSIT_LINES[originLineId] || TRANSIT_LINES['bts-sukhumvit'];
             const dLine = TRANSIT_LINES[destLineId] || oLine;
-
-            const container = document.getElementById('live-route-badges');
-            container.innerHTML = `
-                <span class="px-2 py-0.5 rounded-md font-bold text-[11px] border ${oLine.badgeClass}">
-                    ${oLine.system} ${stripStationCode(originVal)}
-                </span>
+            document.getElementById('live-route-badges').innerHTML = `
+                <span class="px-2 py-0.5 rounded-md font-bold text-[11px] border ${oLine.badgeClass}">${oLine.system} ${stripStationCode(oVal)}</span>
                 <i class="ph ph-arrow-right text-slate-400 text-xs"></i>
-                <span class="px-2 py-0.5 rounded-md font-bold text-[11px] border ${dLine.badgeClass}">
-                    ${dLine.system} ${stripStationCode(destVal)}
-                </span>
+                <span class="px-2 py-0.5 rounded-md font-bold text-[11px] border ${dLine.badgeClass}">${dLine.system} ${stripStationCode(dVal)}</span>
             `;
         }
 
         function updateSplitPreview() {
-            const rawVal = parseFloat(document.getElementById('transit-amount').value) || 0;
+            const val = parseFloat(document.getElementById('transit-amount').value) || 0;
             const isSplit = document.getElementById('transit-split').checked;
             const badge = document.getElementById('split-preview-badge');
-
-            if (isSplit && rawVal > 0) {
-                badge.textContent = `จ่ายจริง ${(rawVal / 2).toLocaleString('th-TH')}฿`;
+            if (isSplit && val > 0) {
+                badge.textContent = `จ่ายจริง ${(val / 2).toLocaleString('th-TH')}฿`;
                 badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
+            } else badge.classList.add('hidden');
         }
 
-        // ============================================================================
         // 7. FORM SWITCHING & SUBMISSION
-        // ============================================================================
         function switchMode(mode) {
-            const transitTab = document.getElementById('tab-btn-transit');
-            const generalTab = document.getElementById('tab-btn-general');
-            const transitForm = document.getElementById('form-transit');
-            const generalForm = document.getElementById('form-general');
-
+            const btnT = document.getElementById('tab-btn-transit'), btnG = document.getElementById('tab-btn-general');
+            const frmT = document.getElementById('form-transit'), frmG = document.getElementById('form-general');
+            const activeCls = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
+            const idleCls = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
             if (mode === 'transit') {
-                transitTab.className = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
-                generalTab.className = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-                transitForm.classList.remove('hidden');
-                generalForm.classList.add('hidden');
+                btnT.className = activeCls; btnG.className = idleCls;
+                frmT.classList.remove('hidden'); frmG.classList.add('hidden');
             } else {
-                generalTab.className = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
-                transitTab.className = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-                generalForm.classList.remove('hidden');
-                transitForm.classList.add('hidden');
+                btnG.className = activeCls; btnT.className = idleCls;
+                frmG.classList.remove('hidden'); frmT.classList.add('hidden');
             }
         }
 
         function selectGeneralCategory(catName, type) {
-            selectedGeneralCategory = catName;
-            selectedGeneralType = type;
-
+            selectedGeneralCategory = catName; selectedGeneralType = type;
             document.querySelectorAll('.gen-cat-btn').forEach(btn => {
-                if (btn.getAttribute('data-cat') === catName) {
-                    btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all border-sky-500 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/40';
-                } else {
-                    btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all bg-white/70 dark:bg-darkElevated/60 text-slate-600 dark:text-slate-300 border-[#dfd3c5] dark:border-darkBorder hover:bg-white dark:hover:bg-darkElevated';
-                }
+                if (btn.getAttribute('data-cat') === catName) btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all border-sky-500 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/40';
+                else btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all bg-white/40 dark:bg-darkElevated/40 text-slate-600 dark:text-slate-300 border-slate-200/50 dark:border-darkBorder/50 hover:bg-white dark:hover:bg-darkElevated';
             });
         }
 
@@ -1426,110 +1002,52 @@
             const date = document.getElementById('entry-date').value || getTodayStr();
 
             if (!origin || !destination || isNaN(amount) || amount <= 0) return;
+            if (isSplit) amount /= 2;
 
-            if (isSplit) {
-                amount = amount / 2;
-            }
-
-            const newEntry = {
-                id: Date.now(),
-                type: 'transit',
-                line: originLineId,
-                originLine: originLineId,
-                destLine: destLineId,
-                origin,
-                destination,
-                amount,
-                isSplit,
-                date
-            };
-
-            expenses.unshift(newEntry);
+            expenses.unshift({ id: Date.now(), type: 'transit', line: originLineId, originLine: originLineId, destLine: destLineId, origin, destination, amount, isSplit, date });
             await StorageManager.saveTransactions(expenses);
-            updateHeaderSummary();
-            renderHistoryList();
-
+            updateHeaderSummary(); renderHistoryList();
             document.getElementById('transit-amount').value = '';
             document.getElementById('transit-split').checked = false;
-            updateSplitPreview();
-            showToast('บันทึกการเดินทางรถไฟฟ้าเรียบร้อย 🚇');
+            updateSplitPreview(); showToast('บันทึกการเดินทางรถไฟฟ้าเรียบร้อย 🚇');
         }
 
         async function handleGeneralSubmit(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('gen-amount').value);
             const note = document.getElementById('gen-note').value.trim();
-            const date = document.getElementById('entry-date').value || getTodayStr();
-
             if (isNaN(amount) || amount <= 0) return;
 
-            const newEntry = {
-                id: Date.now(),
-                type: selectedGeneralType === 'income' ? 'income' : 'general',
-                category: selectedGeneralCategory,
-                note: note || selectedGeneralCategory,
-                amount,
-                date
-            };
-
-            expenses.unshift(newEntry);
+            expenses.unshift({ id: Date.now(), type: selectedGeneralType === 'income' ? 'income' : 'general', category: selectedGeneralCategory, note: note || selectedGeneralCategory, amount, date: document.getElementById('entry-date').value || getTodayStr() });
             await StorageManager.saveTransactions(expenses);
-            updateHeaderSummary();
-            renderHistoryList();
-
-            document.getElementById('gen-amount').value = '';
-            document.getElementById('gen-note').value = '';
+            updateHeaderSummary(); renderHistoryList();
+            document.getElementById('gen-amount').value = ''; document.getElementById('gen-note').value = '';
             showToast(selectedGeneralType === 'income' ? 'บันทึกรายรับเรียบร้อย 💰' : 'บันทึกรายจ่ายเรียบร้อย 🧾');
         }
 
-        // ============================================================================
-        // 8. HEADER DASHBOARD & SPACIOUS DUAL-BADGE HISTORY LIST
-        // ============================================================================
+        // 8. DASHBOARD & HISTORY UI (WITH PAGINATION)
         function updateHeaderSummary() {
-            const transitSum = expenses
-                .filter(x => x.type === 'transit')
-                .reduce((acc, cur) => acc + cur.amount, 0);
-
-            const generalSum = expenses
-                .filter(x => x.type === 'general')
-                .reduce((acc, cur) => acc + cur.amount, 0);
-
-            const incomeSum = expenses
-                .filter(x => x.type === 'income')
-                .reduce((acc, cur) => acc + cur.amount, 0);
-
-            const totalExpense = transitSum + generalSum;
-
-            document.getElementById('header-total-expense').textContent = totalExpense.toLocaleString('th-TH');
+            const transitSum = expenses.filter(x => x.type === 'transit').reduce((a, c) => a + c.amount, 0);
+            const generalSum = expenses.filter(x => x.type === 'general').reduce((a, c) => a + c.amount, 0);
+            const incomeSum = expenses.filter(x => x.type === 'income').reduce((a, c) => a + c.amount, 0);
+            document.getElementById('header-total-expense').textContent = (transitSum + generalSum).toLocaleString('th-TH');
             document.getElementById('header-transit-sum').textContent = transitSum.toLocaleString('th-TH');
             document.getElementById('header-general-sum').textContent = generalSum.toLocaleString('th-TH');
             document.getElementById('header-total-income').textContent = incomeSum.toLocaleString('th-TH');
             document.getElementById('header-tx-count').textContent = `${expenses.length} รายการ`;
-
-            const clearBtn = document.getElementById('clear-all-btn');
-            if (expenses.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
+            const clrBtn = document.getElementById('clear-all-btn');
+            expenses.length > 0 ? clrBtn.classList.remove('hidden') : clrBtn.classList.add('hidden');
         }
 
         function setHistoryFilter(filter) {
             currentHistoryFilter = filter;
-            const labels = {
-                all: 'ทั้งหมด',
-                transit: '🚇 รถไฟฟ้า',
-                general: '🧾 ทั่วไป',
-                income: '💰 รายรับ'
-            };
+            historyLimit = 15; // Reset limit on filter change
+            const labels = { all: 'ทั้งหมด', transit: '🚇 รถไฟฟ้า', general: '🧾 ทั่วไป', income: '💰 รายรับ' };
             ['all', 'transit', 'general', 'income'].forEach(f => {
                 const btn = document.getElementById(`hist-filter-${f}`);
                 btn.textContent = labels[f];
-                if (f === filter) {
-                    btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-xs transition-all shrink-0';
-                } else {
-                    btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold glass-box text-slate-600 dark:text-slate-300 border hover:bg-white dark:hover:bg-darkElevated transition-all shrink-0';
-                }
+                if (f === filter) btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-xs transition-all shrink-0';
+                else btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold glass-box border border-slate-200/50 dark:border-darkBorder text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-darkElevated transition-all shrink-0';
             });
             renderHistoryList();
         }
@@ -1539,185 +1057,126 @@
             const parts = yyyy_mm_dd.split('-');
             if (parts.length !== 3) return yyyy_mm_dd;
             const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-            const day = parseInt(parts[2], 10);
-            const mIdx = parseInt(parts[1], 10) - 1;
-            return `${day} ${months[mIdx] || ''}`;
+            return `${parseInt(parts[2], 10)} ${months[parseInt(parts[1], 10) - 1] || ''}`;
         }
 
         function renderHistoryList() {
             const container = document.getElementById('history-container');
+            const loadMoreBtn = document.getElementById('load-more-container');
             container.innerHTML = '';
 
-            const filtered = expenses.filter(item => {
-                if (currentHistoryFilter === 'all') return true;
-                return item.type === currentHistoryFilter;
-            });
-
+            const filtered = expenses.filter(item => currentHistoryFilter === 'all' || item.type === currentHistoryFilter);
+            
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-12 px-5 glass-box rounded-3xl border border-dashed">
-                        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-500 flex items-center justify-center mx-auto mb-3">
-                            <i class="ph ph-train-regional text-2xl"></i>
-                        </div>
+                    <div class="text-center py-12 px-5 glass-box border border-slate-200/50 dark:border-darkBorder/50 rounded-3xl border-dashed">
+                        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-500 flex items-center justify-center mx-auto mb-3"><i class="ph ph-train-regional text-2xl"></i></div>
                         <p class="text-sm font-bold text-slate-700 dark:text-slate-200">ยังไม่มีรายการบันทึก</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">เริ่มจดการเดินทางด้วยรถไฟฟ้าหรือค่าใช้จ่ายแรกของคุณได้เลย</p>
-                    </div>
-                `;
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">เริ่มจดการเดินทางหรือค่าใช้จ่ายแรกของคุณได้เลย</p>
+                    </div>`;
+                loadMoreBtn.classList.add('hidden');
                 return;
             }
 
-            filtered.forEach(item => {
+            const paginated = filtered.slice(0, historyLimit);
+
+            paginated.forEach(item => {
                 const card = document.createElement('div');
-
                 if (item.type === 'transit') {
-                    const oLineId = item.originLine || item.line || 'bts-sukhumvit';
-                    const dLineId = item.destLine || oLineId;
-                    const oLine = TRANSIT_LINES[oLineId] || TRANSIT_LINES['bts-sukhumvit'];
-                    const dLine = TRANSIT_LINES[dLineId] || oLine;
+                    const oLine = TRANSIT_LINES[item.originLine || item.line || 'bts-sukhumvit'] || TRANSIT_LINES['bts-sukhumvit'];
+                    const dLine = TRANSIT_LINES[item.destLine || oLine.id] || oLine;
                     const isCross = oLine.id !== dLine.id;
+                    const oClean = stripStationCode(item.origin), dClean = stripStationCode(item.destination);
 
-                    const originClean = stripStationCode(item.origin);
-                    const destClean = stripStationCode(item.destination);
-
-                    card.className = 'relative overflow-hidden p-4 rounded-2xl glass-box border transition-all';
-                    card.style.borderLeftWidth = '5px';
-                    card.style.borderLeftColor = oLine.colorHex;
-
-                    const lineSubtitle = isCross
-                        ? `${oLine.name} <span class="mx-1 text-slate-400">➔</span> ${dLine.name}`
-                        : `${oLine.name}`;
+                    card.className = 'relative overflow-hidden p-4 rounded-2xl glass-box border border-slate-200/50 dark:border-darkBorder/50 transition-all';
+                    card.style.borderLeftWidth = '5px'; card.style.borderLeftColor = oLine.colorHex;
+                    const sub = isCross ? `${oLine.name} <span class="mx-1 text-slate-400">➔</span> ${dLine.name}` : oLine.name;
 
                     card.innerHTML = `
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0 flex-1 space-y-2">
                                 <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                                        <i class="ph ph-train text-sky-500"></i>
-                                        ${lineSubtitle}
-                                    </span>
+                                    <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><i class="ph ph-train text-sky-500"></i>${sub}</span>
                                     ${isCross ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/30">เปลี่ยนสาย</span>' : ''}
                                     ${item.isSplit ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-300 border border-sky-500/30">หาร 2 แล้ว</span>' : ''}
                                 </div>
-
                                 <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${oLine.badgeClass}">
-                                        <span class="w-2 h-2 rounded-full ${oLine.dotClass}"></span>
-                                        <span>${oLine.system} ${originClean}</span>
-                                    </span>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${oLine.badgeClass}"><span class="w-2 h-2 rounded-full ${oLine.dotClass}"></span><span>${oLine.system} ${oClean}</span></span>
                                     <i class="ph ph-arrow-right text-slate-400 text-sm mx-0.5"></i>
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${dLine.badgeClass}">
-                                        <span class="w-2 h-2 rounded-full ${dLine.dotClass}"></span>
-                                        <span>${dLine.system} ${destClean}</span>
-                                    </span>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border ${dLine.badgeClass}"><span class="w-2 h-2 rounded-full ${dLine.dotClass}"></span><span>${dLine.system} ${dClean}</span></span>
                                 </div>
                             </div>
-
                             <div class="flex flex-col items-end shrink-0">
                                 <span class="text-base font-bold text-slate-900 dark:text-white tabular-nums">-฿${item.amount.toLocaleString('th-TH')}</span>
                                 <div class="flex items-center gap-2.5 mt-2">
                                     <span class="text-[11px] text-slate-400 font-medium">${formatThaiDateShort(item.date)}</span>
-                                    <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 transition-colors p-1" title="ลบรายการ">
-                                        <i class="ph ph-trash text-sm"></i>
-                                    </button>
+                                    <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 p-1"><i class="ph ph-trash text-sm"></i></button>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 } else {
                     const isInc = item.type === 'income';
                     const meta = GENERAL_CATEGORY_META[item.category] || { icon: '✨', barColor: '#64748b', badge: 'bg-slate-500/15 text-slate-600 dark:text-slate-300 border-slate-500/30' };
 
-                    card.className = 'relative overflow-hidden p-4 rounded-2xl glass-box border flex items-center justify-between gap-3 transition-all';
-                    card.style.borderLeftWidth = '5px';
-                    card.style.borderLeftColor = meta.barColor;
+                    card.className = 'relative overflow-hidden p-4 rounded-2xl glass-box border border-slate-200/50 dark:border-darkBorder/50 flex items-center justify-between gap-3 transition-all';
+                    card.style.borderLeftWidth = '5px'; card.style.borderLeftColor = meta.barColor;
 
                     card.innerHTML = `
                         <div class="flex items-center gap-3.5 min-w-0">
-                            <div class="w-11 h-11 rounded-2xl bg-[#f3ece4] dark:bg-darkElevated flex items-center justify-center text-xl shrink-0 border border-[#dfd3c5] dark:border-darkBorder">
-                                ${meta.icon}
-                            </div>
+                            <div class="w-11 h-11 rounded-2xl bg-white/60 dark:bg-darkElevated/60 flex items-center justify-center text-xl shrink-0 border border-slate-200/50 dark:border-darkBorder/50">${meta.icon}</div>
                             <div class="min-w-0 space-y-1">
                                 <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-lg border ${meta.badge}">${item.category}</span>
                                 <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">${item.note || '-'}</p>
                             </div>
                         </div>
                         <div class="flex flex-col items-end shrink-0">
-                            <span class="text-base font-bold tabular-nums ${isInc ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}">
-                                ${isInc ? '+' : '-'}฿${item.amount.toLocaleString('th-TH')}
-                            </span>
+                            <span class="text-base font-bold tabular-nums ${isInc ? 'text-emerald-500' : 'text-slate-900 dark:text-white'}">${isInc ? '+' : '-'}฿${item.amount.toLocaleString('th-TH')}</span>
                             <div class="flex items-center gap-2.5 mt-1.5">
                                 <span class="text-[11px] text-slate-400 font-medium">${formatThaiDateShort(item.date)}</span>
-                                <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 transition-colors p-1" title="ลบรายการ">
-                                    <i class="ph ph-trash text-sm"></i>
-                                </button>
+                                <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 p-1"><i class="ph ph-trash text-sm"></i></button>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 }
-
                 container.appendChild(card);
             });
+
+            // Toggle Load More button
+            if (filtered.length > historyLimit) {
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.classList.add('hidden');
+            }
         }
 
         async function deleteEntry(id) {
             expenses = expenses.filter(item => item.id !== id);
             await StorageManager.saveTransactions(expenses);
-            updateHeaderSummary();
-            renderHistoryList();
-            showToast('ลบรายการเรียบร้อย');
+            updateHeaderSummary(); renderHistoryList(); showToast('ลบรายการเรียบร้อย');
         }
 
-        function openClearConfirmModal() {
-            document.getElementById('confirm-modal').classList.remove('hidden');
-        }
-
-        function closeClearConfirmModal() {
-            document.getElementById('confirm-modal').classList.add('hidden');
-        }
-
+        function openClearConfirmModal() { document.getElementById('confirm-modal').classList.remove('hidden'); }
+        function closeClearConfirmModal() { document.getElementById('confirm-modal').classList.add('hidden'); }
         async function confirmClearAll() {
-            expenses = [];
-            await StorageManager.saveTransactions(expenses);
-            updateHeaderSummary();
-            renderHistoryList();
-            closeClearConfirmModal();
-            showToast('ล้างข้อมูลทั้งหมดแล้ว');
+            expenses = []; await StorageManager.saveTransactions(expenses);
+            updateHeaderSummary(); renderHistoryList(); closeClearConfirmModal(); showToast('ล้างข้อมูลทั้งหมดแล้ว');
         }
 
-        // ============================================================================
-        // 9. BACKUP & RESTORE (EXPORT / IMPORT JSON) & POLICY MODAL
-        // ============================================================================
-        function openPolicyModal() {
-            document.getElementById('policy-modal').classList.remove('hidden');
+        // 9. MODALS & POLICIES
+        function openPolicyModal() { document.getElementById('policy-modal').classList.remove('hidden'); }
+        function closePolicyModal() { 
+            document.getElementById('policy-modal').classList.add('hidden'); 
+            if (!localStorage.getItem('bkk_privacy_accepted')) {
+                localStorage.setItem('bkk_privacy_accepted', 'true');
+            }
         }
-
-        function closePolicyModal() {
-            document.getElementById('policy-modal').classList.add('hidden');
-        }
-
-        function openBackupModal() {
-            document.getElementById('backup-modal').classList.remove('hidden');
-        }
-
-        function closeBackupModal() {
-            document.getElementById('backup-modal').classList.add('hidden');
-        }
+        function openBackupModal() { document.getElementById('backup-modal').classList.remove('hidden'); }
+        function closeBackupModal() { document.getElementById('backup-modal').classList.add('hidden'); }
 
         function exportBackupFile() {
-            const payload = {
-                version: 3,
-                exportedAt: new Date().toISOString(),
-                transactions: expenses
-            };
-            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `bkk-expense-backup-${getTodayStr()}.json`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
+            const blob = new Blob([JSON.stringify({ version: 3, exportedAt: new Date().toISOString(), transactions: expenses }, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob), a = document.createElement('a');
+            a.href = url; a.download = `bkk-expense-backup-${getTodayStr()}.json`;
+            document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
             showToast('ดาวน์โหลดไฟล์สำรองข้อมูลแล้ว 💾');
         }
 
@@ -1730,202 +1189,87 @@
                     const parsed = JSON.parse(e.target.result);
                     const list = Array.isArray(parsed) ? parsed : (parsed.transactions || []);
                     if (Array.isArray(list)) {
-                        expenses = list;
-                        await StorageManager.saveTransactions(expenses);
-                        updateHeaderSummary();
-                        renderHistoryList();
-                        closeBackupModal();
+                        expenses = list; await StorageManager.saveTransactions(expenses);
+                        updateHeaderSummary(); renderHistoryList(); closeBackupModal();
                         showToast(`กู้คืนข้อมูลสำเร็จ (${expenses.length} รายการ) ✅`);
                     }
-                } catch (err) {
-                    showToast('ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่สำรองไว้');
-                }
+                } catch (err) { showToast('ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่สำรองไว้'); }
             };
-            reader.readAsText(file);
-            event.target.value = '';
+            reader.readAsText(file); event.target.value = '';
         }
 
-        // ============================================================================
-        // 10. ANALYTICS MODAL & DATE FILTERING
-        // ============================================================================
-        function openAnalyticsModal() {
-            document.getElementById('analytics-modal').classList.remove('hidden');
-            setAnalyticsRange(currentAnalyticsRange);
-        }
-
-        function closeAnalyticsModal() {
-            document.getElementById('analytics-modal').classList.add('hidden');
-        }
-
+        // 10. ANALYTICS
+        function openAnalyticsModal() { document.getElementById('analytics-modal').classList.remove('hidden'); setAnalyticsRange(currentAnalyticsRange); }
+        function closeAnalyticsModal() { document.getElementById('analytics-modal').classList.add('hidden'); }
         function setAnalyticsRange(rangeType) {
             currentAnalyticsRange = rangeType;
-            const customBox = document.getElementById('custom-date-box');
-
             ['today', '7days', 'month', 'all', 'custom'].forEach(r => {
                 const btn = document.getElementById(`range-btn-${r}`);
-                if (r === rangeType) {
-                    btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-sky-500 bg-sky-600 text-white shadow-2xs transition-all';
-                } else {
-                    btn.className = 'py-2 px-2 rounded-xl text-xs font-semibold border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkElevated text-slate-600 dark:text-slate-300 transition-all';
-                }
+                if (r === rangeType) btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-sky-500 bg-sky-600 text-white shadow-2xs transition-all';
+                else btn.className = 'py-2 px-2 rounded-xl text-xs font-semibold border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkElevated text-slate-600 dark:text-slate-300 transition-all';
             });
-
-            if (rangeType === 'custom') {
-                customBox.classList.remove('hidden');
-            } else {
-                customBox.classList.add('hidden');
-            }
-
+            rangeType === 'custom' ? document.getElementById('custom-date-box').classList.remove('hidden') : document.getElementById('custom-date-box').classList.add('hidden');
             renderAnalyticsData();
         }
 
         function renderAnalyticsData() {
-            const today = getTodayStr();
-            const sevenDaysAgo = getDaysAgoStr(6);
-            const currentMonthPrefix = today.slice(0, 7);
-
+            const today = getTodayStr(), sevenDaysAgo = getDaysAgoStr(6), currentMonthPrefix = today.slice(0, 7);
             let labelText = 'ข้อมูลทั้งหมด';
             const filtered = expenses.filter(item => {
-                if (currentAnalyticsRange === 'today') {
-                    labelText = `ข้อมูลวันนี้ (${formatThaiDateShort(today)})`;
-                    return item.date === today;
-                }
-                if (currentAnalyticsRange === '7days') {
-                    labelText = `ย้อนหลัง 7 วัน (${formatThaiDateShort(sevenDaysAgo)} - ${formatThaiDateShort(today)})`;
-                    return item.date >= sevenDaysAgo && item.date <= today;
-                }
-                if (currentAnalyticsRange === 'month') {
-                    labelText = `ข้อมูลเดือนนี้ (${currentMonthPrefix})`;
-                    return item.date && item.date.startsWith(currentMonthPrefix);
-                }
+                if (currentAnalyticsRange === 'today') { labelText = `ข้อมูลวันนี้`; return item.date === today; }
+                if (currentAnalyticsRange === '7days') { labelText = `ย้อนหลัง 7 วัน`; return item.date >= sevenDaysAgo && item.date <= today; }
+                if (currentAnalyticsRange === 'month') { labelText = `ข้อมูลเดือนนี้`; return item.date && item.date.startsWith(currentMonthPrefix); }
                 if (currentAnalyticsRange === 'custom') {
-                    const start = document.getElementById('filter-start-date').value;
-                    const end = document.getElementById('filter-end-date').value;
-                    labelText = `ช่วงวันที่ ${formatThaiDateShort(start)} ถึง ${formatThaiDateShort(end)}`;
-                    return (!start || item.date >= start) && (!end || item.date <= end);
+                    const start = document.getElementById('filter-start-date').value, end = document.getElementById('filter-end-date').value;
+                    labelText = `ช่วงวันที่เลือก`; return (!start || item.date >= start) && (!end || item.date <= end);
                 }
                 return true;
             });
-
             document.getElementById('modal-period-label').textContent = labelText;
-
-            const transitItems = filtered.filter(x => x.type === 'transit');
-            const generalItems = filtered.filter(x => x.type === 'general');
-            const incomeItems = filtered.filter(x => x.type === 'income');
-
-            const transitTotal = transitItems.reduce((s, x) => s + x.amount, 0);
-            const generalTotal = generalItems.reduce((s, x) => s + x.amount, 0);
-            const incomeTotal = incomeItems.reduce((s, x) => s + x.amount, 0);
-            const grandTotalExp = transitTotal + generalTotal;
-
-            const transitPct = grandTotalExp > 0 ? Math.round((transitTotal / grandTotalExp) * 100) : 0;
-            const generalPct = grandTotalExp > 0 ? Math.round((generalTotal / grandTotalExp) * 100) : 0;
-
-            document.getElementById('modal-total-exp').textContent = grandTotalExp.toLocaleString('th-TH');
-            document.getElementById('modal-total-count').textContent = transitItems.length + generalItems.length;
-            document.getElementById('modal-transit-exp').textContent = transitTotal.toLocaleString('th-TH');
-            document.getElementById('modal-transit-pct').textContent = transitPct;
-            document.getElementById('modal-general-exp').textContent = generalTotal.toLocaleString('th-TH');
-            document.getElementById('modal-general-pct').textContent = generalPct;
-            document.getElementById('modal-income-sum').textContent = incomeTotal.toLocaleString('th-TH');
-
-            const net = incomeTotal - grandTotalExp;
+            const tItems = filtered.filter(x => x.type === 'transit'), gItems = filtered.filter(x => x.type === 'general'), iItems = filtered.filter(x => x.type === 'income');
+            const tTotal = tItems.reduce((s, x) => s + x.amount, 0), gTotal = gItems.reduce((s, x) => s + x.amount, 0), iTotal = iItems.reduce((s, x) => s + x.amount, 0);
+            const grandExp = tTotal + gTotal;
+            document.getElementById('modal-total-exp').textContent = grandExp.toLocaleString('th-TH');
+            document.getElementById('modal-total-count').textContent = tItems.length + gItems.length;
+            document.getElementById('modal-transit-exp').textContent = tTotal.toLocaleString('th-TH');
+            document.getElementById('modal-transit-pct').textContent = grandExp > 0 ? Math.round((tTotal / grandExp) * 100) : 0;
+            document.getElementById('modal-general-exp').textContent = gTotal.toLocaleString('th-TH');
+            document.getElementById('modal-general-pct').textContent = grandExp > 0 ? Math.round((gTotal / grandExp) * 100) : 0;
+            document.getElementById('modal-income-sum').textContent = iTotal.toLocaleString('th-TH');
+            const net = iTotal - grandExp;
             document.getElementById('modal-net-balance').textContent = `สุทธิ ${net >= 0 ? '+' : ''}฿${net.toLocaleString('th-TH')}`;
-            document.getElementById('modal-transit-trips').textContent = `${transitItems.length} เที่ยว`;
+            document.getElementById('modal-transit-trips').textContent = `${tItems.length} เที่ยว`;
 
-            const transitContainer = document.getElementById('modal-transit-breakdown');
-            transitContainer.innerHTML = '';
-
-            if (transitItems.length === 0) {
-                transitContainer.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center bg-slate-50 dark:bg-darkElevated/50 rounded-2xl">ไม่มีประวัติการขึ้นรถไฟฟ้าในช่วงเวลานี้</p>`;
-            } else {
+            const tCont = document.getElementById('modal-transit-breakdown'); tCont.innerHTML = '';
+            if (tItems.length === 0) tCont.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center bg-slate-50 dark:bg-darkElevated/50 rounded-2xl">ไม่มีประวัติการขึ้นรถไฟฟ้า</p>`;
+            else {
                 const byLine = {};
-                transitItems.forEach(t => {
-                    const key = t.originLine || t.line || 'bts-sukhumvit';
-                    if (!byLine[key]) byLine[key] = { sum: 0, count: 0 };
-                    byLine[key].sum += t.amount;
-                    byLine[key].count += 1;
+                tItems.forEach(t => { const k = t.originLine || t.line || 'bts-sukhumvit'; if (!byLine[k]) byLine[k] = { sum: 0, count: 0 }; byLine[k].sum += t.amount; byLine[k].count++; });
+                Object.entries(byLine).sort((a, b) => b[1].sum - a[1].sum).forEach(([lineId, stats]) => {
+                    const line = TRANSIT_LINES[lineId] || TRANSIT_LINES['bts-sukhumvit'], pct = tTotal > 0 ? Math.round((stats.sum / tTotal) * 100) : 0;
+                    tCont.innerHTML += `<div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/60 dark:border-darkBorder"><div class="flex justify-between text-xs mb-2"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full ${line.dotClass}"></span><span class="font-bold">${line.name}</span><span class="text-[11px] text-slate-400">(${stats.count} เที่ยว)</span></div><div class="font-bold tabular-nums">฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span></div></div><div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"><div class="h-full ${line.dotClass} rounded-full" style="width: ${pct}%"></div></div></div>`;
                 });
-
-                Object.entries(byLine)
-                    .sort((a, b) => b[1].sum - a[1].sum)
-                    .forEach(([lineId, stats]) => {
-                        const line = TRANSIT_LINES[lineId] || TRANSIT_LINES['bts-sukhumvit'];
-                        const pct = transitTotal > 0 ? Math.round((stats.sum / transitTotal) * 100) : 0;
-
-                        const row = document.createElement('div');
-                        row.className = 'p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/60 dark:border-darkBorder';
-                        row.innerHTML = `
-                            <div class="flex items-center justify-between text-xs mb-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="w-2.5 h-2.5 rounded-full ${line.dotClass}"></span>
-                                    <span class="font-bold text-slate-800 dark:text-slate-100">${line.name}</span>
-                                    <span class="text-[11px] text-slate-400">(${stats.count} เที่ยว)</span>
-                                </div>
-                                <div class="font-bold text-slate-900 dark:text-white tabular-nums">
-                                    ฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span>
-                                </div>
-                            </div>
-                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full ${line.dotClass} rounded-full" style="width: ${pct}%"></div>
-                            </div>
-                        `;
-                        transitContainer.appendChild(row);
-                    });
             }
 
-            const generalContainer = document.getElementById('modal-general-breakdown');
-            generalContainer.innerHTML = '';
-
-            if (generalItems.length === 0) {
-                generalContainer.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center bg-slate-50 dark:bg-darkElevated/50 rounded-2xl">ไม่มีรายจ่ายทั่วไปในช่วงเวลานี้</p>`;
-            } else {
+            const gCont = document.getElementById('modal-general-breakdown'); gCont.innerHTML = '';
+            if (gItems.length === 0) gCont.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center bg-slate-50 dark:bg-darkElevated/50 rounded-2xl">ไม่มีรายจ่ายทั่วไป</p>`;
+            else {
                 const byCat = {};
-                generalItems.forEach(g => {
-                    if (!byCat[g.category]) byCat[g.category] = { sum: 0, count: 0 };
-                    byCat[g.category].sum += g.amount;
-                    byCat[g.category].count += 1;
+                gItems.forEach(g => { if (!byCat[g.category]) byCat[g.category] = { sum: 0, count: 0 }; byCat[g.category].sum += g.amount; byCat[g.category].count++; });
+                Object.entries(byCat).sort((a, b) => b[1].sum - a[1].sum).forEach(([catName, stats]) => {
+                    const meta = GENERAL_CATEGORY_META[catName] || { icon: '✨', barColor: '#64748b' }, pct = gTotal > 0 ? Math.round((stats.sum / gTotal) * 100) : 0;
+                    gCont.innerHTML += `<div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/60 dark:border-darkBorder"><div class="flex justify-between text-xs mb-2"><div class="flex items-center gap-2"><span>${meta.icon}</span><span class="font-bold">${catName}</span><span class="text-[11px] text-slate-400">(${stats.count} รายการ)</span></div><div class="font-bold tabular-nums">฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span></div></div><div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"><div class="h-full rounded-full" style="width: ${pct}%; background-color: ${meta.barColor}"></div></div></div>`;
                 });
-
-                Object.entries(byCat)
-                    .sort((a, b) => b[1].sum - a[1].sum)
-                    .forEach(([catName, stats]) => {
-                        const meta = GENERAL_CATEGORY_META[catName] || { icon: '✨', barColor: '#64748b' };
-                        const pct = generalTotal > 0 ? Math.round((stats.sum / generalTotal) * 100) : 0;
-
-                        const row = document.createElement('div');
-                        row.className = 'p-3.5 rounded-2xl bg-slate-50 dark:bg-darkElevated border border-slate-200/60 dark:border-darkBorder';
-                        row.innerHTML = `
-                            <div class="flex items-center justify-between text-xs mb-2">
-                                <div class="flex items-center gap-2">
-                                    <span>${meta.icon}</span>
-                                    <span class="font-bold text-slate-800 dark:text-slate-100">${catName}</span>
-                                    <span class="text-[11px] text-slate-400">(${stats.count} รายการ)</span>
-                                </div>
-                                <div class="font-bold text-slate-900 dark:text-white tabular-nums">
-                                    ฿${stats.sum.toLocaleString('th-TH')} <span class="text-[10px] font-normal text-slate-400">(${pct}%)</span>
-                                </div>
-                            </div>
-                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full rounded-full" style="width: ${pct}%; background-color: ${meta.barColor}"></div>
-                            </div>
-                        `;
-                        generalContainer.appendChild(row);
-                    });
             }
         }
 
-        // ============================================================================
-        // 11. TOAST NOTIFICATION
-        // ============================================================================
+        // 11. TOAST
         function showToast(msg) {
             const toast = document.createElement('div');
             toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold z-50 animate-fade-in';
             toast.textContent = msg;
             document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 2300);
+            setTimeout(() => toast.remove(), 2300);
         }
 
         window.onload = initApp;
