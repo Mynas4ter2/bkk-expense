@@ -38,36 +38,46 @@
             line-height: 1.6;
             transition: background-color 0.25s ease;
         }
-        /* Dark Mode Cute Patterned Wallpaper (#1e1525) */
+        /* ==================== LAYER 4: OUTER DESKTOP BACKDROP ==================== */
         html.dark body {
+            background-color: #120c18;
+            background-image: radial-gradient(circle at 50% 0%, rgba(88, 55, 120, 0.22), transparent 70%);
+        }
+        html:not(.dark) body {
+            background-color: #e6dfd5;
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 250, 242, 0.7), transparent 70%);
+        }
+
+        /* ==================== LAYER 3: MAIN APP PANEL WALLPAPER (VISIBLE ON MOBILE & PC) ==================== */
+        html.dark .app-wallpaper-panel {
             background-color: #1e1525;
             background-image:
-                radial-gradient(rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px),
-                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.5' fill='%23ffffff' fill-opacity='0.045'/%3E%3Ccircle cx='12.5' cy='43' r='1' fill='%23ffffff' fill-opacity='0.045'/%3E%3Ccircle cx='16' cy='41.5' r='1' fill='%23ffffff' fill-opacity='0.045'/%3E%3Ccircle cx='19.5' cy='43' r='1' fill='%23ffffff' fill-opacity='0.045'/%3E%3C/g%3E%3C/svg%3E");
+                radial-gradient(rgba(255, 255, 255, 0.085) 1.5px, transparent 1.5px),
+                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e9d5ff' stroke-opacity='0.075' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3Ccircle cx='16' cy='41' r='1.1' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3Ccircle cx='19.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.075'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 24px 24px, 64px 64px;
         }
-        /* Light Mode Warm Beige Patterned Wallpaper (#f5f0eb) */
-        html:not(.dark) body {
+        html:not(.dark) .app-wallpaper-panel {
             background-color: #f5f0eb;
             background-image:
-                radial-gradient(rgba(120, 90, 70, 0.08) 1.5px, transparent 1.5px),
-                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23785a46' stroke-opacity='0.065' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.5' fill='%23785a46' fill-opacity='0.06'/%3E%3Ccircle cx='12.5' cy='43' r='1' fill='%23785a46' fill-opacity='0.06'/%3E%3Ccircle cx='16' cy='41.5' r='1' fill='%23785a46' fill-opacity='0.06'/%3E%3Ccircle cx='19.5' cy='43' r='1' fill='%23785a46' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E");
+                radial-gradient(rgba(120, 90, 70, 0.11) 1.5px, transparent 1.5px),
+                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23785a46' stroke-opacity='0.095' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23785a46' fill-opacity='0.085'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.085'/%3E%3Ccircle cx='16' cy='41' r='1.1' fill='%23785a46' fill-opacity='0.085'/%3E%3Ccircle cx='19.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.085'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 24px 24px, 64px 64px;
         }
-        /* Glassmorphic Card Layering */
+
+        /* ==================== LAYER 2: GLASSMORPHIC UI CARDS ==================== */
         .glass-box {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
         html.dark .glass-box {
-            background-color: rgba(42, 31, 53, 0.82);
-            border-color: rgba(168, 130, 205, 0.18);
-            box-shadow: 0 10px 30px -5px rgba(10, 5, 15, 0.45);
+            background-color: rgba(45, 33, 58, 0.88);
+            border-color: rgba(192, 155, 230, 0.22);
+            box-shadow: 0 10px 28px -6px rgba(8, 4, 14, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
         }
         html:not(.dark) .glass-box {
-            background-color: rgba(255, 252, 248, 0.84);
-            border-color: rgba(180, 155, 135, 0.32);
-            box-shadow: 0 10px 28px -6px rgba(120, 95, 75, 0.12);
+            background-color: rgba(255, 252, 248, 0.90);
+            border-color: rgba(180, 155, 135, 0.38);
+            box-shadow: 0 10px 24px -6px rgba(110, 85, 65, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
         }
         .tabular-nums {
             font-variant-numeric: tabular-nums;
@@ -102,8 +112,8 @@
 </head>
 <body class="text-slate-800 dark:text-slate-100 antialiased transition-colors duration-200 selection:bg-purple-500/30">
 
-    <!-- App-in-a-box Wrapper: Full screen on Mobile, Centered Floating Box on Desktop/Tablet -->
-    <div class="max-w-md mx-auto min-h-screen sm:my-8 sm:min-h-[calc(100vh-4rem)] sm:rounded-[2.5rem] sm:overflow-hidden bg-[#faf6f2]/75 dark:bg-[#1e1525]/75 backdrop-blur-xl shadow-2xl relative pb-20 flex flex-col border-x sm:border border-[#e2d5c8] dark:border-darkBorder/80">
+    <!-- LAYER 3: App-in-a-box Wrapper with Cute Patterned Wallpaper inside -->
+    <div class="app-wallpaper-panel max-w-md mx-auto min-h-screen sm:my-8 sm:min-h-[calc(100vh-4rem)] sm:rounded-[2.5rem] sm:overflow-hidden shadow-[0_25px_70px_-15px_rgba(0,0,0,0.6)] relative pb-20 flex flex-col border-x sm:border border-[#d8c8b8] dark:border-[#4a3960]">
 
         <!-- Brave / Storage Persistence Status Banner (Hidden unless needed) -->
         <div id="storage-warning-banner" class="hidden bg-amber-500/15 border-b border-amber-500/30 px-4 py-2.5 text-xs text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
