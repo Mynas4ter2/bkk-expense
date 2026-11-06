@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- PWA iOS Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BKK">
     <title>BKK Transit & Expense Tracker</title>
     <!-- Tailwind CSS with Dark Mode Class Strategy -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -73,6 +77,21 @@
             border-color: rgba(180, 155, 135, 0.25);
             box-shadow: 0 4px 20px -2px rgba(110, 85, 65, 0.08);
         }
+        
+        /* Rainbow Border Animation for Max Level 100 */
+        @keyframes rainbow-border-anim {
+            0% { border-color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
+            20% { border-color: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.5); }
+            40% { border-color: #10b981; box-shadow: 0 0 12px rgba(16,185,129,0.5); }
+            60% { border-color: #3b82f6; box-shadow: 0 0 12px rgba(59,130,246,0.5); }
+            80% { border-color: #a855f7; box-shadow: 0 0 12px rgba(168,85,247,0.5); }
+            100% { border-color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
+        }
+        .rainbow-border {
+            animation: rainbow-border-anim 3s linear infinite;
+            border-width: 2px;
+        }
+
         .tabular-nums { font-variant-numeric: tabular-nums; }
         @keyframes slideUp {
             from { transform: translateY(100%); opacity: 0; }
@@ -110,10 +129,11 @@
             <div class="flex items-center justify-between mb-5 relative z-10">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="px-2.5 py-0.5 text-[11px] font-semibold bg-purple-500/15 text-purple-700 dark:text-purple-300 rounded-full border border-purple-500/30 flex items-center gap-1">
-                            <span id="storage-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            BKK Transit
-                        </span>
+                        <!-- Level Badge (Gamification) -->
+                        <button id="level-badge" onclick="gamification.openModal()" class="px-2.5 py-1 text-[11px] font-bold tracking-wide rounded-full border flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-sm">
+                            <i id="level-icon" class="ph ph-star text-slate-500"></i>
+                            <span id="level-text">Lv.1</span>
+                        </button>
                         <h1 class="text-lg font-bold text-slate-900 dark:text-white">จดจ่าย & รถไฟฟ้า</h1>
                     </div>
                     <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน</p>
@@ -359,8 +379,63 @@
         </footer>
     </div>
 
+    <!-- ==================== GAMIFICATION MODAL (Level & EXP) ==================== -->
+    <div id="level-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-slate-950/75 backdrop-blur-sm px-5">
+        <div class="bg-white dark:bg-darkCard w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-darkBorder animate-fade-in text-center relative overflow-hidden">
+            <!-- Glow BG -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/20 blur-3xl rounded-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="ph ph-trophy text-amber-500 text-lg"></i> BKK EXP & Rank
+                </h3>
+                <button onclick="closeLevelModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkElevated flex items-center justify-center text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <div class="py-5">
+                <div class="inline-flex items-center justify-center w-24 h-24 rounded-full border-4 shadow-lg mb-3 bg-gradient-to-br from-slate-50 to-slate-200 dark:from-darkElevated dark:to-darkBg relative z-10" id="modal-level-circle">
+                    <span class="text-4xl font-black text-slate-900 dark:text-white drop-shadow-md" id="modal-level-big">1</span>
+                </div>
+                <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">Current Level</p>
+
+                <div class="w-full bg-slate-100 dark:bg-darkElevated rounded-full h-3 mb-2 overflow-hidden border border-slate-200 dark:border-darkBorder">
+                    <div id="modal-exp-bar" class="bg-gradient-to-r from-sky-400 to-indigo-500 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between items-center text-[11px] font-bold">
+                    <span id="modal-exp-text" class="text-slate-600 dark:text-slate-300">0 / 0 EXP</span>
+                    <span id="modal-level-remain" class="text-sky-600 dark:text-sky-400">ขาดอีก 0 EXP</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-darkElevated/50 rounded-2xl p-4 border border-slate-200/70 dark:border-darkBorder text-left">
+                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-1.5">
+                    <i class="ph ph-info text-sky-500"></i> วิธีรับแต้มไต่แรงก์
+                </h4>
+                <ul class="text-[11px] font-medium text-slate-600 dark:text-slate-300 space-y-2.5">
+                    <li class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="ph ph-pencil-simple text-slate-400"></i> จดรายการปกติ</span> 
+                        <span class="font-bold text-emerald-500">+10 EXP</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="ph ph-users text-slate-400"></i> ใช้ฟีเจอร์ "หาร 2"</span> 
+                        <span class="font-bold text-emerald-500">+15 EXP</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="ph ph-cloud-arrow-down text-slate-400"></i> กดสำรองข้อมูล Backup</span> 
+                        <span class="font-bold text-emerald-500">+50 EXP</span>
+                    </li>
+                </ul>
+                <p class="text-[9px] text-slate-400 mt-4 text-center border-t border-slate-200 dark:border-darkBorder pt-3">
+                    สะสมแต้มเปลี่ยนสีกรอบ Level ยิ่งเวลสูง ยิ่งยาก ท้าทายสูงสุดที่เวล 100!
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== TERMS & PRIVACY POLICY MODAL ==================== -->
-    <div id="policy-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs p-0 sm:p-4">
+    <div id="policy-modal" class="fixed inset-0 z-[70] hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs p-0 sm:p-4">
         <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up overflow-hidden">
             <div class="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-darkBorder flex items-center justify-between bg-slate-50 dark:bg-darkElevated/50">
                 <div class="flex items-center gap-2.5">
@@ -549,6 +624,31 @@
     </div>
 
     <script>
+        // 0. PWA Setup
+        function setupPWA() {
+            const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" rx="60" fill="#1e1525"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Z" fill="#38bdf8"/><rect x="72" y="80" width="112" height="96" rx="16" fill="#38bdf8"/><rect x="96" y="104" width="64" height="32" rx="4" fill="#1e1525"/><circle cx="104" cy="152" r="8" fill="#1e1525"/><circle cx="152" cy="152" r="8" fill="#1e1525"/></svg>`;
+            const iconDataUrl = 'data:image/svg+xml;base64,' + btoa(svgIcon);
+
+            const manifest = {
+                name: "BKK Expense Tracker",
+                short_name: "BKK",
+                start_url: ".",
+                display: "standalone",
+                background_color: "#1e1525",
+                theme_color: "#1e1525",
+                icons: [{ src: iconDataUrl, sizes: "256x256", type: "image/svg+xml", purpose: "any maskable" }]
+            };
+            const manifestDataUrl = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+
+            let mLink = document.createElement('link');
+            mLink.rel = 'manifest'; mLink.href = manifestDataUrl;
+            document.head.appendChild(mLink);
+
+            let aIcon = document.createElement('link');
+            aIcon.rel = 'apple-touch-icon'; aIcon.href = iconDataUrl;
+            document.head.appendChild(aIcon);
+        }
+
         // 1. BANGKOK TRANSIT STATION DATABASE
         const TRANSIT_LINES = {
             'bts-sukhumvit': { id: 'bts-sukhumvit', system: 'BTS', name: 'BTS สายสุขุมวิท', shortLabel: 'สุขุมวิท', colorHex: '#84cc16', dotClass: 'bg-lime-500', btnClass: 'bg-lime-600 hover:bg-lime-500', badgeClass: 'bg-lime-500/15 text-lime-700 dark:text-lime-300 border-lime-500/30', stations: ['N24 คูคต', 'N23 แยก คปอ.', 'N22 พิพิธภัณฑ์กองทัพอากาศ', 'N21 โรงพยาบาลภูมิพลอดุลยเดช', 'N20 สะพานใหม่', 'N19 สายหยุด', 'N18 พหลโยธิน 59', 'N17 วัดพระศรีมหาธาตุ', 'N16 กรมทหารราบที่ 11', 'N15 บางบัว', 'N14 กรมป่าไม้', 'N13 มหาวิทยาลัยเกษตรศาสตร์', 'N12 เสนานิคม', 'N11 รัชโยธิน', 'N10 พหลโยธิน 24', 'N9 ห้าแยกลาดพร้าว', 'N8 หมอชิต', 'N7 สะพานควาย', 'N6 เสนาร่วม', 'N5 อารีย์', 'N4 สนามเป้า', 'N3 อนุสาวรีย์ชัยสมรภูมิ', 'N2 พญาไท', 'N1 ราชเทวี', 'CEN สยาม', 'E1 ชิดลม', 'E2 เพลินจิต', 'E3 นานา', 'E4 อโศก', 'E5 พร้อมพงษ์', 'E6 ทองหล่อ', 'E7 เอกมัย', 'E8 พระโขนง', 'E9 อ่อนนุช', 'E10 บางจาก', 'E11 ปุณณวิถี', 'E12 อุดมสุข', 'E13 บางนา', 'E14 แบริ่ง', 'E15 สำโรง', 'E16 ปู่เจ้า', 'E17 ช้างเอราวัณ', 'E18 โรงเรียนนายเรือ', 'E19 ปากน้ำ', 'E20 ศรีนครินทร์', 'E21 แพรกษา', 'E22 สายลวด', 'E23 เคหะฯ'] },
@@ -669,6 +769,95 @@
                 return [];
             }
         };
+        
+        // Gamification logic
+        const gamification = {
+            exp: 0, level: 1,
+            init() {
+                this.exp = parseInt(localStorage.getItem('bkk_exp')) || 0;
+                // Retroactive Bonus
+                if (this.exp === 0 && expenses.length > 0) {
+                    this.exp = expenses.length * 15;
+                    setTimeout(() => showToast(`🎉 โบนัสผู้เล่นเก่า! รับ ${this.exp} EXP จากประวัติเดิม`), 2000);
+                }
+                this.level = this.calculateLevel(this.exp);
+                this.save();
+                this.updateUI();
+            },
+            calculateLevel(exp) {
+                let lvl = 1;
+                while (exp >= this.getReqExp(lvl + 1) && lvl < 100) { lvl++; }
+                return lvl;
+            },
+            getReqExp(lvl) {
+                if(lvl <= 1) return 0;
+                return Math.floor(50 * Math.pow(lvl, 1.8)); 
+            },
+            addExp(amount, reason = '') {
+                if (this.level >= 100) return;
+                const oldLevel = this.level;
+                this.exp += amount;
+                this.level = this.calculateLevel(this.exp);
+                this.save();
+                this.updateUI();
+
+                if (this.level > oldLevel) {
+                    setTimeout(() => showToast(`🏆 LEVEL UP! เลื่อนขั้นเป็นเลเวล ${this.level}!`), 500);
+                } else if (reason) {
+                    showToast(`✨ +${amount} EXP: ${reason}`);
+                }
+            },
+            save() { localStorage.setItem('bkk_exp', this.exp); },
+            updateUI() {
+                const badge = document.getElementById('level-badge');
+                const icon = document.getElementById('level-icon');
+                const text = document.getElementById('level-text');
+
+                text.textContent = `Lv.${this.level}`;
+                let bClass = 'px-2.5 py-1 text-[11px] font-bold tracking-wide rounded-full border flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-sm ';
+                
+                // Colors Progression logic
+                if (this.level >= 100) {
+                    badge.className = bClass + 'rainbow-border text-white bg-slate-900 border-transparent';
+                    icon.className = 'ph ph-crown text-yellow-400';
+                } else if (this.level >= 81) {
+                    badge.className = bClass + 'bg-amber-400/20 text-amber-600 dark:text-amber-400 border-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.4)]';
+                    icon.className = 'ph ph-shooting-star text-amber-500';
+                } else if (this.level >= 61) {
+                    badge.className = bClass + 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/40 shadow-[0_0_8px_rgba(244,63,94,0.3)]';
+                    icon.className = 'ph ph-fire text-rose-500';
+                } else if (this.level >= 41) {
+                    badge.className = bClass + 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/40';
+                    icon.className = 'ph ph-lightning text-purple-500';
+                } else if (this.level >= 21) {
+                    badge.className = bClass + 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/40';
+                    icon.className = 'ph ph-leaf text-emerald-500';
+                } else {
+                    badge.className = bClass + 'bg-slate-500/15 text-slate-700 dark:text-slate-300 border-slate-500/30';
+                    icon.className = 'ph ph-star text-slate-500';
+                }
+            },
+            openModal() {
+                document.getElementById('level-modal').classList.remove('hidden');
+                const nextExp = this.level >= 100 ? this.exp : this.getReqExp(this.level + 1);
+                const curTier = this.getReqExp(this.level);
+                const progress = this.level >= 100 ? 100 : Math.max(0, Math.min(100, ((this.exp - curTier) / (nextExp - curTier)) * 100));
+
+                document.getElementById('modal-level-big').textContent = this.level;
+                document.getElementById('modal-exp-text').textContent = `${this.exp.toLocaleString()} / ${nextExp.toLocaleString()} EXP`;
+                document.getElementById('modal-exp-bar').style.width = `${progress}%`;
+                
+                document.getElementById('modal-level-circle').className = document.getElementById('level-badge').className.replace('text-[11px]', '').replace('px-2.5', '').replace('py-1', '') + " inline-flex items-center justify-center w-24 h-24 rounded-full border-4 shadow-lg mb-3 bg-gradient-to-br from-slate-50 to-slate-200 dark:from-darkElevated dark:to-darkBg relative z-10";
+
+                if (this.level >= 100) {
+                    document.getElementById('modal-level-remain').textContent = 'สุดยอด! คุณบรรลุเลเวลสูงสุดแล้ว';
+                } else {
+                    document.getElementById('modal-level-remain').textContent = `ขาดอีก ${(nextExp - this.exp).toLocaleString()} EXP`;
+                }
+            }
+        };
+
+        function closeLevelModal() { document.getElementById('level-modal').classList.add('hidden'); }
 
         // 3. APP STATE
         let originLineId = 'bts-sukhumvit';
@@ -681,8 +870,8 @@
         let currentHistoryFilter = 'all';
         let currentAnalyticsRange = 'all';
         let expenses = [];
+        let editingId = null; // Edit mode tracker
         
-        // History Display Limits (Pagination)
         let isHistoryOpen = localStorage.getItem('bkk_history_open') !== 'false';
         let historyLimit = 15; 
 
@@ -725,9 +914,11 @@
         }
 
         async function initApp() {
+            setupPWA();
             initTheme();
             await StorageManager.initPersistence();
             expenses = await StorageManager.loadTransactions();
+            gamification.init();
 
             const today = getTodayStr();
             document.getElementById('entry-date').value = today;
@@ -750,6 +941,48 @@
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden') StorageManager.saveTransactions(expenses);
             });
+        }
+        
+        function editEntry(id) {
+            const item = expenses.find(x => x.id === id);
+            if(!item) return;
+            editingId = id;
+            document.getElementById('entry-date').value = item.date;
+
+            if(item.type === 'transit') {
+                switchMode('transit');
+                originLineId = item.originLine || item.line || 'bts-sukhumvit';
+                destLineId = item.destLine || originLineId;
+                isCrossLineMode = originLineId !== destLineId;
+                document.getElementById('cross-line-toggle').checked = isCrossLineMode;
+                document.getElementById('transit-origin').value = item.origin;
+                document.getElementById('transit-dest').value = item.destination;
+                document.getElementById('transit-amount').value = item.isSplit ? item.amount * 2 : item.amount;
+                document.getElementById('transit-split').checked = item.isSplit;
+                
+                renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview(); updateSplitPreview();
+                const btn = document.getElementById('transit-submit-btn');
+                btn.innerHTML = '<i class="ph ph-pencil-simple text-lg"></i><span>อัปเดตการเดินทาง</span>';
+                btn.className = 'w-full py-3.5 rounded-2xl font-bold text-sm text-slate-900 shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300';
+            } else {
+                switchMode('general');
+                selectGeneralCategory(item.category, item.type);
+                document.getElementById('gen-amount').value = item.amount;
+                document.getElementById('gen-note').value = item.note === item.category ? '' : item.note;
+                
+                const btn = document.getElementById('gen-submit-btn');
+                btn.innerHTML = '<i class="ph ph-pencil-simple text-lg"></i><span>อัปเดตรายการ</span>';
+                btn.className = 'w-full py-3.5 rounded-2xl font-bold text-sm text-slate-900 shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetSubmitButtons() {
+            editingId = null;
+            document.getElementById('transit-submit-btn').innerHTML = '<i class="ph ph-plus-circle text-lg"></i><span>บันทึกการเดินทางรถไฟฟ้า</span>';
+            document.getElementById('transit-submit-btn').className = 'w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 bg-lime-600 hover:bg-lime-500';
+            document.getElementById('gen-submit-btn').innerHTML = '<i class="ph ph-check-circle text-lg"></i><span>บันทึกรายการ</span>';
+            document.getElementById('gen-submit-btn').className = 'w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3.5 rounded-2xl active:scale-[0.99] transition-all shadow-lg text-sm flex items-center justify-center gap-2';
         }
 
         // 5. HISTORY ACCORDION & PAGINATION LOGIC
@@ -974,8 +1207,8 @@
         function switchMode(mode) {
             const btnT = document.getElementById('tab-btn-transit'), btnG = document.getElementById('tab-btn-general');
             const frmT = document.getElementById('form-transit'), frmG = document.getElementById('form-general');
-            const activeCls = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
-            const idleCls = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+            const activeCls = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
+            const idleCls = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
             if (mode === 'transit') {
                 btnT.className = activeCls; btnG.className = idleCls;
                 frmT.classList.remove('hidden'); frmG.classList.add('hidden');
@@ -988,8 +1221,8 @@
         function selectGeneralCategory(catName, type) {
             selectedGeneralCategory = catName; selectedGeneralType = type;
             document.querySelectorAll('.gen-cat-btn').forEach(btn => {
-                if (btn.getAttribute('data-cat') === catName) btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all border-sky-500 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/40';
-                else btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all bg-white/40 dark:bg-darkElevated/40 text-slate-600 dark:text-slate-300 border-slate-200/50 dark:border-darkBorder/50 hover:bg-white dark:hover:bg-darkElevated';
+                if (btn.getAttribute('data-cat') === catName) btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all border-sky-500 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/40';
+                else btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all bg-white/40 dark:bg-darkElevated/40 text-slate-600 dark:text-slate-300 border-slate-200/50 dark:border-darkBorder/50 hover:bg-white dark:hover:bg-darkElevated';
             });
         }
 
@@ -1003,13 +1236,21 @@
 
             if (!origin || !destination || isNaN(amount) || amount <= 0) return;
             if (isSplit) amount /= 2;
+            
+            if (editingId) {
+                expenses = expenses.filter(x => x.id !== editingId);
+                showToast('อัปเดตรายการเรียบร้อย ✏️');
+            } else {
+                gamification.addExp(10, 'จดรายการรถไฟฟ้า');
+                if (isSplit) gamification.addExp(15, 'ใช้ฟีเจอร์ "หาร 2"');
+            }
 
             expenses.unshift({ id: Date.now(), type: 'transit', line: originLineId, originLine: originLineId, destLine: destLineId, origin, destination, amount, isSplit, date });
             await StorageManager.saveTransactions(expenses);
             updateHeaderSummary(); renderHistoryList();
             document.getElementById('transit-amount').value = '';
             document.getElementById('transit-split').checked = false;
-            updateSplitPreview(); showToast('บันทึกการเดินทางรถไฟฟ้าเรียบร้อย 🚇');
+            updateSplitPreview(); resetSubmitButtons();
         }
 
         async function handleGeneralSubmit(e) {
@@ -1017,12 +1258,19 @@
             const amount = parseFloat(document.getElementById('gen-amount').value);
             const note = document.getElementById('gen-note').value.trim();
             if (isNaN(amount) || amount <= 0) return;
+            
+            if (editingId) {
+                expenses = expenses.filter(x => x.id !== editingId);
+                showToast('อัปเดตรายการเรียบร้อย ✏️');
+            } else {
+                gamification.addExp(10, 'จดรายการทั่วไป');
+            }
 
             expenses.unshift({ id: Date.now(), type: selectedGeneralType === 'income' ? 'income' : 'general', category: selectedGeneralCategory, note: note || selectedGeneralCategory, amount, date: document.getElementById('entry-date').value || getTodayStr() });
             await StorageManager.saveTransactions(expenses);
             updateHeaderSummary(); renderHistoryList();
             document.getElementById('gen-amount').value = ''; document.getElementById('gen-note').value = '';
-            showToast(selectedGeneralType === 'income' ? 'บันทึกรายรับเรียบร้อย 💰' : 'บันทึกรายจ่ายเรียบร้อย 🧾');
+            resetSubmitButtons();
         }
 
         // 8. DASHBOARD & HISTORY UI (WITH PAGINATION)
@@ -1046,7 +1294,7 @@
             ['all', 'transit', 'general', 'income'].forEach(f => {
                 const btn = document.getElementById(`hist-filter-${f}`);
                 btn.textContent = labels[f];
-                if (f === filter) btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-xs transition-all shrink-0';
+                if (f === filter) btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-sky-600 text-white shadow-xs transition-all shrink-0';
                 else btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold glass-box border border-slate-200/50 dark:border-darkBorder text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-darkElevated transition-all shrink-0';
             });
             renderHistoryList();
@@ -1110,6 +1358,7 @@
                                 <span class="text-base font-bold text-slate-900 dark:text-white tabular-nums">-฿${item.amount.toLocaleString('th-TH')}</span>
                                 <div class="flex items-center gap-2.5 mt-2">
                                     <span class="text-[11px] text-slate-400 font-medium">${formatThaiDateShort(item.date)}</span>
+                                    <button onclick="editEntry(${item.id})" class="text-slate-400 hover:text-amber-500 p-1"><i class="ph ph-pencil-simple text-sm"></i></button>
                                     <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 p-1"><i class="ph ph-trash text-sm"></i></button>
                                 </div>
                             </div>
@@ -1133,6 +1382,7 @@
                             <span class="text-base font-bold tabular-nums ${isInc ? 'text-emerald-500' : 'text-slate-900 dark:text-white'}">${isInc ? '+' : '-'}฿${item.amount.toLocaleString('th-TH')}</span>
                             <div class="flex items-center gap-2.5 mt-1.5">
                                 <span class="text-[11px] text-slate-400 font-medium">${formatThaiDateShort(item.date)}</span>
+                                <button onclick="editEntry(${item.id})" class="text-slate-400 hover:text-amber-500 p-1"><i class="ph ph-pencil-simple text-sm"></i></button>
                                 <button onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 p-1"><i class="ph ph-trash text-sm"></i></button>
                             </div>
                         </div>`;
@@ -1173,11 +1423,11 @@
         function closeBackupModal() { document.getElementById('backup-modal').classList.add('hidden'); }
 
         function exportBackupFile() {
+            gamification.addExp(50, 'สำรองข้อมูล (Backup)');
             const blob = new Blob([JSON.stringify({ version: 3, exportedAt: new Date().toISOString(), transactions: expenses }, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob), a = document.createElement('a');
             a.href = url; a.download = `bkk-expense-backup-${getTodayStr()}.json`;
             document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-            showToast('ดาวน์โหลดไฟล์สำรองข้อมูลแล้ว 💾');
         }
 
         function importBackupFile(event) {
@@ -1205,7 +1455,7 @@
             currentAnalyticsRange = rangeType;
             ['today', '7days', 'month', 'all', 'custom'].forEach(r => {
                 const btn = document.getElementById(`range-btn-${r}`);
-                if (r === rangeType) btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-sky-500 bg-sky-600 text-white shadow-2xs transition-all';
+                if (r === rangeType) btn.className = 'py-2 px-2 rounded-xl text-xs font-semibold border border-sky-500 bg-sky-600 text-white shadow-2xs transition-all';
                 else btn.className = 'py-2 px-2 rounded-xl text-xs font-semibold border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkElevated text-slate-600 dark:text-slate-300 transition-all';
             });
             rangeType === 'custom' ? document.getElementById('custom-date-box').classList.remove('hidden') : document.getElementById('custom-date-box').classList.add('hidden');
