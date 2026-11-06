@@ -136,7 +136,7 @@
                         </button>
                         <h1 class="text-lg font-bold text-slate-900 dark:text-white">จดจ่าย & รถไฟฟ้า</h1>
                     </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน จัดทำโดย Mynas4ter2</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="openBackupModal()" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-slate-700 dark:text-slate-200">
@@ -276,7 +276,7 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label for="transit-amount" class="text-xs font-bold text-slate-800 dark:text-slate-100">2. ค่าโดยสาร (บาท)</label>
-                            <span class="text-[11px] text-slate-400">ระบุราคาตามจริง</span>
+                            <span class="text-[11px] text-slate-400">ระบุราคา</span>
                         </div>
                         <div class="relative">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base">฿</span>
@@ -458,7 +458,8 @@
                         <i class="ph ph-lock-key text-base"></i>
                         1. ไม่มีการส่งข้อมูลขึ้นเซิร์ฟเวอร์ (Offline 100%)
                     </p>
-                    <p>เว็บแอปนี้ทำงานแบบ Local-First ข้อมูลรายการใช้จ่ายและการเดินทางทั้งหมดของคุณจะถูกบันทึกไว้ในเบราว์เซอร์ของอุปกรณ์คุณเท่านั้น <strong>ไม่มีใครเข้าถึงข้อมูลนี้ได้นอกจากคุณ</strong></p>
+                    <p>เว็บแอปนี้ทำงานแบบ <strong>Local-First 100%</strong> ข้อมูลรายการใช้จ่ายและการเดินทางทั้งหมดของคุณจะถูกบันทึกไว้ในหน่วยความจำเบราว์เซอร์บนอุปกรณ์ของคุณเท่านั้น (ผ่านระบบ IndexedDB, LocalStorage และ Cookie สำรองในเครื่อง) <strong>ไม่มีการส่งข้อมูลออกไปเก็บยังเซิร์ฟเวอร์กลาง ไม่มีการติดตามตัวตน และไม่มีใครสามารถเข้าถึงข้อมูลการเงินของคุณได้
+</strong></p>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/25 space-y-1">
@@ -466,7 +467,7 @@
                         <i class="ph ph-train text-base"></i>
                         2. เกี่ยวกับฟังก์ชันแอป
                     </p>
-                    <p>BKK Transit & Expense Tracker เป็นเครื่องมือช่วยจดบันทึกค่าเดินทางด้วยรถไฟฟ้าในกรุงเทพฯ ครบทั้ง 9 สาย รวมถึงบันทึกรายรับและรายจ่ายทั่วไป พร้อมกราฟสรุปสถิติ</p>
+                    <p>BKK Transit & Expense Tracker เป็นเครื่องมือช่วยจดบันทึกค่าเดินทางด้วยรถไฟฟ้าในกรุงเทพฯ (รองรับการเดินทางข้ามสายครบทั้ง 9 สาย) รวมถึงบันทึกรายรับและรายจ่ายทั่วไปในชีวิตประจำวัน พร้อมสรุปสถิติแยกตามหมวดหมู่และช่วงวันที่</p>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 space-y-1">
