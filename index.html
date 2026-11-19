@@ -792,7 +792,7 @@
             },
             getReqExp(lvl) {
                 if(lvl <= 1) return 0;
-                return Math.floor(50 * Math.pow(lvl, 1.8)); 
+                return Math.floor(8 * Math.pow(lvl, 1.8)); 
             },
             addExp(amount, reason = '') {
                 if (this.level >= 100) return;
