@@ -179,7 +179,7 @@
                     </div>
                     <div class="bg-white/[0.06] rounded-xl p-3 border border-white/10 flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
-                            <i class="ph ph-ForkKnife text-lg"></i>
+                            <i class="ph ph-fork-knife text-lg"></i>
                         </div>
                         <div class="min-w-0">
                             <p class="text-[11px] text-purple-200/80 truncate">ใช้จ่ายทั่วไป</p>
@@ -728,14 +728,14 @@
                     if (encoded.length < 3800) {
                         document.cookie = `${STORAGE_KEY}=${encoded}; max-age=31536000; path=/; SameSite=Lax`;
                     }
-                    window.name = jsonStr;
                 } catch (e) {}
             },
             loadCookieBackup() {
                 try {
+                    // Clear legacy financial data previously stored in window.name (leaks across sites)
+                    if (window.name && window.name.startsWith('[')) window.name = '';
                     const match = document.cookie.split('; ').find(row => row.startsWith(STORAGE_KEY + '='));
                     if (match) return JSON.parse(decodeURIComponent(match.split('=')[1]));
-                    if (window.name && window.name.startsWith('[')) return JSON.parse(window.name);
                 } catch (e) {}
                 return null;
             },
@@ -915,6 +915,7 @@
         }
 
         async function initApp() {
+            if (window.name && window.name.startsWith('[')) window.name = '';
             setupPWA();
             initTheme();
             await StorageManager.initPersistence();
@@ -1424,7 +1425,13 @@
         function closeBackupModal() { document.getElementById('backup-modal').classList.add('hidden'); }
 
         function exportBackupFile() {
-            gamification.addExp(50, 'สำรองข้อมูล (Backup)');
+            // Award backup EXP at most once per day to prevent farming
+            if (localStorage.getItem('bkk_last_backup_exp') !== getTodayStr()) {
+                localStorage.setItem('bkk_last_backup_exp', getTodayStr());
+                gamification.addExp(50, 'สำรองข้อมูล (Backup)');
+            } else {
+                showToast('สำรองข้อมูลแล้ว ✅ (รับ EXP ได้วันละครั้ง)');
+            }
             const blob = new Blob([JSON.stringify({ version: 3, exportedAt: new Date().toISOString(), transactions: expenses }, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob), a = document.createElement('a');
             a.href = url; a.download = `bkk-expense-backup-${getTodayStr()}.json`;
