@@ -43,23 +43,27 @@
             transition: background-color 0.25s ease;
         }
         /* ==================== LAYER 4: OUTER DESKTOP BACKDROP ==================== */
-        html.dark body { background-color: #0f0a14; }
-        html:not(.dark) body { background-color: #e6dfd5; }
+        html.dark body { background-color: var(--outer-bg, #0f0a14); }
+        html:not(.dark) body { background-color: var(--outer-bg, #e6dfd5); }
 
         /* ==================== LAYER 3: MAIN APP PANEL WALLPAPER ==================== */
         html.dark .app-wallpaper-panel {
-            background-color: #1e1525;
+            background-color: var(--panel-bg, #1e1525);
             background-image:
                 radial-gradient(rgba(255, 255, 255, 0.085) 1.5px, transparent 1.5px),
-                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e9d5ff' stroke-opacity='0.06' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23e9d5ff' fill-opacity='0.06'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 24px 24px, 64px 64px;
+                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e9d5ff' stroke-opacity='0.06' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23e9d5ff' fill-opacity='0.06'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23e9d5ff' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E"),
+                var(--panel-grad, linear-gradient(transparent, transparent));
+            background-size: 24px 24px, 64px 64px, 100% 100%;
+            transition: background-color 0.35s ease;
         }
         html:not(.dark) .app-wallpaper-panel {
-            background-color: #f5f0eb;
+            background-color: var(--panel-bg, #f5f0eb);
             background-image:
                 radial-gradient(rgba(120, 90, 70, 0.11) 1.5px, transparent 1.5px),
-                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23785a46' stroke-opacity='0.08' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23785a46' fill-opacity='0.08'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 24px 24px, 64px 64px;
+                url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23785a46' stroke-opacity='0.08' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M16 12v8M12 16h8'/%3E%3Ccircle cx='48' cy='16' r='2.5'/%3E%3Cpath d='M46 46l4 4m0-4l-4 4'/%3E%3Ccircle cx='16' cy='46' r='1.8' fill='%23785a46' fill-opacity='0.08'/%3E%3Ccircle cx='12.5' cy='42.5' r='1.1' fill='%23785a46' fill-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E"),
+                var(--panel-grad, linear-gradient(transparent, transparent));
+            background-size: 24px 24px, 64px 64px, 100% 100%;
+            transition: background-color 0.35s ease;
         }
 
         /* ==================== LAYER 2: GLASSMORPHIC UI CARDS ==================== */
@@ -78,17 +82,122 @@
             box-shadow: 0 4px 20px -2px rgba(110, 85, 65, 0.08);
         }
         
-        /* Rainbow Border Animation for Max Level 100 */
+        /* ==================== LEVEL AURA ANIMATIONS ==================== */
+        /* Subtle slow breathing aura for Lv. 1–70 */
+        @keyframes aura-breathe-anim {
+            0%, 100% {
+                box-shadow: 0 0 4px rgba(var(--aura-rgb, 148, 163, 184), 0.18), inset 0 0 3px rgba(var(--aura-rgb, 148, 163, 184), 0.08);
+            }
+            50% {
+                box-shadow: 0 0 11px rgba(var(--aura-rgb, 148, 163, 184), 0.42), inset 0 0 6px rgba(var(--aura-rgb, 148, 163, 184), 0.16);
+            }
+        }
+        .aura-breathe {
+            animation: aura-breathe-anim 4.2s ease-in-out infinite;
+        }
+
+        /* Lv. 71–75: Electric Cyan Neon */
+        @keyframes aura-neon-cyan-anim {
+            0%, 100% {
+                border-color: #22d3ee;
+                box-shadow: 0 0 6px rgba(34, 211, 238, 0.65), 0 0 14px rgba(6, 182, 212, 0.4), inset 0 0 6px rgba(34, 211, 238, 0.25);
+            }
+            50% {
+                border-color: #67e8f9;
+                box-shadow: 0 0 10px rgba(103, 232, 249, 0.9), 0 0 22px rgba(34, 211, 238, 0.55), inset 0 0 10px rgba(34, 211, 238, 0.35);
+            }
+        }
+        .aura-neon-cyan {
+            animation: aura-neon-cyan-anim 2.6s ease-in-out infinite;
+            border-width: 1.5px;
+        }
+
+        /* Lv. 76–80: Violet-Pink Plasma Neon */
+        @keyframes aura-neon-violet-anim {
+            0%, 100% {
+                border-color: #c084fc;
+                box-shadow: 0 0 7px rgba(192, 132, 252, 0.7), 0 0 16px rgba(168, 85, 247, 0.45), inset 0 0 7px rgba(192, 132, 252, 0.25);
+            }
+            50% {
+                border-color: #f472b6;
+                box-shadow: 0 0 11px rgba(244, 114, 182, 0.85), 0 0 22px rgba(232, 121, 249, 0.55), inset 0 0 10px rgba(244, 114, 182, 0.35);
+            }
+        }
+        .aura-neon-violet {
+            animation: aura-neon-violet-anim 2.8s ease-in-out infinite;
+            border-width: 1.5px;
+        }
+
+        /* Lv. 81–85: Crimson Heartbeat Pulse */
+        @keyframes aura-pulse-anim {
+            0%, 100% {
+                border-color: #fb7185;
+                box-shadow: 0 0 5px rgba(244, 63, 94, 0.45), 0 0 10px rgba(244, 63, 94, 0.25);
+            }
+            18% {
+                border-color: #fda4af;
+                box-shadow: 0 0 12px rgba(244, 63, 94, 0.9), 0 0 24px rgba(225, 29, 72, 0.6), inset 0 0 8px rgba(251, 113, 133, 0.35);
+            }
+            34% {
+                border-color: #f43f5e;
+                box-shadow: 0 0 6px rgba(244, 63, 94, 0.5), 0 0 12px rgba(244, 63, 94, 0.3);
+            }
+            50% {
+                border-color: #f472b6;
+                box-shadow: 0 0 14px rgba(236, 72, 153, 0.9), 0 0 26px rgba(244, 63, 94, 0.55), inset 0 0 10px rgba(244, 114, 182, 0.35);
+            }
+        }
+        .aura-pulse {
+            animation: aura-pulse-anim 2.2s ease-in-out infinite;
+            border-width: 1.5px;
+        }
+
+        /* Lv. 86–90: Aurora Borealis */
+        @keyframes aura-aurora-anim {
+            0%   { border-color: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.75), 0 0 22px rgba(16, 185, 129, 0.45); }
+            33%  { border-color: #22d3ee; box-shadow: 0 0 12px rgba(34, 211, 238, 0.8), 0 0 24px rgba(56, 189, 248, 0.45); }
+            66%  { border-color: #a78bfa; box-shadow: 0 0 12px rgba(167, 139, 250, 0.8), 0 0 24px rgba(139, 92, 246, 0.45); }
+            100% { border-color: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.75), 0 0 22px rgba(16, 185, 129, 0.45); }
+        }
+        .aura-aurora {
+            animation: aura-aurora-anim 4.5s ease-in-out infinite;
+            border-width: 2px;
+        }
+
+        /* Lv. 91–95: Cosmic Nebula */
+        @keyframes aura-nebula-anim {
+            0%   { border-color: #818cf8; box-shadow: 0 0 10px rgba(99, 102, 241, 0.8), 0 0 24px rgba(168, 85, 247, 0.5), inset 0 0 8px rgba(129, 140, 248, 0.3); }
+            50%  { border-color: #e879f9; box-shadow: 0 0 14px rgba(232, 121, 249, 0.9), 0 0 28px rgba(236, 72, 153, 0.55), inset 0 0 12px rgba(232, 121, 249, 0.35); }
+            100% { border-color: #818cf8; box-shadow: 0 0 10px rgba(99, 102, 241, 0.8), 0 0 24px rgba(168, 85, 247, 0.5), inset 0 0 8px rgba(129, 140, 248, 0.3); }
+        }
+        .aura-nebula {
+            animation: aura-nebula-anim 3.8s ease-in-out infinite;
+            border-width: 2px;
+        }
+
+        /* Lv. 96–99: Supernova Flare */
+        @keyframes aura-supernova-anim {
+            0%   { border-color: #fb923c; box-shadow: 0 0 10px rgba(251, 146, 60, 0.85), 0 0 22px rgba(244, 63, 94, 0.55), inset 0 0 8px rgba(255, 255, 255, 0.3); }
+            35%  { border-color: #ffffff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.95), 0 0 28px rgba(251, 113, 133, 0.7), inset 0 0 12px rgba(255, 255, 255, 0.45); }
+            70%  { border-color: #c084fc; box-shadow: 0 0 12px rgba(192, 132, 252, 0.9), 0 0 26px rgba(56, 189, 248, 0.6), inset 0 0 10px rgba(192, 132, 252, 0.35); }
+            100% { border-color: #fb923c; box-shadow: 0 0 10px rgba(251, 146, 60, 0.85), 0 0 22px rgba(244, 63, 94, 0.55), inset 0 0 8px rgba(255, 255, 255, 0.3); }
+        }
+        .aura-supernova {
+            animation: aura-supernova-anim 2.6s ease-in-out infinite;
+            border-width: 2px;
+        }
+
+        /* Lv. 100: Rainbow Prism */
         @keyframes rainbow-border-anim {
-            0% { border-color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
-            20% { border-color: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.5); }
-            40% { border-color: #10b981; box-shadow: 0 0 12px rgba(16,185,129,0.5); }
-            60% { border-color: #3b82f6; box-shadow: 0 0 12px rgba(59,130,246,0.5); }
-            80% { border-color: #a855f7; box-shadow: 0 0 12px rgba(168,85,247,0.5); }
-            100% { border-color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
+            0%   { border-color: #f43f5e; box-shadow: 0 0 12px rgba(244, 63, 94, 0.75), 0 0 26px rgba(244, 63, 94, 0.4); }
+            20%  { border-color: #fb923c; box-shadow: 0 0 12px rgba(251, 146, 60, 0.75), 0 0 26px rgba(251, 146, 60, 0.4); }
+            40%  { border-color: #10b981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.75), 0 0 26px rgba(16, 185, 129, 0.4); }
+            60%  { border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.75), 0 0 26px rgba(56, 189, 248, 0.4); }
+            80%  { border-color: #a855f7; box-shadow: 0 0 12px rgba(168, 85, 247, 0.75), 0 0 26px rgba(168, 85, 247, 0.4); }
+            100% { border-color: #f43f5e; box-shadow: 0 0 12px rgba(244, 63, 94, 0.75), 0 0 26px rgba(244, 63, 94, 0.4); }
         }
         .rainbow-border {
-            animation: rainbow-border-anim 3s linear infinite;
+            animation: rainbow-border-anim 2.8s linear infinite;
             border-width: 2px;
         }
 
@@ -336,7 +445,10 @@
                         <span>ประวัติการทำรายการ</span>
                         <i id="history-chevron" class="ph ph-caret-up text-slate-400 transition-transform"></i>
                     </h2>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2.5">
+                        <button type="button" onclick="openCalendarModal()" id="open-calendar-btn" class="text-xs px-2.5 py-1 rounded-xl glass-box border border-slate-200/60 dark:border-darkBorder text-sky-600 dark:text-sky-400 hover:bg-white/80 dark:hover:bg-darkElevated active:scale-95 transition-all font-semibold flex items-center gap-1">
+                            <i class="ph ph-calendar-dots text-sm"></i> ปฏิทิน
+                        </button>
                         <button type="button" onclick="openBackupModal()" class="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium flex items-center gap-1">
                             <i class="ph ph-download-simple"></i> สำรอง
                         </button>
@@ -380,8 +492,8 @@
     </div>
 
     <!-- ==================== GAMIFICATION MODAL (Level & EXP) ==================== -->
-    <div id="level-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-slate-950/75 backdrop-blur-sm px-5">
-        <div class="bg-white dark:bg-darkCard w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-darkBorder animate-fade-in text-center relative overflow-hidden">
+    <div id="level-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-slate-950/75 backdrop-blur-sm px-5 py-6">
+        <div class="bg-white dark:bg-darkCard w-full max-w-sm max-h-[88vh] overflow-y-auto rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-darkBorder animate-fade-in text-center relative">
             <!-- Glow BG -->
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/20 blur-3xl rounded-full pointer-events-none"></div>
             
@@ -394,10 +506,11 @@
                 </button>
             </div>
 
-            <div class="py-5">
+            <div class="py-4">
                 <div class="inline-flex items-center justify-center w-24 h-24 rounded-full border-4 shadow-lg mb-3 bg-gradient-to-br from-slate-50 to-slate-200 dark:from-darkElevated dark:to-darkBg relative z-10" id="modal-level-circle">
-                    <span class="text-4xl font-black text-slate-900 dark:text-white drop-shadow-md" id="modal-level-big">1</span>
+                    <span class="text-4xl font-black drop-shadow-md" id="modal-level-big">1</span>
                 </div>
+                <p id="modal-level-tier-name" class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-0.5">เทาหมอก</p>
                 <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">Current Level</p>
 
                 <div class="w-full bg-slate-100 dark:bg-darkElevated rounded-full h-3 mb-2 overflow-hidden border border-slate-200 dark:border-darkBorder">
@@ -407,6 +520,17 @@
                     <span id="modal-exp-text" class="text-slate-600 dark:text-slate-300">0 / 0 EXP</span>
                     <span id="modal-level-remain" class="text-sky-600 dark:text-sky-400">ขาดอีก 0 EXP</span>
                 </div>
+            </div>
+
+            <!-- Unlockable Wallpaper Color Picker (every 10 levels) -->
+            <div class="bg-slate-50 dark:bg-darkElevated/50 rounded-2xl p-3.5 border border-slate-200/70 dark:border-darkBorder text-left mb-3.5">
+                <div class="flex items-center justify-between mb-2.5">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <i class="ph ph-palette text-purple-500"></i> สีพื้นหลัง (ปลดล็อคทุก 10 เวล)
+                    </h4>
+                    <span id="bg-theme-active-label" class="text-[10px] font-semibold text-slate-500 dark:text-slate-400">ค่าเริ่มต้น</span>
+                </div>
+                <div id="bg-theme-grid" class="grid grid-cols-6 gap-2"></div>
             </div>
 
             <div class="bg-slate-50 dark:bg-darkElevated/50 rounded-2xl p-4 border border-slate-200/70 dark:border-darkBorder text-left">
@@ -428,7 +552,7 @@
                     </li>
                 </ul>
                 <p class="text-[9px] text-slate-400 mt-4 text-center border-t border-slate-200 dark:border-darkBorder pt-3">
-                    สะสมแต้มเปลี่ยนสีกรอบ Level ยิ่งเวลสูง ยิ่งยาก ท้าทายสูงสุดที่เวล 100!
+                    กรอบเปลี่ยนสีทุก 5 เวล (21 ขั้น) & ปลดล็อคสีพื้นหลังทุก 10 เวล สูงสุดที่ Lv.100!
                 </p>
             </div>
         </div>
@@ -624,6 +748,59 @@
         </div>
     </div>
 
+    <!-- ==================== CALENDAR HISTORY MODAL ==================== -->
+    <div id="calendar-modal" onclick="if(event.target===this) closeCalendarModal()" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-950/75 backdrop-blur-xs">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-darkBorder animate-slide-up overflow-hidden">
+            <!-- Header -->
+            <div class="px-5 pt-4 pb-3.5 border-b border-slate-100 dark:border-darkBorder flex items-center justify-between bg-slate-50 dark:bg-darkElevated/50 shrink-0">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="ph ph-calendar-dots text-sky-500 text-lg"></i>
+                        <span>ปฏิทินรายรับ-รายจ่าย</span>
+                    </h3>
+                    <p id="cal-month-summary" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 tabular-nums">จ่าย ฿0 • รับ +฿0</p>
+                </div>
+                <button onclick="closeCalendarModal()" class="w-8 h-8 rounded-full bg-slate-200/70 dark:bg-darkElevated hover:bg-slate-300 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                    <i class="ph ph-x text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Scrollable Body -->
+            <div class="p-4 overflow-y-auto flex-1 space-y-4">
+                <!-- Month Navigation -->
+                <div class="flex items-center justify-between gap-2">
+                    <button type="button" onclick="shiftCalendarMonth(-1)" aria-label="เดือนก่อนหน้า" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-95 transition-all">
+                        <i class="ph ph-caret-left text-base"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <span id="cal-month-title" class="text-sm font-bold text-slate-900 dark:text-white"></span>
+                        <button type="button" onclick="jumpCalendarToday()" class="text-[11px] px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25 font-semibold hover:bg-sky-500/25 transition-all">วันนี้</button>
+                    </div>
+                    <button type="button" onclick="shiftCalendarMonth(1)" aria-label="เดือนถัดไป" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-darkElevated hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-95 transition-all">
+                        <i class="ph ph-caret-right text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Weekday Headers -->
+                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                    <span class="text-rose-400">อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span class="text-sky-400">ส</span>
+                </div>
+
+                <!-- 7-Col Calendar Grid -->
+                <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
+
+                <!-- Selected Day Detail -->
+                <div class="pt-3 border-t border-slate-200/70 dark:border-darkBorder/70 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <h4 id="cal-selected-date-label" class="text-xs font-bold text-slate-800 dark:text-slate-100">เลือกรายวัน</h4>
+                        <span id="cal-selected-day-total" class="text-xs font-bold tabular-nums text-slate-600 dark:text-slate-300"></span>
+                    </div>
+                    <div id="cal-day-entries" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 0. PWA Setup
         function setupPWA() {
@@ -771,6 +948,78 @@
             }
         };
         
+        // 21 Level Tiers (change every 5 levels, no bronze/silver/gold)
+        const LEVEL_TIERS = [
+            // Lv. 1–70: Normal colors with subtle slow breathing aura
+            { name: 'เทาหมอก',        rgb: '148, 163, 184', aura: 'aura-breathe', badge: 'bg-slate-500/15 text-slate-700 dark:text-slate-300 border-slate-400/50',       icon: 'ph-star text-slate-500 dark:text-slate-400' },
+            { name: 'ฟ้าอ่อน',        rgb: '56, 189, 248',  aura: 'aura-breathe', badge: 'bg-sky-400/15 text-sky-700 dark:text-sky-300 border-sky-400/50',               icon: 'ph-sparkle text-sky-500' },
+            { name: 'ฟ้าคราม',        rgb: '14, 165, 233',  aura: 'aura-breathe', badge: 'bg-sky-500/15 text-sky-800 dark:text-sky-300 border-sky-500/55',               icon: 'ph-drop text-sky-500' },
+            { name: 'น้ำเงินโคบอลต์', rgb: '59, 130, 246',  aura: 'aura-breathe', badge: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/50',           icon: 'ph-compass text-blue-500' },
+            { name: 'ฟ้าน้ำทะเล',     rgb: '6, 182, 212',   aura: 'aura-breathe', badge: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/50',           icon: 'ph-waves text-cyan-500' },
+            { name: 'เขียวมิ้นต์',     rgb: '20, 184, 166',  aura: 'aura-breathe', badge: 'bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/50',           icon: 'ph-clover text-teal-500' },
+            { name: 'เขียวมรกต',      rgb: '16, 185, 129',  aura: 'aura-breathe', badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/50', icon: 'ph-leaf text-emerald-500' },
+            { name: 'เขียวมะนาว',     rgb: '132, 204, 22',  aura: 'aura-breathe', badge: 'bg-lime-500/15 text-lime-700 dark:text-lime-300 border-lime-500/50',           icon: 'ph-plant text-lime-500' },
+            { name: 'เหลืองเลมอน',    rgb: '250, 204, 21',  aura: 'aura-breathe', badge: 'bg-yellow-400/15 text-yellow-700 dark:text-yellow-300 border-yellow-400/55',   icon: 'ph-sun text-yellow-500' },
+            { name: 'ส้มคอรัล',       rgb: '251, 146, 60',  aura: 'aura-breathe', badge: 'bg-orange-400/15 text-orange-700 dark:text-orange-300 border-orange-400/55',   icon: 'ph-flame text-orange-500' },
+            { name: 'แดงทับทิม',      rgb: '244, 63, 94',   aura: 'aura-breathe', badge: 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/50',           icon: 'ph-heart text-rose-500' },
+            { name: 'ชมพูซากุระ',     rgb: '244, 114, 182', aura: 'aura-breathe', badge: 'bg-pink-400/15 text-pink-700 dark:text-pink-300 border-pink-400/55',           icon: 'ph-flower-lotus text-pink-500' },
+            { name: 'บานเย็น',        rgb: '217, 70, 239',  aura: 'aura-breathe', badge: 'bg-fuchsia-500/15 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-500/50', icon: 'ph-butterfly text-fuchsia-500' },
+            { name: 'ม่วงอเมทิสต์',    rgb: '168, 85, 247',  aura: 'aura-breathe', badge: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/50',   icon: 'ph-diamond text-purple-500' },
+            // Lv. 71–100: True full auras
+            { name: 'แสงนีออนไซเบอร์', rgb: '34, 211, 238',  aura: 'aura-neon-cyan',   badge: 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-200 border-cyan-400',             icon: 'ph-lightning text-cyan-400' },
+            { name: 'แสงนีออนพลาสมา',  rgb: '192, 132, 252', aura: 'aura-neon-violet', badge: 'bg-purple-500/20 text-purple-700 dark:text-fuchsia-200 border-purple-400',    icon: 'ph-sparkle text-fuchsia-400' },
+            { name: 'ชีพจรคริมสัน',    rgb: '244, 63, 94',   aura: 'aura-pulse',       badge: 'bg-rose-500/20 text-rose-700 dark:text-rose-200 border-rose-400',             icon: 'ph-heartbeat text-rose-400' },
+            { name: 'แสงเหนือ',        rgb: '52, 211, 153',  aura: 'aura-aurora',      badge: 'bg-slate-900/90 text-emerald-200 border-emerald-400',                         icon: 'ph-wind text-emerald-300' },
+            { name: 'เนบิวลา',         rgb: '168, 85, 247',  aura: 'aura-nebula',      badge: 'bg-slate-950/90 text-fuchsia-200 border-indigo-400',                          icon: 'ph-planet text-fuchsia-300' },
+            { name: 'ซูเปอร์โนวา',      rgb: '251, 146, 60',  aura: 'aura-supernova',   badge: 'bg-slate-950 text-white border-orange-400',                                   icon: 'ph-shooting-star text-orange-300' },
+            { name: 'รุ้งพรีซึม',       rgb: '255, 255, 255', aura: 'rainbow-border',   badge: 'bg-slate-950 text-white border-transparent',                                  icon: 'ph-crown text-cyan-300' }
+        ];
+
+        // Unlockable Wallpaper Color Themes (every 10 levels, same pattern)
+        const BG_THEMES = [
+            { id: 'default',  name: 'ค่าเริ่มต้น', unlockLevel: 1,   swatch: '#6b4c8a', dark: { outer: '#0f0a14', panel: '#1e1525', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#e6dfd5', panel: '#f5f0eb', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'sky',      name: 'ฟ้าคราม',     unlockLevel: 10,  swatch: '#0ea5e9', dark: { outer: '#07111c', panel: '#102033', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#d9ebf7', panel: '#edf6fc', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'ocean',    name: 'น้ำทะเล',     unlockLevel: 20,  swatch: '#06b6d4', dark: { outer: '#061318', panel: '#0e242c', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#d5eef0', panel: '#ebf8f9', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'emerald',  name: 'มรกต',       unlockLevel: 30,  swatch: '#10b981', dark: { outer: '#071510', panel: '#0f261e', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#d8efe3', panel: '#ecf8f2', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'lime',     name: 'มัทฉะ',       unlockLevel: 40,  swatch: '#84cc16', dark: { outer: '#0e1409', panel: '#1b2612', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#e5efd6', panel: '#f4f8eb', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'coral',    name: 'พีชอุ่น',      unlockLevel: 50,  swatch: '#fb923c', dark: { outer: '#170d0a', panel: '#2b1a14', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#f4e0d5', panel: '#fcf1eb', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'rose',     name: 'ซากุระ',      unlockLevel: 60,  swatch: '#f472b6', dark: { outer: '#170a11', panel: '#2b1522', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#f5dce7', panel: '#fceff5', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'amethyst', name: 'อเมทิสต์',    unlockLevel: 70,  swatch: '#a855f7', dark: { outer: '#110a1c', panel: '#231536', grad: 'linear-gradient(transparent, transparent)' }, light: { outer: '#e6dbf7', panel: '#f4effd', grad: 'linear-gradient(transparent, transparent)' } },
+            { id: 'aurora',   name: 'แสงเหนือ',    unlockLevel: 80,  swatch: 'linear-gradient(135deg,#10b981,#22d3ee,#8b5cf6)', dark: { outer: '#071419', panel: '#0e2228', grad: 'linear-gradient(160deg, rgba(16,185,129,0.16), rgba(34,211,238,0.1) 50%, rgba(139,92,246,0.18))' }, light: { outer: '#daf0ef', panel: '#edf8f7', grad: 'linear-gradient(160deg, rgba(16,185,129,0.1), rgba(34,211,238,0.08) 50%, rgba(139,92,246,0.1))' } },
+            { id: 'nebula',   name: 'เนบิวลา',     unlockLevel: 90,  swatch: 'linear-gradient(135deg,#6366f1,#a855f7,#ec4899)', dark: { outer: '#0b0c1f', panel: '#141530', grad: 'linear-gradient(155deg, rgba(99,102,241,0.2), rgba(168,85,247,0.15) 55%, rgba(236,72,153,0.2))' }, light: { outer: '#e2e4fa', panel: '#f1f2fe', grad: 'linear-gradient(155deg, rgba(99,102,241,0.1), rgba(168,85,247,0.09) 55%, rgba(236,72,153,0.1))' } },
+            { id: 'prism',    name: 'รุ้งพรีซึม',   unlockLevel: 100, swatch: 'linear-gradient(135deg,#f43f5e,#fb923c,#10b981,#38bdf8,#a855f7)', dark: { outer: '#110d1c', panel: '#1b152c', grad: 'linear-gradient(145deg, rgba(244,63,94,0.16), rgba(56,189,248,0.14) 50%, rgba(168,85,247,0.18))' }, light: { outer: '#ece4f5', panel: '#f7f3fc', grad: 'linear-gradient(145deg, rgba(244,63,94,0.08), rgba(56,189,248,0.09) 50%, rgba(168,85,247,0.1))' } }
+        ];
+
+        let activeBgThemeId = 'default';
+
+        function applyBgTheme(themeId, persist = true) {
+            const found = BG_THEMES.find(t => t.id === themeId) || BG_THEMES[0];
+            activeBgThemeId = found.id;
+            const isDark = document.documentElement.classList.contains('dark');
+            const palette = isDark ? found.dark : found.light;
+            const root = document.documentElement.style;
+            root.setProperty('--outer-bg', palette.outer);
+            root.setProperty('--panel-bg', palette.panel);
+            root.setProperty('--panel-grad', palette.grad);
+            if (persist) {
+                try { localStorage.setItem('bkk_bg_theme', found.id); } catch (e) {}
+            }
+            const lbl = document.getElementById('bg-theme-active-label');
+            if (lbl) lbl.textContent = found.name;
+        }
+
+        function selectBgTheme(themeId) {
+            const theme = BG_THEMES.find(t => t.id === themeId);
+            if (!theme) return;
+            if (gamification.level < theme.unlockLevel) {
+                showToast(`🔒 ปลดล็อคสี "${theme.name}" ที่ Lv.${theme.unlockLevel}`);
+                return;
+            }
+            applyBgTheme(theme.id, true);
+            gamification.renderBgThemePicker();
+            showToast(`🎨 เปลี่ยนสีพื้นหลังเป็น "${theme.name}"`);
+        }
+
         // Gamification logic
         const gamification = {
             exp: 0, level: 1,
@@ -784,6 +1033,9 @@
                 this.level = this.calculateLevel(this.exp);
                 this.save();
                 this.updateUI();
+                const savedBg = localStorage.getItem('bkk_bg_theme') || 'default';
+                const theme = BG_THEMES.find(t => t.id === savedBg);
+                applyBgTheme(theme && this.level >= theme.unlockLevel ? theme.id : 'default', false);
             },
             calculateLevel(exp) {
                 let lvl = 1;
@@ -791,8 +1043,12 @@
                 return lvl;
             },
             getReqExp(lvl) {
-                if(lvl <= 1) return 0;
-                return Math.floor(8 * Math.pow(lvl, 1.8)); 
+                if (lvl <= 1) return 0;
+                return Math.floor(9 * Math.pow(lvl, 1.6));
+            },
+            getTier(lvl = this.level) {
+                if (lvl >= 100) return LEVEL_TIERS[20];
+                return LEVEL_TIERS[Math.min(19, Math.floor((Math.max(1, lvl) - 1) / 5))];
             },
             addExp(amount, reason = '') {
                 if (this.level >= 100) return;
@@ -803,7 +1059,12 @@
                 this.updateUI();
 
                 if (this.level > oldLevel) {
-                    setTimeout(() => showToast(`🏆 LEVEL UP! เลื่อนขั้นเป็นเลเวล ${this.level}!`), 500);
+                    const unlockedTheme = BG_THEMES.find(t => t.unlockLevel > oldLevel && t.unlockLevel <= this.level);
+                    if (unlockedTheme) {
+                        setTimeout(() => showToast(`🏆 LEVEL UP Lv.${this.level}! ปลดล็อคสีพื้นหลัง "${unlockedTheme.name}" 🎨`), 500);
+                    } else {
+                        setTimeout(() => showToast(`🏆 LEVEL UP! เลื่อนขั้นเป็นเลเวล ${this.level}!`), 500);
+                    }
                 } else if (reason) {
                     showToast(`✨ +${amount} EXP: ${reason}`);
                 }
@@ -813,48 +1074,66 @@
                 const badge = document.getElementById('level-badge');
                 const icon = document.getElementById('level-icon');
                 const text = document.getElementById('level-text');
+                const tier = this.getTier(this.level);
 
                 text.textContent = `Lv.${this.level}`;
-                let bClass = 'px-2.5 py-1 text-[11px] font-bold tracking-wide rounded-full border flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-sm ';
-                
-                // Colors Progression logic
-                if (this.level >= 100) {
-                    badge.className = bClass + 'rainbow-border text-white bg-slate-900 border-transparent';
-                    icon.className = 'ph ph-crown text-yellow-400';
-                } else if (this.level >= 81) {
-                    badge.className = bClass + 'bg-amber-400/20 text-amber-600 dark:text-amber-400 border-amber-400/50 shadow-[0_0_12px_rgba(251,191,36,0.4)]';
-                    icon.className = 'ph ph-shooting-star text-amber-500';
-                } else if (this.level >= 61) {
-                    badge.className = bClass + 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/40 shadow-[0_0_8px_rgba(244,63,94,0.3)]';
-                    icon.className = 'ph ph-fire text-rose-500';
-                } else if (this.level >= 41) {
-                    badge.className = bClass + 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/40';
-                    icon.className = 'ph ph-lightning text-purple-500';
-                } else if (this.level >= 21) {
-                    badge.className = bClass + 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/40';
-                    icon.className = 'ph ph-leaf text-emerald-500';
-                } else {
-                    badge.className = bClass + 'bg-slate-500/15 text-slate-700 dark:text-slate-300 border-slate-500/30';
-                    icon.className = 'ph ph-star text-slate-500';
-                }
+                const baseClass = 'px-2.5 py-1 text-[11px] font-bold tracking-wide rounded-full border flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-sm ';
+                badge.className = `${baseClass}${tier.badge} ${tier.aura}`;
+                badge.style.setProperty('--aura-rgb', tier.rgb);
+                icon.className = `ph ${tier.icon}`;
+            },
+            renderBgThemePicker() {
+                const grid = document.getElementById('bg-theme-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                BG_THEMES.forEach(theme => {
+                    const unlocked = this.level >= theme.unlockLevel;
+                    const isActive = activeBgThemeId === theme.id;
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.title = unlocked ? theme.name : `${theme.name} (Lv.${theme.unlockLevel})`;
+                    btn.onclick = () => selectBgTheme(theme.id);
+                    btn.className = `relative flex flex-col items-center justify-center p-1.5 rounded-xl border transition-all active:scale-95 ${
+                        isActive
+                            ? 'border-sky-500 ring-2 ring-sky-500/35 bg-white dark:bg-darkCard'
+                            : unlocked
+                                ? 'border-slate-200/80 dark:border-darkBorder bg-white/70 dark:bg-darkCard/60 hover:border-slate-400'
+                                : 'border-slate-200/50 dark:border-darkBorder/50 bg-slate-100/60 dark:bg-darkBg/40 opacity-55'
+                    }`;
+                    btn.innerHTML = `
+                        <span class="w-6 h-6 rounded-full border border-white/40 shadow-sm flex items-center justify-center text-[10px] text-white" style="background:${theme.swatch}">
+                            ${isActive ? '<i class="ph ph-check font-bold"></i>' : (!unlocked ? '<i class="ph ph-lock-simple"></i>' : '')}
+                        </span>
+                        <span class="text-[9px] font-bold mt-1 leading-none truncate max-w-full ${unlocked ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400'}">${unlocked ? (theme.unlockLevel === 1 ? 'เดิม' : 'Lv.' + theme.unlockLevel) : 'Lv.' + theme.unlockLevel}</span>
+                    `;
+                    grid.appendChild(btn);
+                });
+                const lbl = document.getElementById('bg-theme-active-label');
+                const current = BG_THEMES.find(t => t.id === activeBgThemeId) || BG_THEMES[0];
+                if (lbl) lbl.textContent = current.name;
             },
             openModal() {
                 document.getElementById('level-modal').classList.remove('hidden');
                 const nextExp = this.level >= 100 ? this.exp : this.getReqExp(this.level + 1);
                 const curTier = this.getReqExp(this.level);
                 const progress = this.level >= 100 ? 100 : Math.max(0, Math.min(100, ((this.exp - curTier) / (nextExp - curTier)) * 100));
+                const tier = this.getTier(this.level);
 
                 document.getElementById('modal-level-big').textContent = this.level;
+                document.getElementById('modal-level-tier-name').textContent = tier.name;
                 document.getElementById('modal-exp-text').textContent = `${this.exp.toLocaleString()} / ${nextExp.toLocaleString()} EXP`;
                 document.getElementById('modal-exp-bar').style.width = `${progress}%`;
-                
-                document.getElementById('modal-level-circle').className = document.getElementById('level-badge').className.replace('text-[11px]', '').replace('px-2.5', '').replace('py-1', '') + " inline-flex items-center justify-center w-24 h-24 rounded-full border-4 shadow-lg mb-3 bg-gradient-to-br from-slate-50 to-slate-200 dark:from-darkElevated dark:to-darkBg relative z-10";
+
+                const circle = document.getElementById('modal-level-circle');
+                circle.className = `inline-flex items-center justify-center w-24 h-24 rounded-full border-4 shadow-lg mb-3 relative z-10 transition-all ${tier.badge} ${tier.aura}`;
+                circle.style.setProperty('--aura-rgb', tier.rgb);
 
                 if (this.level >= 100) {
                     document.getElementById('modal-level-remain').textContent = 'สุดยอด! คุณบรรลุเลเวลสูงสุดแล้ว';
                 } else {
                     document.getElementById('modal-level-remain').textContent = `ขาดอีก ${(nextExp - this.exp).toLocaleString()} EXP`;
                 }
+                this.renderBgThemePicker();
             }
         };
 
@@ -901,6 +1180,7 @@
                 htmlEl.classList.remove('dark');
                 if (iconEl) iconEl.className = 'ph ph-moon-stars text-lg text-slate-700';
             }
+            applyBgTheme(activeBgThemeId, false);
             try { localStorage.setItem('bkk_theme_pref', theme); } catch (e) {}
         }
         function toggleTheme() {
@@ -1403,7 +1683,9 @@
         async function deleteEntry(id) {
             expenses = expenses.filter(item => item.id !== id);
             await StorageManager.saveTransactions(expenses);
-            updateHeaderSummary(); renderHistoryList(); showToast('ลบรายการเรียบร้อย');
+            updateHeaderSummary(); renderHistoryList();
+            if (!document.getElementById('calendar-modal').classList.contains('hidden')) renderCalendarModal();
+            showToast('ลบรายการเรียบร้อย');
         }
 
         function openClearConfirmModal() { document.getElementById('confirm-modal').classList.remove('hidden'); }
@@ -1521,10 +1803,215 @@
             }
         }
 
+        // 10.5 CALENDAR VIEW
+        const THAI_MONTHS_FULL = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+        let calYear = new Date().getFullYear();
+        let calMonth = new Date().getMonth(); // 0-indexed
+        let calSelectedDate = getTodayStr();
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+        }
+
+        function formatCompactAmount(num) {
+            if (num >= 10000) return `${Math.round(num / 1000)}k`;
+            if (num >= 1000) return `${(num / 1000).toFixed(1).replace(/\.0$/, '')}k`;
+            return Number.isInteger(num) ? String(num) : num.toFixed(0);
+        }
+
+        function openCalendarModal() {
+            const now = new Date();
+            calYear = now.getFullYear();
+            calMonth = now.getMonth();
+            calSelectedDate = getTodayStr();
+            document.getElementById('calendar-modal').classList.remove('hidden');
+            renderCalendarModal();
+        }
+
+        function closeCalendarModal() {
+            document.getElementById('calendar-modal').classList.add('hidden');
+        }
+
+        function shiftCalendarMonth(delta) {
+            calMonth += delta;
+            if (calMonth < 0) { calMonth = 11; calYear--; }
+            else if (calMonth > 11) { calMonth = 0; calYear++; }
+            const prefix = `${calYear}-${String(calMonth + 1).padStart(2, '0')}`;
+            if (!calSelectedDate.startsWith(prefix)) {
+                calSelectedDate = `${prefix}-01`;
+            }
+            renderCalendarModal();
+        }
+
+        function jumpCalendarToday() {
+            const now = new Date();
+            calYear = now.getFullYear();
+            calMonth = now.getMonth();
+            calSelectedDate = getTodayStr();
+            renderCalendarModal();
+        }
+
+        function selectCalendarDay(dateStr) {
+            calSelectedDate = dateStr;
+            renderCalendarModal();
+        }
+
+        function editEntryFromCalendar(id) {
+            closeCalendarModal();
+            editEntry(id);
+        }
+
+        function renderCalendarModal() {
+            const monthStr = String(calMonth + 1).padStart(2, '0');
+            const monthPrefix = `${calYear}-${monthStr}`;
+            const todayStr = getTodayStr();
+
+            document.getElementById('cal-month-title').textContent = `${THAI_MONTHS_FULL[calMonth]} ${calYear + 543}`;
+
+            // Group this month's transactions by YYYY-MM-DD
+            const byDate = {};
+            let monthExpense = 0, monthIncome = 0;
+            expenses.forEach(item => {
+                if (!item.date || !item.date.startsWith(monthPrefix)) return;
+                if (!byDate[item.date]) byDate[item.date] = [];
+                byDate[item.date].push(item);
+                if (item.type === 'income') monthIncome += item.amount;
+                else monthExpense += item.amount;
+            });
+
+            document.getElementById('cal-month-summary').textContent =
+                `จ่ายเดือนนี้ ฿${monthExpense.toLocaleString('th-TH')} • รับ +฿${monthIncome.toLocaleString('th-TH')}`;
+
+            const firstDow = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+            const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+            const grid = document.getElementById('cal-grid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < firstDow; i++) {
+                const spacer = document.createElement('div');
+                spacer.className = 'min-h-[54px]';
+                grid.appendChild(spacer);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${monthPrefix}-${String(d).padStart(2, '0')}`;
+                const dayItems = byDate[dateStr] || [];
+                const isToday = dateStr === todayStr;
+                const isSelected = dateStr === calSelectedDate;
+
+                let dayExp = 0, dayInc = 0;
+                const icons = [];
+                dayItems.forEach(it => {
+                    if (it.type === 'income') dayInc += it.amount;
+                    else dayExp += it.amount;
+                    const ic = it.type === 'transit'
+                        ? '🚇'
+                        : ((GENERAL_CATEGORY_META[it.category] && GENERAL_CATEGORY_META[it.category].icon) || '✨');
+                    if (!icons.includes(ic)) icons.push(ic);
+                });
+
+                let amountHtml = '<span class="h-[13px]"></span>';
+                if (dayExp > 0) {
+                    amountHtml = `<span class="text-[9px] font-bold leading-tight tabular-nums text-rose-500 dark:text-rose-300 truncate max-w-full">-${formatCompactAmount(dayExp)}</span>`;
+                } else if (dayInc > 0) {
+                    amountHtml = `<span class="text-[9px] font-bold leading-tight tabular-nums text-emerald-500 dark:text-emerald-400 truncate max-w-full">+${formatCompactAmount(dayInc)}</span>`;
+                }
+
+                const iconHtml = icons.length > 0
+                    ? `<span class="text-[9px] leading-none flex items-center justify-center gap-0.5">${icons.slice(0, 2).join('')}${icons.length > 2 ? '<span class="w-1 h-1 rounded-full bg-sky-400"></span>' : ''}</span>`
+                    : '<span class="h-[10px]"></span>';
+
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.dataset.date = dateStr;
+                cell.onclick = () => selectCalendarDay(dateStr);
+                cell.className = `min-h-[54px] p-1 rounded-xl border flex flex-col items-center justify-between transition-all active:scale-95 ${
+                    isSelected
+                        ? 'bg-sky-500/15 border-sky-500 ring-1 ring-sky-500/40'
+                        : dayItems.length > 0
+                            ? 'bg-slate-50/90 dark:bg-darkElevated/75 border-slate-200/80 dark:border-darkBorder/80 hover:border-sky-400/60'
+                            : 'bg-transparent border-transparent hover:bg-slate-100/60 dark:hover:bg-darkElevated/40'
+                }`;
+
+                const dayNumClass = isToday
+                    ? 'w-5 h-5 rounded-full bg-sky-500 text-white text-[10px] font-bold flex items-center justify-center'
+                    : `text-[11px] font-bold leading-5 ${dayItems.length > 0 ? 'text-slate-800 dark:text-slate-100' : 'text-slate-400 dark:text-slate-500'}`;
+
+                cell.innerHTML = `<span class="${dayNumClass}">${d}</span>${amountHtml}${iconHtml}`;
+                grid.appendChild(cell);
+            }
+
+            renderCalendarDayDetails(byDate[calSelectedDate] || []);
+        }
+
+        function renderCalendarDayDetails(dayItems) {
+            const parts = calSelectedDate.split('-');
+            const label = parts.length === 3
+                ? `${parseInt(parts[2], 10)} ${THAI_MONTHS_FULL[parseInt(parts[1], 10) - 1] || ''} ${parseInt(parts[0], 10) + 543}`
+                : calSelectedDate;
+            document.getElementById('cal-selected-date-label').textContent = `${label} (${dayItems.length} รายการ)`;
+
+            const dayExp = dayItems.filter(x => x.type !== 'income').reduce((s, x) => s + x.amount, 0);
+            const dayInc = dayItems.filter(x => x.type === 'income').reduce((s, x) => s + x.amount, 0);
+            const totalParts = [];
+            if (dayExp > 0) totalParts.push(`<span class="text-rose-500 dark:text-rose-300">-฿${dayExp.toLocaleString('th-TH')}</span>`);
+            if (dayInc > 0) totalParts.push(`<span class="text-emerald-500">+฿${dayInc.toLocaleString('th-TH')}</span>`);
+            document.getElementById('cal-selected-day-total').innerHTML = totalParts.join(' <span class="text-slate-400 mx-0.5">/</span> ');
+
+            const listEl = document.getElementById('cal-day-entries');
+            listEl.innerHTML = '';
+
+            if (dayItems.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-slate-400 text-center py-5 bg-slate-50 dark:bg-darkElevated/40 rounded-2xl border border-dashed border-slate-200 dark:border-darkBorder">ไม่มีรายการในวันนี้</p>`;
+                return;
+            }
+
+            dayItems.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'p-3 rounded-2xl bg-slate-50 dark:bg-darkElevated/60 border border-slate-200/60 dark:border-darkBorder flex items-center justify-between gap-2.5';
+                if (item.type === 'transit') {
+                    const oLine = TRANSIT_LINES[item.originLine || item.line || 'bts-sukhumvit'] || TRANSIT_LINES['bts-sukhumvit'];
+                    const dLine = TRANSIT_LINES[item.destLine || oLine.id] || oLine;
+                    const oClean = escapeHtml(stripStationCode(item.origin));
+                    const dClean = escapeHtml(stripStationCode(item.destination));
+                    row.innerHTML = `
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="w-8 h-8 rounded-xl bg-sky-500/15 text-sky-500 flex items-center justify-center shrink-0 text-sm">🚇</span>
+                            <div class="min-w-0">
+                                <p class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${oClean} ➔ ${dClean}</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">${oLine.shortLabel}${oLine.id !== dLine.id ? ' ➔ ' + dLine.shortLabel : ''}${item.isSplit ? ' • หาร 2' : ''}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <span class="text-xs font-bold tabular-nums text-slate-900 dark:text-white">-฿${item.amount.toLocaleString('th-TH')}</span>
+                            <button type="button" onclick="editEntryFromCalendar(${item.id})" class="text-slate-400 hover:text-amber-500 p-1"><i class="ph ph-pencil-simple text-xs"></i></button>
+                            <button type="button" onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 p-1"><i class="ph ph-trash text-xs"></i></button>
+                        </div>`;
+                } else {
+                    const isInc = item.type === 'income';
+                    const meta = GENERAL_CATEGORY_META[item.category] || { icon: '✨' };
+                    row.innerHTML = `
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="w-8 h-8 rounded-xl bg-white dark:bg-darkCard border border-slate-200/60 dark:border-darkBorder flex items-center justify-center shrink-0 text-sm">${meta.icon}</span>
+                            <div class="min-w-0">
+                                <p class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHtml(item.note || item.category)}</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(item.category)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <span class="text-xs font-bold tabular-nums ${isInc ? 'text-emerald-500' : 'text-slate-900 dark:text-white'}">${isInc ? '+' : '-'}฿${item.amount.toLocaleString('th-TH')}</span>
+                            <button type="button" onclick="editEntryFromCalendar(${item.id})" class="text-slate-400 hover:text-amber-500 p-1"><i class="ph ph-pencil-simple text-xs"></i></button>
+                            <button type="button" onclick="deleteEntry(${item.id})" class="text-slate-400 hover:text-rose-500 p-1"><i class="ph ph-trash text-xs"></i></button>
+                        </div>`;
+                }
+                listEl.appendChild(row);
+            });
+        }
+
         // 11. TOAST
         function showToast(msg) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold z-50 animate-fade-in';
+            toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold z-[80] animate-fade-in';
             toast.textContent = msg;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2300);
