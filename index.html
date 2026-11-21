@@ -201,6 +201,51 @@
             border-width: 2px;
         }
 
+        /* ==================== INTERACTIVE BUTTON ELEVATION & GLOW ==================== */
+        .ui-chip-idle {
+            background-color: rgba(255, 255, 255, 0.78);
+            border-color: rgba(148, 163, 184, 0.42);
+            box-shadow: 0 2px 6px -1px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+        }
+        html.dark .ui-chip-idle {
+            background-color: rgba(54, 41, 68, 0.78);
+            border-color: rgba(192, 155, 230, 0.24);
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+        .ui-chip-idle:hover {
+            border-color: rgba(var(--btn-glow-rgb, 56, 189, 248), 0.55);
+            box-shadow: 0 3px 10px -2px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.22);
+        }
+        .ui-chip-active {
+            border-color: rgba(var(--btn-glow-rgb, 56, 189, 248), 0.85) !important;
+            background-color: rgba(var(--btn-glow-rgb, 56, 189, 248), 0.16) !important;
+            box-shadow:
+                0 0 0 1px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.42),
+                0 0 14px -1px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.42),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+        html.dark .ui-chip-active {
+            background-color: rgba(var(--btn-glow-rgb, 56, 189, 248), 0.22) !important;
+            box-shadow:
+                0 0 0 1px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.55),
+                0 0 16px -1px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.52),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        }
+        .ui-chip-idle:active,
+        .ui-chip-active:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 18px 1px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.6);
+        }
+        @keyframes tapGlowFlash {
+            0% { box-shadow: 0 0 0 0 rgba(var(--btn-glow-rgb, 56, 189, 248), 0.75); }
+            50% { box-shadow: 0 0 20px 3px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.62); }
+            100% { box-shadow: 0 0 14px -1px rgba(var(--btn-glow-rgb, 56, 189, 248), 0.42); }
+        }
+        .ui-tap-flash {
+            animation: tapGlowFlash 0.35s ease-out;
+        }
+
         .tabular-nums { font-variant-numeric: tabular-nums; }
         @keyframes slideUp {
             from { transform: translateY(100%); opacity: 0; }
@@ -247,14 +292,17 @@
                     </div>
                     <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">บันทึกค่าเดินทางข้ามสาย & รายจ่ายประจำวัน จัดทำโดย Mynas4ter2</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="openBackupModal()" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-slate-700 dark:text-slate-200">
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <button onclick="openBackupModal()" title="สำรองข้อมูล" aria-label="สำรองข้อมูล" class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-slate-700 dark:text-slate-200">
                         <i class="ph ph-cloud-arrow-down text-lg"></i>
                     </button>
-                    <button onclick="openAnalyticsModal()" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-sky-600 dark:text-sky-400">
+                    <button onclick="openCalendarModal()" id="header-calendar-btn" title="ปฏิทินรายรับ-รายจ่าย" aria-label="ปฏิทินรายรับ-รายจ่าย" class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-purple-600 dark:text-purple-400">
+                        <i class="ph ph-calendar-dots text-lg"></i>
+                    </button>
+                    <button onclick="openAnalyticsModal()" title="สรุปสถิติ" aria-label="สรุปสถิติ" class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-sky-600 dark:text-sky-400">
                         <i class="ph ph-chart-donut text-lg"></i>
                     </button>
-                    <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-amber-500 dark:text-amber-300">
+                    <button onclick="toggleTheme()" id="theme-toggle-btn" title="เปลี่ยนธีมสว่าง/มืด" aria-label="เปลี่ยนธีมสว่าง/มืด" class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white/60 dark:bg-darkElevated/60 hover:bg-white/90 dark:hover:bg-darkElevated active:scale-95 flex items-center justify-center transition-all border border-slate-200/50 dark:border-darkBorder/50 text-amber-500 dark:text-amber-300">
                         <i id="theme-icon" class="ph ph-moon-stars text-lg"></i>
                     </button>
                 </div>
@@ -310,12 +358,12 @@
         <!-- MAIN CONTENT -->
         <main class="px-5 pt-6 flex-1 space-y-6 z-10">
 
-            <div class="grid grid-cols-2 glass-box p-1.5 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50">
-                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" class="py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white">
+            <div class="grid grid-cols-2 gap-2 glass-box p-1.5 rounded-2xl border border-slate-200/50 dark:border-darkBorder/50">
+                <button type="button" onclick="switchMode('transit')" id="tab-btn-transit" style="--btn-glow-rgb: 56, 189, 248;" class="py-2.5 px-3 text-xs font-bold rounded-xl border transition-all duration-200 flex items-center justify-center gap-2 text-slate-900 dark:text-white ui-chip-active">
                     <i class="ph ph-train text-base text-sky-500"></i><span>เดินทางรถไฟฟ้า</span>
                 </button>
-                <button type="button" onclick="switchMode('general')" id="tab-btn-general" class="py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-                    <i class="ph ph-receipt text-base"></i><span>รายรับ / รายจ่ายทั่วไป</span>
+                <button type="button" onclick="switchMode('general')" id="tab-btn-general" style="--btn-glow-rgb: 245, 158, 11;" class="py-2.5 px-3 text-xs font-semibold rounded-xl border transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white ui-chip-idle">
+                    <i class="ph ph-receipt text-base text-amber-500"></i><span>รายรับ / รายจ่ายทั่วไป</span>
                 </button>
             </div>
 
@@ -520,6 +568,10 @@
                     <span id="modal-exp-text" class="text-slate-600 dark:text-slate-300">0 / 0 EXP</span>
                     <span id="modal-level-remain" class="text-sky-600 dark:text-sky-400">ขาดอีก 0 EXP</span>
                 </div>
+                <div id="modal-streak-pill" class="mt-3 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/25 text-[11px] font-semibold text-amber-700 dark:text-amber-300 flex items-center justify-center gap-1.5 leading-snug">
+                    <span>🔥</span>
+                    <span id="modal-streak-text">เริ่มจดวันนี้เพื่อสะสมสตรีคโบนัส XP</span>
+                </div>
             </div>
 
             <!-- Unlockable Wallpaper Color Picker (every 10 levels) -->
@@ -545,6 +597,10 @@
                     <li class="flex items-center justify-between">
                         <span class="flex items-center gap-1.5"><i class="ph ph-users text-slate-400"></i> ใช้ฟีเจอร์ "หาร 2"</span> 
                         <span class="font-bold text-emerald-500">+15 EXP</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5"><i class="ph ph-fire text-amber-500"></i> สตรีคจดต่อเนื่อง (3–90 วัน)</span> 
+                        <span class="font-bold text-amber-500">+5% ถึง +50%</span>
                     </li>
                     <li class="flex items-center justify-between">
                         <span class="flex items-center gap-1.5"><i class="ph ph-cloud-arrow-down text-slate-400"></i> กดสำรองข้อมูล Backup</span> 
@@ -1020,9 +1076,44 @@
             showToast(`🎨 เปลี่ยนสีพื้นหลังเป็น "${theme.name}"`);
         }
 
+        function hexToRgbStr(hex) {
+            const clean = (hex || '').replace('#', '').trim();
+            if (clean.length !== 6) return '56, 189, 248';
+            const n = parseInt(clean, 16);
+            if (isNaN(n)) return '56, 189, 248';
+            return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+        }
+        function triggerTapFlash(el) {
+            if (!el) return;
+            el.classList.remove('ui-tap-flash');
+            void el.offsetWidth;
+            el.classList.add('ui-tap-flash');
+        }
+
+        // Streak bonus tiers (entry XP only, cap +50%, non-stacking)
+        const STREAK_STORAGE_KEY = 'bkk_streak';
+        const STREAK_TIERS = [
+            { days: 3,  pct: 5  },
+            { days: 7,  pct: 10 },
+            { days: 14, pct: 20 },
+            { days: 30, pct: 30 },
+            { days: 60, pct: 40 },
+            { days: 90, pct: 50 }
+        ];
+        function diffCalendarDays(fromYmd, toYmd) {
+            if (!fromYmd || !toYmd) return null;
+            const a = fromYmd.split('-').map(Number);
+            const b = toYmd.split('-').map(Number);
+            if (a.length !== 3 || b.length !== 3 || a.some(isNaN) || b.some(isNaN)) return null;
+            const utcA = Date.UTC(a[0], a[1] - 1, a[2]);
+            const utcB = Date.UTC(b[0], b[1] - 1, b[2]);
+            return Math.round((utcB - utcA) / 86400000);
+        }
+
         // Gamification logic
         const gamification = {
             exp: 0, level: 1,
+            streak: { last: '', count: 0, frac: 0 },
             init() {
                 this.exp = parseInt(localStorage.getItem('bkk_exp')) || 0;
                 // Retroactive Bonus
@@ -1030,12 +1121,83 @@
                     this.exp = expenses.length * 15;
                     setTimeout(() => showToast(`🎉 โบนัสผู้เล่นเก่า! รับ ${this.exp} EXP จากประวัติเดิม`), 2000);
                 }
+                this.streak = this.loadStreak();
                 this.level = this.calculateLevel(this.exp);
                 this.save();
                 this.updateUI();
                 const savedBg = localStorage.getItem('bkk_bg_theme') || 'default';
                 const theme = BG_THEMES.find(t => t.id === savedBg);
                 applyBgTheme(theme && this.level >= theme.unlockLevel ? theme.id : 'default', false);
+            },
+            loadStreak() {
+                try {
+                    const raw = localStorage.getItem(STREAK_STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (parsed && typeof parsed === 'object') {
+                            return {
+                                last: typeof parsed.last === 'string' ? parsed.last : '',
+                                count: Math.max(0, parseInt(parsed.count, 10) || 0),
+                                frac: Math.max(0, parseFloat(parsed.frac) || 0)
+                            };
+                        }
+                    }
+                } catch (e) {}
+                return { last: '', count: 0, frac: 0 };
+            },
+            saveStreak() {
+                try { localStorage.setItem(STREAK_STORAGE_KEY, JSON.stringify(this.streak)); } catch (e) {}
+            },
+            getStreakBonusPct(days) {
+                let pct = 0;
+                for (const t of STREAK_TIERS) {
+                    if (days >= t.days) pct = t.pct;
+                }
+                return pct;
+            },
+            getNextStreakTier(days) {
+                return STREAK_TIERS.find(t => t.days > days) || null;
+            },
+            getEffectiveStreak(today = getTodayStr()) {
+                this.streak = this.loadStreak();
+                const { last, count } = this.streak;
+                if (!last || count <= 0) return { status: 'none', count: 0, pct: 0, nextTier: STREAK_TIERS[0] };
+                const diff = diffCalendarDays(last, today);
+                if (diff === null || diff <= 1) {
+                    return { status: 'active', count, pct: this.getStreakBonusPct(count), nextTier: this.getNextStreakTier(count), loggedToday: diff === 0 };
+                }
+                if (diff === 2) {
+                    const halved = Math.max(1, Math.floor(count / 2));
+                    return { status: 'grace', count, halved, pct: this.getStreakBonusPct(halved), nextTier: this.getNextStreakTier(halved) };
+                }
+                return { status: 'expired', count: 0, pct: 0, nextTier: STREAK_TIERS[0] };
+            },
+            recordEntryActivity(today = getTodayStr()) {
+                this.streak = this.loadStreak();
+                let diff = null;
+                if (!this.streak.last || this.streak.count <= 0) {
+                    this.streak.count = 1;
+                    this.streak.last = today;
+                } else {
+                    diff = diffCalendarDays(this.streak.last, today);
+                    if (diff === null || diff <= 0) {
+                        // Same calendar day (or clock shifted backward): keep existing streak
+                    } else if (diff === 1) {
+                        this.streak.count += 1;
+                        this.streak.last = today;
+                    } else if (diff === 2) {
+                        // Missed 1 day: halve streak as forgiveness
+                        this.streak.count = Math.max(1, Math.floor(this.streak.count / 2));
+                        this.streak.last = today;
+                    } else {
+                        // Missed 2+ days: reset streak
+                        this.streak.count = 1;
+                        this.streak.frac = 0;
+                        this.streak.last = today;
+                    }
+                }
+                this.saveStreak();
+                return { count: this.streak.count, pct: this.getStreakBonusPct(this.streak.count), diff };
             },
             calculateLevel(exp) {
                 let lvl = 1;
@@ -1050,10 +1212,24 @@
                 if (lvl >= 100) return LEVEL_TIERS[20];
                 return LEVEL_TIERS[Math.min(19, Math.floor((Math.max(1, lvl) - 1) / 5))];
             },
-            addExp(amount, reason = '') {
+            addExp(amount, reason = '', options = {}) {
+                const applyStreak = Boolean(options && options.applyStreak);
+                let streakInfo = null;
+                let bonusExp = 0;
+                if (applyStreak) {
+                    streakInfo = this.recordEntryActivity();
+                }
                 if (this.level >= 100) return;
+                if (applyStreak && streakInfo && streakInfo.pct > 0) {
+                    const rawBonus = amount * (streakInfo.pct / 100);
+                    const totalFrac = (this.streak.frac || 0) + rawBonus;
+                    bonusExp = Math.floor(totalFrac + 1e-9);
+                    this.streak.frac = Math.max(0, Number((totalFrac - bonusExp).toFixed(4)));
+                    this.saveStreak();
+                }
+                const totalAwarded = amount + bonusExp;
                 const oldLevel = this.level;
-                this.exp += amount;
+                this.exp += totalAwarded;
                 this.level = this.calculateLevel(this.exp);
                 this.save();
                 this.updateUI();
@@ -1066,7 +1242,12 @@
                         setTimeout(() => showToast(`🏆 LEVEL UP! เลื่อนขั้นเป็นเลเวล ${this.level}!`), 500);
                     }
                 } else if (reason) {
-                    showToast(`✨ +${amount} EXP: ${reason}`);
+                    if (applyStreak && streakInfo && streakInfo.pct > 0) {
+                        const accNote = bonusExp > 0 ? `+${streakInfo.pct}%` : `+${streakInfo.pct}% สะสม`;
+                        showToast(`✨ +${totalAwarded} EXP: ${reason} 🔥 สตรีค ${streakInfo.count} วัน (${accNote})`);
+                    } else {
+                        showToast(`✨ +${totalAwarded} EXP: ${reason}`);
+                    }
                 }
             },
             save() { localStorage.setItem('bkk_exp', this.exp); },
@@ -1112,6 +1293,24 @@
                 const current = BG_THEMES.find(t => t.id === activeBgThemeId) || BG_THEMES[0];
                 if (lbl) lbl.textContent = current.name;
             },
+            renderStreakInfo() {
+                const textEl = document.getElementById('modal-streak-text');
+                if (!textEl) return;
+                const info = this.getEffectiveStreak();
+                if (info.status === 'active') {
+                    const bonusPart = info.pct > 0 ? `โบนัส +${info.pct}%` : 'ยังไม่ถึงขั้นโบนัส';
+                    const nextPart = info.nextTier
+                        ? `อีก ${info.nextTier.days - info.count} วันได้ +${info.nextTier.pct}%`
+                        : 'ถึงขั้นสูงสุด +50% แล้ว!';
+                    textEl.textContent = `จดต่อเนื่อง ${info.count} วัน · ${bonusPart} · ${nextPart}`;
+                } else if (info.status === 'grace') {
+                    textEl.textContent = `ขาด 1 วัน · จดวันนี้เพื่อรักษาสตรีค ${info.halved} วัน (ลดครึ่ง)`;
+                } else if (info.status === 'expired') {
+                    textEl.textContent = 'สตรีคหลุดแล้ว · จดวันนี้เพื่อเริ่มนับใหม่ (3 วันได้ +5%)';
+                } else {
+                    textEl.textContent = 'เริ่มจดวันนี้เพื่อสะสมสตรีคโบนัส XP (3 วันได้ +5%)';
+                }
+            },
             openModal() {
                 document.getElementById('level-modal').classList.remove('hidden');
                 const nextExp = this.level >= 100 ? this.exp : this.getReqExp(this.level + 1);
@@ -1133,6 +1332,7 @@
                 } else {
                     document.getElementById('modal-level-remain').textContent = `ขาดอีก ${(nextExp - this.exp).toLocaleString()} EXP`;
                 }
+                this.renderStreakInfo();
                 this.renderBgThemePicker();
             }
         };
@@ -1210,7 +1410,8 @@
             renderLineGrid();
             updateStationLinePills();
             updateLiveRoutePreview();
-            selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense');
+            switchMode('transit', false);
+            selectGeneralCategory('อาหาร/เครื่องดื่ม', 'expense', false);
             setHistoryFilter('all');
             updateHeaderSummary();
             updateHistoryDrawerUI();
@@ -1328,7 +1529,7 @@
             updateStationLinePills();
         }
 
-        function renderLineGrid() {
+        function renderLineGrid(flashLineId = null) {
             const container = document.getElementById('line-grid-container');
             container.innerHTML = '';
             const currentActiveLineId = (isCrossLineMode && activeGridTarget === 'dest') ? destLineId : originLineId;
@@ -1338,10 +1539,12 @@
                 const isDestMatch = isCrossLineMode && line.id === destLineId;
                 const btn = document.createElement('button');
                 btn.type = 'button';
+                btn.setAttribute('data-line-id', line.id);
+                btn.style.setProperty('--btn-glow-rgb', hexToRgbStr(line.colorHex));
                 btn.onclick = () => selectLineFromGrid(line.id);
 
-                let borderStyle = 'border-slate-200/50 dark:border-darkBorder/50 bg-white/60 dark:bg-darkElevated/60 text-slate-700 dark:text-slate-300 hover:border-slate-300';
-                if (isSelected) borderStyle = 'border-sky-500 dark:border-sky-400 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/50 shadow-xs';
+                let borderStyle = 'text-slate-700 dark:text-slate-200 ui-chip-idle';
+                if (isSelected) borderStyle = 'text-slate-900 dark:text-white ui-chip-active';
                 
                 let roleTag = '';
                 if (isCrossLineMode) {
@@ -1349,7 +1552,8 @@
                     else if (isOriginMatch) roleTag = '<span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-500 font-bold">ขึ้น</span>';
                     else if (isDestMatch) roleTag = '<span class="text-[9px] px-1 rounded bg-rose-500/20 text-rose-400 font-bold">ลง</span>';
                 }
-                btn.className = `p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-1.5 active:scale-95 ${borderStyle}`;
+                btn.className = `p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-1.5 ${borderStyle}`;
+                if (flashLineId && line.id === flashLineId) btn.classList.add('ui-tap-flash');
                 btn.innerHTML = `
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-2.5 h-2.5 rounded-full shrink-0 ${line.dotClass}"></span>
@@ -1366,7 +1570,7 @@
         function selectLineFromGrid(lineId) {
             if (!isCrossLineMode) { originLineId = lineId; destLineId = lineId; } 
             else { if (activeGridTarget === 'origin') originLineId = lineId; else destLineId = lineId; }
-            renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview();
+            renderLineGrid(lineId); updateStationLinePills(); updateLiveRoutePreview();
         }
 
         function updateStationLinePills() {
@@ -1381,6 +1585,39 @@
             document.getElementById('transit-submit-btn').className = `w-full py-3.5 rounded-2xl font-bold text-sm text-white shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 ${oLine.btnClass}`;
         }
 
+        function getStationFrequencyMap() {
+            const freqByLine = {};
+            const strippedLookup = {};
+            Object.values(TRANSIT_LINES).forEach(line => {
+                freqByLine[line.id] = new Map();
+                const map = new Map();
+                line.stations.forEach(st => {
+                    map.set(st.trim().toLowerCase(), st);
+                    map.set(stripStationCode(st).trim().toLowerCase(), st);
+                });
+                strippedLookup[line.id] = map;
+            });
+
+            const bump = (lineId, rawStation) => {
+                if (!lineId || !rawStation || !freqByLine[lineId]) return;
+                const key = rawStation.trim().toLowerCase();
+                const lookup = strippedLookup[lineId];
+                const canonical = lookup.get(key) || lookup.get(stripStationCode(rawStation).trim().toLowerCase());
+                if (canonical) {
+                    freqByLine[lineId].set(canonical, (freqByLine[lineId].get(canonical) || 0) + 1);
+                }
+            };
+
+            expenses.forEach(item => {
+                if (!item || item.type !== 'transit') return;
+                const oLine = item.originLine || item.line;
+                const dLine = item.destLine || oLine;
+                bump(oLine, item.origin);
+                bump(dLine, item.destination);
+            });
+            return freqByLine;
+        }
+
         function handleStationFocus(fieldType) {
             if (isCrossLineMode) setGridFocusTarget(fieldType);
             filterStationDropdown(fieldType);
@@ -1392,55 +1629,103 @@
             const query = inputEl.value.trim().toLowerCase();
             const targetLineId = fieldType === 'origin' ? originLineId : destLineId;
             const primaryLine = TRANSIT_LINES[targetLineId];
+            const freqByLine = getStationFrequencyMap();
+            const primaryFreq = freqByLine[primaryLine.id] || new Map();
 
             dropdownEl.innerHTML = '';
-            let results = [];
-            primaryLine.stations.forEach(st => {
-                if (!query || st.toLowerCase().includes(query)) results.push({ stationStr: st, line: primaryLine, isPrimary: true });
-            });
-            if (query.length > 0) {
-                Object.values(TRANSIT_LINES).forEach(otherLine => {
-                    if (otherLine.id === primaryLine.id) return;
-                    otherLine.stations.forEach(st => {
-                        if (st.toLowerCase().includes(query)) results.push({ stationStr: st, line: otherLine, isPrimary: false });
-                    });
-                });
-            }
 
-            if (results.length === 0) {
-                dropdownEl.innerHTML = `<div class="px-4 py-3 text-xs text-slate-400">ไม่พบสถานีที่ตรงกัน</div>`;
-            } else {
-                results.forEach(({ stationStr, line }) => {
-                    const parts = stationStr.split(' ');
-                    const item = document.createElement('button');
-                    item.type = 'button';
-                    item.className = 'w-full text-left px-4 py-2.5 text-xs hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center justify-between transition-colors';
-                    item.innerHTML = `
-                        <div class="flex items-center gap-2.5 min-w-0">
-                            <span class="px-2 py-0.5 rounded-md font-bold text-[10px] border shrink-0 ${line.badgeClass}">${parts[0]}</span>
-                            <span class="font-semibold text-slate-800 dark:text-slate-100 truncate">${parts.slice(1).join(' ')}</span>
-                        </div>
-                        <span class="text-[10px] font-medium text-slate-400 shrink-0 ml-2 flex items-center gap-1">
+            const buildStationButton = ({ stationStr, line, freqCount }) => {
+                const parts = stationStr.split(' ');
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.setAttribute('data-station', stationStr);
+                item.className = 'w-full text-left px-4 py-2.5 text-xs hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center justify-between transition-colors';
+                const freqBadge = freqCount > 0
+                    ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/25 shrink-0">⭐ ${freqCount}</span>`
+                    : '';
+                item.innerHTML = `
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <span class="px-2 py-0.5 rounded-md font-bold text-[10px] border shrink-0 ${line.badgeClass}">${parts[0]}</span>
+                        <span class="font-semibold text-slate-800 dark:text-slate-100 truncate">${parts.slice(1).join(' ')}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0 ml-2">
+                        ${freqBadge}
+                        <span class="text-[10px] font-medium text-slate-400 flex items-center gap-1">
                             <span class="w-1.5 h-1.5 rounded-full ${line.dotClass}"></span>${line.system} ${line.shortLabel}
                         </span>
-                    `;
-                    item.onclick = () => {
-                        inputEl.value = stationStr;
-                        if (fieldType === 'origin') {
-                            originLineId = line.id;
-                            if (!isCrossLineMode) destLineId = line.id;
-                        } else {
-                            if (line.id !== originLineId && !isCrossLineMode) {
-                                document.getElementById('cross-line-toggle').checked = true;
-                                isCrossLineMode = true;
-                            }
-                            destLineId = line.id;
+                    </div>
+                `;
+                item.onclick = () => {
+                    inputEl.value = stationStr;
+                    if (fieldType === 'origin') {
+                        originLineId = line.id;
+                        if (!isCrossLineMode) destLineId = line.id;
+                    } else {
+                        if (line.id !== originLineId && !isCrossLineMode) {
+                            document.getElementById('cross-line-toggle').checked = true;
+                            isCrossLineMode = true;
                         }
-                        renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview();
-                        dropdownEl.classList.add('hidden');
-                    };
-                    dropdownEl.appendChild(item);
+                        destLineId = line.id;
+                    }
+                    renderLineGrid(); updateStationLinePills(); updateLiveRoutePreview();
+                    dropdownEl.classList.add('hidden');
+                };
+                return item;
+            };
+
+            if (!query) {
+                const frequentTop = primaryLine.stations
+                    .map((st, idx) => ({ stationStr: st, line: primaryLine, freqCount: primaryFreq.get(st) || 0, idx }))
+                    .filter(x => x.freqCount > 0)
+                    .sort((a, b) => (b.freqCount - a.freqCount) || (a.idx - b.idx))
+                    .slice(0, 5);
+                const frequentSet = new Set(frequentTop.map(x => x.stationStr));
+                const restStations = primaryLine.stations
+                    .filter(st => !frequentSet.has(st))
+                    .map(st => ({ stationStr: st, line: primaryLine, freqCount: primaryFreq.get(st) || 0 }));
+
+                if (frequentTop.length > 0) {
+                    const hdrTop = document.createElement('div');
+                    hdrTop.className = 'px-4 py-1.5 text-[10px] font-bold tracking-wide text-amber-600 dark:text-amber-400 bg-amber-500/10 flex items-center gap-1';
+                    hdrTop.textContent = '⭐ สถานีที่ใช้บ่อย';
+                    dropdownEl.appendChild(hdrTop);
+                    frequentTop.forEach(entry => dropdownEl.appendChild(buildStationButton(entry)));
+
+                    if (restStations.length > 0) {
+                        const hdrAll = document.createElement('div');
+                        hdrAll.className = 'px-4 py-1.5 text-[10px] font-bold tracking-wide text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-darkBg/40';
+                        hdrAll.textContent = `สถานีทั้งหมด (${primaryLine.name})`;
+                        dropdownEl.appendChild(hdrAll);
+                    }
+                }
+                restStations.forEach(entry => dropdownEl.appendChild(buildStationButton(entry)));
+            } else {
+                let primaryMatches = [];
+                primaryLine.stations.forEach((st, idx) => {
+                    if (st.toLowerCase().includes(query)) {
+                        primaryMatches.push({ stationStr: st, line: primaryLine, freqCount: primaryFreq.get(st) || 0, idx });
+                    }
                 });
+                primaryMatches.sort((a, b) => (b.freqCount - a.freqCount) || (a.idx - b.idx));
+
+                let otherMatches = [];
+                Object.values(TRANSIT_LINES).forEach(otherLine => {
+                    if (otherLine.id === primaryLine.id) return;
+                    const oFreq = freqByLine[otherLine.id] || new Map();
+                    otherLine.stations.forEach((st, idx) => {
+                        if (st.toLowerCase().includes(query)) {
+                            otherMatches.push({ stationStr: st, line: otherLine, freqCount: oFreq.get(st) || 0, idx });
+                        }
+                    });
+                });
+                otherMatches.sort((a, b) => (b.freqCount - a.freqCount) || (a.idx - b.idx));
+
+                const results = [...primaryMatches, ...otherMatches];
+                if (results.length === 0) {
+                    dropdownEl.innerHTML = `<div class="px-4 py-3 text-xs text-slate-400">ไม่พบสถานีที่ตรงกัน</div>`;
+                } else {
+                    results.forEach(entry => dropdownEl.appendChild(buildStationButton(entry)));
+                }
             }
             dropdownEl.classList.remove('hidden');
             updateLiveRoutePreview();
@@ -1486,25 +1771,36 @@
         }
 
         // 7. FORM SWITCHING & SUBMISSION
-        function switchMode(mode) {
+        function switchMode(mode, animate = true) {
             const btnT = document.getElementById('tab-btn-transit'), btnG = document.getElementById('tab-btn-general');
             const frmT = document.getElementById('form-transit'), frmG = document.getElementById('form-general');
-            const activeCls = 'py-2.5 px-3 text-xs font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 bg-white dark:bg-darkElevated shadow-sm text-slate-900 dark:text-white';
-            const idleCls = 'py-2.5 px-3 text-xs font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+            const activeCls = 'py-2.5 px-3 text-xs font-bold rounded-xl border transition-all duration-200 flex items-center justify-center gap-2 text-slate-900 dark:text-white ui-chip-active';
+            const idleCls = 'py-2.5 px-3 text-xs font-semibold rounded-xl border transition-all duration-200 flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white ui-chip-idle';
+            btnT.style.setProperty('--btn-glow-rgb', '56, 189, 248');
+            btnG.style.setProperty('--btn-glow-rgb', '245, 158, 11');
             if (mode === 'transit') {
                 btnT.className = activeCls; btnG.className = idleCls;
+                if (animate) triggerTapFlash(btnT);
                 frmT.classList.remove('hidden'); frmG.classList.add('hidden');
             } else {
                 btnG.className = activeCls; btnT.className = idleCls;
+                if (animate) triggerTapFlash(btnG);
                 frmG.classList.remove('hidden'); frmT.classList.add('hidden');
             }
         }
 
-        function selectGeneralCategory(catName, type) {
+        function selectGeneralCategory(catName, type, animate = true) {
             selectedGeneralCategory = catName; selectedGeneralType = type;
             document.querySelectorAll('.gen-cat-btn').forEach(btn => {
-                if (btn.getAttribute('data-cat') === catName) btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all border-sky-500 bg-sky-500/15 text-slate-900 dark:text-white ring-1 ring-sky-500/40';
-                else btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all bg-white/40 dark:bg-darkElevated/40 text-slate-600 dark:text-slate-300 border-slate-200/50 dark:border-darkBorder/50 hover:bg-white dark:hover:bg-darkElevated';
+                const cName = btn.getAttribute('data-cat');
+                const meta = GENERAL_CATEGORY_META[cName];
+                btn.style.setProperty('--btn-glow-rgb', hexToRgbStr(meta ? meta.barColor : '#38bdf8'));
+                if (cName === catName) {
+                    btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all text-slate-900 dark:text-white ui-chip-active';
+                    if (animate) triggerTapFlash(btn);
+                } else {
+                    btn.className = 'gen-cat-btn p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all text-slate-700 dark:text-slate-200 ui-chip-idle';
+                }
             });
         }
 
@@ -1523,8 +1819,8 @@
                 expenses = expenses.filter(x => x.id !== editingId);
                 showToast('อัปเดตรายการเรียบร้อย ✏️');
             } else {
-                gamification.addExp(10, 'จดรายการรถไฟฟ้า');
-                if (isSplit) gamification.addExp(15, 'ใช้ฟีเจอร์ "หาร 2"');
+                gamification.addExp(10, 'จดรายการรถไฟฟ้า', { applyStreak: true });
+                if (isSplit) gamification.addExp(15, 'ใช้ฟีเจอร์ "หาร 2"', { applyStreak: true });
             }
 
             expenses.unshift({ id: Date.now(), type: 'transit', line: originLineId, originLine: originLineId, destLine: destLineId, origin, destination, amount, isSplit, date });
@@ -1545,7 +1841,7 @@
                 expenses = expenses.filter(x => x.id !== editingId);
                 showToast('อัปเดตรายการเรียบร้อย ✏️');
             } else {
-                gamification.addExp(10, 'จดรายการทั่วไป');
+                gamification.addExp(10, 'จดรายการทั่วไป', { applyStreak: true });
             }
 
             expenses.unshift({ id: Date.now(), type: selectedGeneralType === 'income' ? 'income' : 'general', category: selectedGeneralCategory, note: note || selectedGeneralCategory, amount, date: document.getElementById('entry-date').value || getTodayStr() });
